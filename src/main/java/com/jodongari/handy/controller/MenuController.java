@@ -1,7 +1,7 @@
 package com.jodongari.handy.controller;
 
-import com.jodongari.handy.domain.requestDto.RegisterMenuRequestDto;
-import com.jodongari.handy.domain.responseDto.RegisterMenuResponseDto;
+import com.jodongari.handy.protocol.requestDto.RegisterMenuRequestDto;
+import com.jodongari.handy.protocol.responseDto.RegisterMenuResponseDto;
 import com.jodongari.handy.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

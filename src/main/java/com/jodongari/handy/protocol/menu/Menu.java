@@ -1,11 +1,10 @@
-package com.jodongari.handy.domain.menu;
+package com.jodongari.handy.protocol.menu;
 
 import lombok.*;
 
 import java.util.List;
 
 @Getter
-@Builder
 public class Menu {
 
     private Long seq;

@@ -1,4 +1,4 @@
-package com.jodongari.handy.domain.menu;
+package com.jodongari.handy.protocol.menu;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-@Builder
 public class ExtraOptionGroup {
 
     private Long seq;

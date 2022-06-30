@@ -1,4 +1,4 @@
 package com.jodongari.handy.repository;
 
-public class StoreRepository {
+public interface StoreRepository {
 }
