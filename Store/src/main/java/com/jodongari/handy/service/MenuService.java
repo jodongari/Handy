@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class MenuService {
 
     public RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request) {
-        return new RegisterMenuResponseDto();
+        return new RegisterMenuResponseDto(null);
     }
 }

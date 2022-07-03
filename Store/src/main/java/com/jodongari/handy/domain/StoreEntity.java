@@ -1,7 +1,6 @@
 package com.jodongari.handy.domain;
 
 import com.jodongari.handy.domain.status.StoreStatus;
-import com.jodongari.handy.repository.StoreRepository;
 import lombok.*;
 
 import javax.persistence.*;

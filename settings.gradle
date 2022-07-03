@@ -1,1 +1,3 @@
-rootProject.name = 'handy'
+rootProject.name = 'Handy'
+include 'Store'
+include 'ImageModule'

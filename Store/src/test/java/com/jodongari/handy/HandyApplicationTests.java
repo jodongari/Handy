@@ -8,9 +8,4 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class HandyApplicationTests {
 
-	@Test
-	void contextLoads() {
-		assertTrue(true);
-	}
-
 }
