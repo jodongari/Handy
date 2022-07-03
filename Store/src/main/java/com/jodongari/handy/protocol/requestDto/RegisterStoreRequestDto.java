@@ -1,6 +1,7 @@
 package com.jodongari.handy.protocol.requestDto;
 
-import com.jodongari.handy.domain.status.StoreStatus;
+import com.jodongari.handy.entity.StoreEntity;
+import com.jodongari.handy.entity.status.StoreStatus;
 import lombok.Value;
 
 @Value
@@ -23,4 +24,9 @@ public class RegisterStoreRequestDto {
     int tableCount;
     String category;
     StoreStatus storeStatus;
+
+    public StoreEntity DtoToEntity(){
+        return StoreEntity.builder().build();
+    }
+
 }

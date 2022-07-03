@@ -1,4 +1,4 @@
-package com.jodongari.handy.protocol.menu;
+package com.jodongari.handy.protocol.model.menu;
 
 import lombok.Builder;
 import lombok.Getter;

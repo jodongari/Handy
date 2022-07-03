@@ -1,6 +1,6 @@
-package com.jodongari.handy.domain;
+package com.jodongari.handy.entity;
 
-import com.jodongari.handy.domain.status.StoreStatus;
+import com.jodongari.handy.entity.status.StoreStatus;
 import lombok.*;
 
 import javax.persistence.*;

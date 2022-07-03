@@ -1,6 +1,6 @@
 package com.jodongari.handy.protocol.responseDto;
 
-import com.jodongari.handy.protocol.menu.Menu;
+import com.jodongari.handy.protocol.model.menu.Menu;
 import lombok.Builder;
 
 public class RegisterMenuResponseDto {

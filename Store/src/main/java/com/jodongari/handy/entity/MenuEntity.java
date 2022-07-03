@@ -1,4 +1,4 @@
-package com.jodongari.handy.domain;
+package com.jodongari.handy.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;

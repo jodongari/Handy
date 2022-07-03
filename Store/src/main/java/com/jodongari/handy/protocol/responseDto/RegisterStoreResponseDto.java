@@ -10,4 +10,5 @@ public class RegisterStoreResponseDto {
     public RegisterStoreResponseDto(String hash) {
         this.hash = hash;
     }
+
 }
