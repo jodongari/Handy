@@ -1,6 +1,7 @@
-package com.jodongari.handy.repository.entity;
+package com.jodongari.handy.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,13 @@ public class MenuEntity {
     @Enumerated(EnumType.STRING)
     String status;
 
-
-
+    @Builder
+    public MenuEntity(Long seq, Long storeSeq, String name, String description, String image, String status) {
+        this.seq = seq;
+        this.storeSeq = storeSeq;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.status = status;
+    }
 }

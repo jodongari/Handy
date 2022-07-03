@@ -1,12 +1,11 @@
 package com.jodongari.handy.controller;
 
-import com.jodongari.handy.domain.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.domain.responseDto.RegisterStoreResponseDto;
+import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

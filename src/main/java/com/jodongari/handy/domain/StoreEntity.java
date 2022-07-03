@@ -1,6 +1,7 @@
-package com.jodongari.handy.repository.entity;
+package com.jodongari.handy.domain;
 
-import com.jodongari.handy.repository.entity.status.StoreStatus;
+import com.jodongari.handy.domain.status.StoreStatus;
+import com.jodongari.handy.repository.StoreRepository;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "STORE")
 public class StoreEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")

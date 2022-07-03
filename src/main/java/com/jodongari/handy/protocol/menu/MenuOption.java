@@ -1,22 +1,20 @@
-package com.jodongari.handy.domain.menu;
+package com.jodongari.handy.protocol.menu;
 
 import lombok.Builder;
 import lombok.Getter;
-
 @Getter
-@Builder
-public class ExtraOption {
+public class MenuOption {
 
     private Long seq;
     private String name;
-    private Integer extraFee;
+    private Integer price;
     private String status;
 
     @Builder
-    public ExtraOption(Long seq, String name, Integer extraFee, String status) {
+    public MenuOption(Long seq, String name, Integer price, String status) {
         this.seq = seq;
         this.name = name;
-        this.extraFee = extraFee;
+        this.price = price;
         this.status = status;
     }
 }

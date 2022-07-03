@@ -1,15 +1,14 @@
-package com.jodongari.handy.domain.responseDto;
+package com.jodongari.handy.protocol.responseDto;
 
-import com.jodongari.handy.domain.menu.Menu;
+import com.jodongari.handy.protocol.menu.Menu;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-@Builder
 public class QRCodeScanResponseDto {
-    private String qrHash;
+    private String hash;
     private String storeSeq;
     private Integer tableNumber;
     private String storeName;
@@ -24,8 +23,8 @@ public class QRCodeScanResponseDto {
     private List<Menu> menus;
 
     @Builder
-    public QRCodeScanResponseDto(String qrHash, String storeSeq, Integer tableNumber, String storeName, String businessName, String businessNumber, String address, String telNumber, String introduction, String originCountry, String logoImageURL, String backgroundImageURL, List<Menu> menus) {
-        this.qrHash = qrHash;
+    public QRCodeScanResponseDto(String hash, String storeSeq, Integer tableNumber, String storeName, String businessName, String businessNumber, String address, String telNumber, String introduction, String originCountry, String logoImageURL, String backgroundImageURL, List<Menu> menus) {
+        this.hash = hash;
         this.storeSeq = storeSeq;
         this.tableNumber = tableNumber;
         this.storeName = storeName;
