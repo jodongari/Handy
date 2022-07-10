@@ -1,6 +1,6 @@
-package com.jodongari.handy.entity;
+package com.jodongari.handy.domain.entity;
 
-import com.jodongari.handy.entity.status.ExtraOptionStatus;
+import com.jodongari.handy.domain.entity.status.ExtraOptionStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,27 +17,34 @@ public class ExtraOptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
-    Long seq;
+    private Long seq;
 
-    long extraOptionGroupSeq;
+    @Column(name = "EXTRA_OPTION_GROUP_SEQ")
+    private Long extraOptionGroupSeq;
 
     @Column(name = "NAME", nullable = false, length = 50)
-    String name;
+    private String name;
 
     @Column(name = "EXTRA_FEE", nullable = false)
-    Integer extraFee;
+    private Integer extraFee;
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    ExtraOptionStatus status;
+    private ExtraOptionStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "extraOptionGroupSeq")
+    private ExtraOptionGroupEntity extraOptionGroupEntity;
 
     @Builder
-    public ExtraOptionEntity(long seq, long extraOptionGroupSeq, String name, int extraFee, ExtraOptionStatus status) {
+    public ExtraOptionEntity(long seq, long extraOptionGroupSeq, String name,
+                             int extraFee, ExtraOptionStatus status, ExtraOptionGroupEntity extraOptionGroupEntity) {
         this.seq = seq;
         this.extraOptionGroupSeq = extraOptionGroupSeq;
         this.name = name;
         this.extraFee = extraFee;
         this.status = status;
+        this.extraOptionGroupEntity = extraOptionGroupEntity;
     }
 
 }

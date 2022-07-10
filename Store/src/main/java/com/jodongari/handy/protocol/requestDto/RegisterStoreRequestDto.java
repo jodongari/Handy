@@ -1,7 +1,7 @@
 package com.jodongari.handy.protocol.requestDto;
 
-import com.jodongari.handy.entity.StoreEntity;
-import com.jodongari.handy.entity.status.StoreStatus;
+import com.jodongari.handy.domain.entity.StoreEntity;
+import com.jodongari.handy.domain.entity.status.StoreStatus;
 import lombok.Value;
 
 @Value

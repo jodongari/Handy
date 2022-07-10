@@ -1,13 +1,12 @@
-package com.jodongari.handy.entity;
+package com.jodongari.handy.domain.entity;
 
-import com.jodongari.handy.entity.status.MenuOptionStatus;
+import com.jodongari.handy.domain.entity.status.MenuOptionStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,15 +29,16 @@ public class MenuOptionEntity {
     @Enumerated(EnumType.STRING)
     private MenuOptionStatus status;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MenuEntity> a;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menuSeq")
+    private MenuEntity menuEntity;
 
     @Builder
-    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status, List<MenuEntity> a) {
+    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status, MenuEntity menuEntity) {
         this.seq = seq;
         this.name = name;
         this.price = price;
         this.status = status;
-        this.a = a;
+        this.menuEntity = menuEntity;
     }
 }

@@ -1,12 +1,14 @@
-package com.jodongari.handy.entity;
+package com.jodongari.handy.domain.entity;
 
-import com.jodongari.handy.entity.status.ExtraOptionGroupStatus;
+import com.jodongari.handy.domain.entity.status.ExtraOptionGroupStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -17,29 +19,37 @@ public class ExtraOptionGroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long seq;
+    private Long seq;
 
     @Column(name = "MENU_SEQ")
-    long menuSeq;
+    private Long menuSeq;
 
     @Column(name = "NAME", nullable = false, length = 40)
-    String name;
+    private String name;
 
     @Column(name = "TYPE", nullable = false, length = 1)
-    String type;
+    private String type;
 
     @Column(name = "MIN_SELECT_LIMIT")
-    Integer minSelectLimit;
+    private Integer minSelectLimit;
 
     @Column(name = "MAX_SELECT_LIMIT")
-    Integer maxSelectLimit;
+    private Integer maxSelectLimit;
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    ExtraOptionGroupStatus status;
+    private ExtraOptionGroupStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menuSeq")
+    private MenuEntity menuEntity;
+
+    @OneToMany(mappedBy = "extraOptionGroup", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ExtraOptionEntity> extraOptionEntities = new ArrayList<>();
 
     @Builder
-    public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit, int maxSelectLimit, ExtraOptionGroupStatus status) {
+    public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit,
+                                  int maxSelectLimit, ExtraOptionGroupStatus status, MenuEntity menuEntity) {
         this.seq = seq;
         this.menuSeq = menuSeq;
         this.name = name;
@@ -47,5 +57,6 @@ public class ExtraOptionGroupEntity {
         this.minSelectLimit = minSelectLimit;
         this.maxSelectLimit = maxSelectLimit;
         this.status = status;
+        this.menuEntity = menuEntity;
     }
 }
