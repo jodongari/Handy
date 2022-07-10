@@ -1,5 +1,6 @@
 package com.jodongari.handy.entity;
 
+import com.jodongari.handy.entity.status.ExtraOptionGroupStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,10 +36,10 @@ public class ExtraOptionGroupEntity {
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    String status;
+    ExtraOptionGroupStatus status;
 
     @Builder
-    public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit, int maxSelectLimit, String status) {
+    public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit, int maxSelectLimit, ExtraOptionGroupStatus status) {
         this.seq = seq;
         this.menuSeq = menuSeq;
         this.name = name;

@@ -1,5 +1,6 @@
 package com.jodongari.handy.entity;
 
+import com.jodongari.handy.entity.status.MenuOptionStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,13 +28,13 @@ public class MenuOptionEntity {
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    private String status;
+    private MenuOptionStatus status;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MenuEntity> a;
 
     @Builder
-    public MenuOptionEntity(Long seq, String name, Integer price, String status, List<MenuEntity> a) {
+    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status, List<MenuEntity> a) {
         this.seq = seq;
         this.name = name;
         this.price = price;

@@ -1,5 +1,6 @@
 package com.jodongari.handy.entity;
 
+import com.jodongari.handy.entity.status.MenuStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,10 +32,10 @@ public class MenuEntity {
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
-    String status;
+    MenuStatus status;
 
     @Builder
-    public MenuEntity(Long seq, Long storeSeq, String name, String description, String image, String status) {
+    public MenuEntity(Long seq, Long storeSeq, String name, String description, String image, MenuStatus status) {
         this.seq = seq;
         this.storeSeq = storeSeq;
         this.name = name;
