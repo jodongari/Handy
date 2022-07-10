@@ -18,7 +18,6 @@ public class ExtraOptionEntity {
     @Column(name = "SEQ")
     Long seq;
 
-
     long extraOptionGroupSeq;
 
     @Column(name = "NAME", nullable = false, length = 50)
