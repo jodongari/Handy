@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@RequestMapping("/store")
 @RequiredArgsConstructor
 public class StoreController {
 
     private final StoreService storeService;
 
-    @PostMapping("/api/store/register")
+    @PostMapping("/register")
     public ApiMessage<RegisterStoreResponseDto> registerStore(RegisterStoreRequestDto request) {
         final RegisterStoreResponseDto response = storeService.registerStore(request);
 
         return ApiMessage.success(response);
     }
 
-    @PostMapping("/api/store/table/register")
+    @PostMapping("/table/register")
     public ApiMessage<RegisterTableResponseDto> registerTable(RegisterTableRequestDto request) {
         return ApiMessage.success(storeService.registerTable(request));
     }

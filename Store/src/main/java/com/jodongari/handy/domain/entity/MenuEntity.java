@@ -36,11 +36,11 @@ public class MenuEntity {
     @Enumerated(EnumType.STRING)
     private MenuStatus status;
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<MenuOptionEntity> menuOptionEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private final List<MenuOptionEntity> menuOptionEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ExtraOptionGroupEntity> extraOptionGroupEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private final List<ExtraOptionGroupEntity> extraOptionGroupEntities = new ArrayList<>();
 
     @Builder
     public MenuEntity(Long seq, Long storeSeq, String name, String description, String image, MenuStatus status) {
@@ -51,4 +51,27 @@ public class MenuEntity {
         this.image = image;
         this.status = status;
     }
+
+    public void addMenuOption(MenuOptionEntity menuOptionEntity) {
+        this.getMenuOptionEntities().add(menuOptionEntity);
+        menuOptionEntity.addMenuEntity(this);
+    }
+
+    public void addAllMenuOption(List<MenuOptionEntity> menuOptionEntities) {
+        for(MenuOptionEntity menuOptionEntity : menuOptionEntities) {
+            this.addMenuOption(menuOptionEntity);
+        }
+    }
+
+    public void addExtraOptionGroup(ExtraOptionGroupEntity extraOptionGroupEntity) {
+        this.getExtraOptionGroupEntities().add(extraOptionGroupEntity);
+        extraOptionGroupEntity.addMenu(this);
+    }
+
+    public void addAllExtraOptionGroup(List<ExtraOptionGroupEntity> extraOptionGroupEntities) {
+        for(ExtraOptionGroupEntity extraOptionGroupEntity : extraOptionGroupEntities) {
+            this.addExtraOptionGroup(extraOptionGroupEntity);
+        }
+    }
+
 }

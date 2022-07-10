@@ -41,4 +41,8 @@ public class MenuOptionEntity {
         this.status = status;
         this.menuEntity = menuEntity;
     }
+
+    public void addMenuEntity(MenuEntity menuEntity) {
+        this.menuEntity = menuEntity;
+    }
 }

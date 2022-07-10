@@ -6,5 +6,7 @@ import lombok.Value;
 
 @Value
 public class RegisterMenuRequestDto {
+    Long storeSeq;
+
     Menu menu;
 }
