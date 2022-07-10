@@ -1,6 +1,6 @@
 package com.jodongari.handy.repository;
 
-import com.jodongari.handy.entity.QREntity;
+import com.jodongari.handy.domain.entity.QREntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

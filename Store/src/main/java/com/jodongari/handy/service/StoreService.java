@@ -1,7 +1,7 @@
 package com.jodongari.handy.service;
 
 import com.google.common.hash.Hashing;
-import com.jodongari.handy.entity.QREntity;
+import com.jodongari.handy.domain.entity.QREntity;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterTableRequestDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
