@@ -2,14 +2,17 @@ package com.jodongari.handy.service;
 
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
+import com.jodongari.handy.protocol.requestDto.DeleteTableRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterTableRequestDto;
+import com.jodongari.handy.protocol.responseDto.DeleteTableResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterTableResponseDto;
 import com.jodongari.handy.repository.QRCodeRepository;
 import com.jodongari.handy.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -29,6 +32,7 @@ public class StoreService {
         return qrHash;
     }
 
+    @Transactional
     public RegisterTableResponseDto registerTable(RegisterTableRequestDto request) {
         Long storeSeq = request.getStoreSeq();
 
@@ -50,9 +54,14 @@ public class StoreService {
         return new RegisterTableResponseDto();
     }
 
-    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
-        int tableCount = 100;
+    @Transactional
+    public DeleteTableResponseDto deleteTable(DeleteTableRequestDto request) {
+        request.getHashes().stream()
+                .forEach(hash -> qrCodeRepository.deleteById(hash));
+        return new DeleteTableResponseDto();
+    }
 
+    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
         return new RegisterStoreResponseDto("");
     }
 }
