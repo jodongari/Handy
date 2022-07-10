@@ -2,12 +2,12 @@ package com.jodongari.handy.service;
 
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
-import com.jodongari.handy.protocol.requestDto.DeleteTableRequestDto;
+import com.jodongari.handy.protocol.requestDto.DeleteQRCodeRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterTableRequestDto;
-import com.jodongari.handy.protocol.responseDto.DeleteTableResponseDto;
+import com.jodongari.handy.protocol.requestDto.RegisterQRCodeRequestDto;
+import com.jodongari.handy.protocol.responseDto.DeleteQRCodeResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterTableResponseDto;
+import com.jodongari.handy.protocol.responseDto.RegisterQRCodeResponseDto;
 import com.jodongari.handy.repository.QRCodeRepository;
 import com.jodongari.handy.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class StoreService {
     }
 
     @Transactional
-    public RegisterTableResponseDto registerTable(RegisterTableRequestDto request) {
+    public RegisterQRCodeResponseDto registerQRCode(RegisterQRCodeRequestDto request) {
         Long storeSeq = request.getStoreSeq();
 
         for (Integer tableNumber : request.getTableNumber()) {
@@ -51,14 +51,14 @@ public class StoreService {
                             .build());
         }
 
-        return new RegisterTableResponseDto();
+        return new RegisterQRCodeResponseDto();
     }
 
     @Transactional
-    public DeleteTableResponseDto deleteTable(DeleteTableRequestDto request) {
+    public DeleteQRCodeResponseDto deleteQRCode(DeleteQRCodeRequestDto request) {
         request.getHashes().stream()
                 .forEach(hash -> qrCodeRepository.deleteById(hash));
-        return new DeleteTableResponseDto();
+        return new DeleteQRCodeResponseDto();
     }
 
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {

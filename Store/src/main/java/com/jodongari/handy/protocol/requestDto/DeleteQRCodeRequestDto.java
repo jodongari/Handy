@@ -5,7 +5,6 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-public class RegisterTableRequestDto {
-    Long storeSeq;
-    List<Integer> tableNumber;
+public class DeleteQRCodeRequestDto {
+    List<String> hashes;
 }

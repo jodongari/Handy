@@ -1,5 +1,5 @@
 package com.jodongari.handy.protocol.responseDto;
 
 
-public class DeleteTableResponseDto {
+public class DeleteQRCodeResponseDto {
 }
