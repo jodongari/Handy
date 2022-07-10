@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ApiMessage<T> {
     T result;
-    int errorCode;
+    String errorCode;
     String errorMessage;
 
-    @Builder
-    public ApiMessage(T result, int errorCode, String errorMessage) {
-        this.result = result;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
+    public static <T> ApiMessage<T> success(T result) {
+        final ApiMessage<T> message = new ApiMessage<>();
+        message.result = result;
+        return message;
     }
 }
