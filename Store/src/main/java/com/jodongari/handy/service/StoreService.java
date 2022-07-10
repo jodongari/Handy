@@ -2,14 +2,17 @@ package com.jodongari.handy.service;
 
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
+import com.jodongari.handy.protocol.requestDto.DeleteQRCodeRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterTableRequestDto;
+import com.jodongari.handy.protocol.requestDto.RegisterQRCodeRequestDto;
+import com.jodongari.handy.protocol.responseDto.DeleteQRCodeResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterTableResponseDto;
+import com.jodongari.handy.protocol.responseDto.RegisterQRCodeResponseDto;
 import com.jodongari.handy.repository.QRCodeRepository;
 import com.jodongari.handy.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -29,7 +32,8 @@ public class StoreService {
         return qrHash;
     }
 
-    public RegisterTableResponseDto registerTable(RegisterTableRequestDto request) {
+    @Transactional
+    public RegisterQRCodeResponseDto registerQRCode(RegisterQRCodeRequestDto request) {
         Long storeSeq = request.getStoreSeq();
 
         for (Integer tableNumber : request.getTableNumber()) {
@@ -47,12 +51,17 @@ public class StoreService {
                             .build());
         }
 
-        return new RegisterTableResponseDto();
+        return new RegisterQRCodeResponseDto();
+    }
+
+    @Transactional
+    public DeleteQRCodeResponseDto deleteQRCode(DeleteQRCodeRequestDto request) {
+        request.getHashes().stream()
+                .forEach(hash -> qrCodeRepository.deleteById(hash));
+        return new DeleteQRCodeResponseDto();
     }
 
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
-        int tableCount = 100;
-
         return new RegisterStoreResponseDto("");
     }
 }
