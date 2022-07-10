@@ -28,12 +28,12 @@ public class StoreController {
         return ApiMessage.success(response);
     }
 
-    @PostMapping("/table/register")
+    @PostMapping("/qrcode/register")
     public ApiMessage<RegisterTableResponseDto> registerTable(RegisterTableRequestDto request) {
         return ApiMessage.success(storeService.registerTable(request));
     }
 
-    @DeleteMapping("/table/delete")
+    @DeleteMapping("/qrcode/delete")
     public ApiMessage<DeleteTableResponseDto> deleteTable(DeleteTableRequestDto request) {
         return ApiMessage.success(storeService.deleteTable(request));
     }
