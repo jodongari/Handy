@@ -21,9 +21,6 @@ public class ExtraOptionGroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "MENU_SEQ")
-    private Long menuSeq;
-
     @Column(name = "NAME", nullable = false, length = 40)
     private String name;
 
@@ -44,14 +41,13 @@ public class ExtraOptionGroupEntity {
     @JoinColumn(name = "menuSeq")
     private MenuEntity menuEntity;
 
-    @OneToMany(mappedBy = "extraOptionGroup", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ExtraOptionEntity> extraOptionEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "extraOptionGroupEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private final List<ExtraOptionEntity> extraOptionEntities = new ArrayList<>();
 
     @Builder
-    public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit,
+    public ExtraOptionGroupEntity(long seq, String name, String type, int minSelectLimit,
                                   int maxSelectLimit, ExtraOptionGroupStatus status, MenuEntity menuEntity) {
         this.seq = seq;
-        this.menuSeq = menuSeq;
         this.name = name;
         this.type = type;
         this.minSelectLimit = minSelectLimit;

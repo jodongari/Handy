@@ -4,9 +4,10 @@ import com.jodongari.handy.domain.entity.QREntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public interface QRCodeRepository extends JpaRepository<QREntity, String> {
 
     @Query(value = "SELECT EXISTS( SELECT qr.hash " +

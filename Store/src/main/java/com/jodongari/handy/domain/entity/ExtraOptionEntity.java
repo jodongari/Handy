@@ -19,9 +19,6 @@ public class ExtraOptionEntity {
     @Column(name = "SEQ")
     private Long seq;
 
-    @Column(name = "EXTRA_OPTION_GROUP_SEQ")
-    private Long extraOptionGroupSeq;
-
     @Column(name = "NAME", nullable = false, length = 50)
     private String name;
 
@@ -37,14 +34,11 @@ public class ExtraOptionEntity {
     private ExtraOptionGroupEntity extraOptionGroupEntity;
 
     @Builder
-    public ExtraOptionEntity(long seq, long extraOptionGroupSeq, String name,
-                             int extraFee, ExtraOptionStatus status, ExtraOptionGroupEntity extraOptionGroupEntity) {
+    public ExtraOptionEntity(long seq, String name, int extraFee, ExtraOptionStatus status) {
         this.seq = seq;
-        this.extraOptionGroupSeq = extraOptionGroupSeq;
         this.name = name;
         this.extraFee = extraFee;
         this.status = status;
-        this.extraOptionGroupEntity = extraOptionGroupEntity;
     }
 
     public void addExtraOptionGroup(ExtraOptionGroupEntity extraOptionGroupEntity) {

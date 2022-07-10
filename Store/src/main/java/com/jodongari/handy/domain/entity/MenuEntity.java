@@ -36,11 +36,11 @@ public class MenuEntity {
     @Enumerated(EnumType.STRING)
     private MenuStatus status;
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<MenuOptionEntity> menuOptionEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private final List<MenuOptionEntity> menuOptionEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ExtraOptionGroupEntity> extraOptionGroupEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private final List<ExtraOptionGroupEntity> extraOptionGroupEntities = new ArrayList<>();
 
     @Builder
     public MenuEntity(Long seq, Long storeSeq, String name, String description, String image, MenuStatus status) {
