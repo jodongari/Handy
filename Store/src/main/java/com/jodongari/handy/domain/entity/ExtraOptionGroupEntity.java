@@ -45,7 +45,7 @@ public class ExtraOptionGroupEntity {
     private MenuEntity menuEntity;
 
     @OneToMany(mappedBy = "extraOptionGroup", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ExtraOptionEntity> extraoptionEntities = new ArrayList<>();
+    private List<ExtraOptionEntity> extraOptionEntities = new ArrayList<>();
 
     @Builder
     public ExtraOptionGroupEntity(long seq, long menuSeq, String name, String type, int minSelectLimit,
