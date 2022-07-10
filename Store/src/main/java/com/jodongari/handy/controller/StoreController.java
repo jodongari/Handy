@@ -1,5 +1,6 @@
 package com.jodongari.handy.controller;
 
+import com.jodongari.handy.protocol.ApiMessage;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
@@ -18,9 +19,9 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping("/api/store/regist")
-    public ResponseEntity<RegisterStoreResponseDto> registerStore(RegisterStoreRequestDto request) {
+    public ApiMessage<RegisterStoreResponseDto> registerStore(RegisterStoreRequestDto request) {
         final RegisterStoreResponseDto response = storeService.registerStore(request);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ApiMessage.success(response);
     }
 }
