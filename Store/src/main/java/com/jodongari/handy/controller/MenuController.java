@@ -21,7 +21,7 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @PostMapping(value = "/regist", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiMessage<RegisterMenuResponseDto> registerMenu(@RequestPart final RegisterMenuRequestDto request,
                                                             @RequestPart final MultipartFile imageFile) {
         return ApiMessage.success(menuService.registerMenu(request, imageFile));
