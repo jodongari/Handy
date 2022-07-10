@@ -1,4 +1,4 @@
-package com.jodongari.handy.entity.status;
+package com.jodongari.handy.domain.entity.status;
 
 public enum ExtraOptionGroupStatus {
     OPEN,

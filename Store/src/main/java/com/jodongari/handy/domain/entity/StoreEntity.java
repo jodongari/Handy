@@ -1,6 +1,6 @@
-package com.jodongari.handy.entity;
+package com.jodongari.handy.domain.entity;
 
-import com.jodongari.handy.entity.status.StoreStatus;
+import com.jodongari.handy.domain.entity.status.StoreStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -70,7 +70,7 @@ public class StoreEntity {
     @Column(name = "CATEGORY", nullable = false, length = 20)
     private String category;
 
-    @Column(name = "STATUS", nullable = false)
+    @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private StoreStatus status;
 
