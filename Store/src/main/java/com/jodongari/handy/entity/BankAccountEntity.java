@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "QR")
-public class BankAcoountEntity {
+public class BankAccountEntity {
 
 
     // 일단 추가. 수정 필요
