@@ -59,4 +59,20 @@ public class ExtraOptionGroupEntity {
         this.status = status;
         this.menuEntity = menuEntity;
     }
+
+    public void addExtraOption(ExtraOptionEntity extraOptionEntity) {
+        this.getExtraOptionEntities().add(extraOptionEntity);
+        extraOptionEntity.addExtraOptionGroup(this);
+    }
+
+    public void addAllExtraOption(List<ExtraOptionEntity> extraOptionEntities) {
+        for(ExtraOptionEntity extraOptionEntity : extraOptionEntities) {
+            this.addExtraOption(extraOptionEntity);
+        }
+    }
+
+    public void addMenu(MenuEntity menuEntity) {
+        this.menuEntity = menuEntity;
+    }
+
 }

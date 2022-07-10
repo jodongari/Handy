@@ -47,4 +47,8 @@ public class ExtraOptionEntity {
         this.extraOptionGroupEntity = extraOptionGroupEntity;
     }
 
+    public void addExtraOptionGroup(ExtraOptionGroupEntity extraOptionGroupEntity) {
+        this.extraOptionGroupEntity = extraOptionGroupEntity;
+    }
+
 }

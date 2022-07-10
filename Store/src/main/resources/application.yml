@@ -1,0 +1,19 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: "jdbc:h2:mem:handy-test;MODE=MYSQL;DB_CLOSE_DELAY=-1"
+    username: sa
+    password:

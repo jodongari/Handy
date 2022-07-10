@@ -51,4 +51,27 @@ public class MenuEntity {
         this.image = image;
         this.status = status;
     }
+
+    public void addMenuOption(MenuOptionEntity menuOptionEntity) {
+        this.getMenuOptionEntities().add(menuOptionEntity);
+        menuOptionEntity.addMenuEntity(this);
+    }
+
+    public void addAllMenuOption(List<MenuOptionEntity> menuOptionEntities) {
+        for(MenuOptionEntity menuOptionEntity : menuOptionEntities) {
+            this.addMenuOption(menuOptionEntity);
+        }
+    }
+
+    public void addExtraOptionGroup(ExtraOptionGroupEntity extraOptionGroupEntity) {
+        this.getExtraOptionGroupEntities().add(extraOptionGroupEntity);
+        extraOptionGroupEntity.addMenu(this);
+    }
+
+    public void addAllExtraOptionGroup(List<ExtraOptionGroupEntity> extraOptionGroupEntities) {
+        for(ExtraOptionGroupEntity extraOptionGroupEntity : extraOptionGroupEntities) {
+            this.addExtraOptionGroup(extraOptionGroupEntity);
+        }
+    }
+
 }
