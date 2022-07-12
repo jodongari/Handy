@@ -4,25 +4,35 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.google.common.hash.Hashing;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
+@Slf4j
+@Component
 public class ImageService {
 
-    private final String HANDY_IMAGE_BUCKET_NAME = "handy-image";
-    private final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+    private static final String HANDY_IMAGE_BUCKET_NAME = "handy-image";
+    private static final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
 
     public String putObject(String storePK, File imageFile){
-        String imageUrl = storePK + "/" +DigestUtils.md5Hex(storePK + System.currentTimeMillis());
+        // TODO : Extension 검사 코드 구현
 
-        System.out.format("Uploading %s to S3 bucket %s...\n", imageUrl, HANDY_IMAGE_BUCKET_NAME);
+        String imageUrl = storePK + "/" + Hashing.sha256().hashString(storePK + System.currentTimeMillis(), StandardCharsets.UTF_8);
+
         try {
             s3.putObject(HANDY_IMAGE_BUCKET_NAME, imageUrl, imageFile);
         } catch (AmazonServiceException e) {
-            System.err.println(e.getErrorMessage());
+            // TODO : 커스텀 익셉션으로 내려보내서 어떤 에러인지 파악 가능하도록 변경할 것
+            log.error(e.getErrorMessage());
         }
-        System.out.println("Done");
         return imageUrl;
     }
 
