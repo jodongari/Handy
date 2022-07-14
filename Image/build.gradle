@@ -22,6 +22,15 @@ repositories {
 }
 
 dependencies {
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation('javax.xml.bind:jaxb-api:2.4.0-b180830.0359')
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
