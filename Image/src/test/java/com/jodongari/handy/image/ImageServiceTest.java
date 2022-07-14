@@ -25,7 +25,6 @@ class ImageServiceTest {
     private static final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
 
     @Test
-    @Disabled
     @DisplayName("S3 image upload test")
     void putObject() throws URISyntaxException, IOException {
         File origin = new File(getClass().getClassLoader().getResource("test.jpg").toURI());
