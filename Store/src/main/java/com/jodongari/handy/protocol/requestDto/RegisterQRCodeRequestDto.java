@@ -7,5 +7,5 @@ import java.util.List;
 @Value
 public class RegisterQRCodeRequestDto {
     Long storeSeq;
-    List<Integer> tableNumber;
+    List<String> tableNames;
 }
