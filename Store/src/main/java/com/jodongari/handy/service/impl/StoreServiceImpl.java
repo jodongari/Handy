@@ -37,8 +37,8 @@ public class StoreServiceImpl implements StoreService {
     public RegisterQRCodeResponseDto registerQRCode(RegisterQRCodeRequestDto request) {
         Long storeSeq = request.getStoreSeq();
 
-        for (Integer tableNumber : request.getTableNumber()) {
-            final Optional<Boolean> count = qrCodeRepository.existByStoreSeqAndTableNumber(storeSeq, tableNumber);
+        for (String tableName : request.getTableNames()) {
+            final Optional<Boolean> count = qrCodeRepository.existByStoreSeqAndTableName(storeSeq, tableName);
 
             if(count.get()){
                 continue;
@@ -48,7 +48,7 @@ public class StoreServiceImpl implements StoreService {
             qrCodeRepository.save(QREntity.builder()
                             .hash(qrHash)
                             .storeSeq(storeSeq)
-                            .tableNumber(tableNumber)
+                            .tableName(tableName)
                             .build());
         }
 

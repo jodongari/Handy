@@ -20,13 +20,13 @@ public class QREntity {
     @Column(name = "STORE_SEQ", nullable = false)
     private Long storeSeq;
 
-    @Column(name = "TABLE_NUMBER", nullable = false)
-    private Integer tableNumber;
+    @Column(name = "TABLE_NAME", length = 10, nullable = false)
+    private String tableName;
 
     @Builder
-    public QREntity(String hash, Long storeSeq, Integer tableNumber) {
+    public QREntity(String hash, Long storeSeq, String tableName) {
         this.hash = hash;
         this.storeSeq = storeSeq;
-        this.tableNumber = tableNumber;
+        this.tableName = tableName;
     }
 }

@@ -15,8 +15,8 @@ public interface QRCodeRepository extends JpaRepository<QREntity, String> {
                                     "FROM QR qr " +
                                    "WHERE 1 = 1" +
                                    "  AND qr.store_seq = :storeSeq" +
-                                   "  And qr.table_number = :tableNumber" +
+                                   "  And qr.table_name = :tableName" +
                                 ")", nativeQuery = true)
-    Optional<Boolean> existByStoreSeqAndTableNumber(@Param("storeSeq") Long storeSeq,
-                                                    @Param("tableNumber") Integer tableNumber);
+    Optional<Boolean> existByStoreSeqAndTableName(@Param("storeSeq") Long storeSeq,
+                                                    @Param("tableName") String tableName);
 }
