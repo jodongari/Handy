@@ -66,10 +66,6 @@ public class StoreServiceImpl implements StoreService {
         return new ManageTableInfoResponseDto();
     }
 
-    @Override
-    public DeleteQRCodeResponseDto deleteQRCode(DeleteQRCodeRequestDto request) {
-        return null;
-    }
 
     @Transactional
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {

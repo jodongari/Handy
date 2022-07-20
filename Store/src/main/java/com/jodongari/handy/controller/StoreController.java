@@ -29,13 +29,8 @@ public class StoreController {
         return ApiMessage.success(response);
     }
 
-    @PostMapping(StoreApiUrl.QRCODE_REGISTER)
+    @PostMapping(StoreApiUrl.MANAGE_TABLE_INFO)
     public ApiMessage<ManageTableInfoResponseDto> manageTableInfo(ManageTableInfoRequestDto request) {
         return ApiMessage.success(storeService.manageTableInfo(request));
-    }
-
-    @DeleteMapping(StoreApiUrl.QRCODE_DELETE)
-    public ApiMessage<DeleteQRCodeResponseDto> deleteQRCode(DeleteQRCodeRequestDto request) {
-        return ApiMessage.success(storeService.deleteQRCode(request));
     }
 }

@@ -8,7 +8,8 @@ import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 
 public interface StoreService {
+
     ManageTableInfoResponseDto manageTableInfo(ManageTableInfoRequestDto request);
-    DeleteQRCodeResponseDto deleteQRCode(DeleteQRCodeRequestDto request);
+
     RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request);
 }
