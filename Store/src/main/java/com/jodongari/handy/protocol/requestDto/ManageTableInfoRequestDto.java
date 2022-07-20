@@ -3,9 +3,10 @@ package com.jodongari.handy.protocol.requestDto;
 import lombok.Value;
 
 import java.util.List;
+import java.util.Map;
 
 @Value
-public class RegisterQRCodeRequestDto {
+public class ManageTableInfoRequestDto {
     Long storeSeq;
-    List<String> tableNames;
+    Map<String, String> tableInfos;
 }

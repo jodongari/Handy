@@ -4,10 +4,10 @@ import com.jodongari.handy.api.StoreApiUrl;
 import com.jodongari.handy.protocol.ApiMessage;
 import com.jodongari.handy.protocol.requestDto.DeleteQRCodeRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterQRCodeRequestDto;
+import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.responseDto.DeleteQRCodeResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterQRCodeResponseDto;
+import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +30,8 @@ public class StoreController {
     }
 
     @PostMapping(StoreApiUrl.QRCODE_REGISTER)
-    public ApiMessage<RegisterQRCodeResponseDto> registerQRCode(RegisterQRCodeRequestDto request) {
-        return ApiMessage.success(storeService.registerQRCode(request));
+    public ApiMessage<ManageTableInfoResponseDto> manageTableInfo(ManageTableInfoRequestDto request) {
+        return ApiMessage.success(storeService.manageTableInfo(request));
     }
 
     @DeleteMapping(StoreApiUrl.QRCODE_DELETE)
