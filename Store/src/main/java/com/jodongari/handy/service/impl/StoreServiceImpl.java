@@ -33,11 +33,11 @@ public class StoreServiceImpl implements StoreService {
         final Map<String, String> tableInfos = request.getTableInfos();
 
         final List<QREntity> tableInfoFromDB = qrCodeRepository.findAllByStoreSeq(storeSeq);
-        final Map<String, String> addTableList = makeAddTableList(tableInfoFromDB, tableInfos);
-        final Map<String, String> deleteTableList = makeDeleteTableList(tableInfoFromDB, tableInfos);
-        final Map<String, String> updateTableList = makeUpdateTableList(tableInfoFromDB, tableInfos);
+        final Map<String, String> addTableMap = makeAddTableMap(tableInfoFromDB, tableInfos);
+        final Map<String, String> deleteTableMap = makeDeleteTableMap(tableInfoFromDB, tableInfos);
+        final Map<String, String> updateTableMap = makeUpdateTableMap(tableInfoFromDB, tableInfos);
 
-        for (Map.Entry<String,String> entry : addTableList.entrySet()) {
+        for (Map.Entry<String,String> entry : addTableMap.entrySet()) {
             String qrHash = entry.getKey();
             String tableName = entry.getValue();
 
@@ -48,14 +48,14 @@ public class StoreServiceImpl implements StoreService {
                             .build());
         }
 
-        for (Map.Entry<String,String> entry : deleteTableList.entrySet()) {
+        for (Map.Entry<String,String> entry : deleteTableMap.entrySet()) {
             String qrHash = entry.getKey();
             qrCodeRepository.deleteById(qrHash);
         }
 
         for(QREntity entity : tableInfoFromDB) {
-            if (updateTableList.containsKey(entity.getHash())) {
-                entity.updateTableName(updateTableList.get(entity.getHash()));
+            if (updateTableMap.containsKey(entity.getHash())) {
+                entity.updateTableName(updateTableMap.get(entity.getHash()));
             }
         }
 
@@ -75,58 +75,57 @@ public class StoreServiceImpl implements StoreService {
         return qrHash;
     }
 
-    private static Map<String, String> makeAddTableList(List<QREntity> tableInfoFromDB,
-                                                        Map<String, String> tableInfos){
+    private static Map<String, String> makeAddTableMap(List<QREntity> tableInfoFromDB,
+                                                       Map<String, String> tableInfos){
 
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
-
-        final Map<String, String> addTableInfoList = new HashMap<>();
+        final Map<String, String> addTableInfoMap = new HashMap<>();
 
         for(Map.Entry<String,String> entry : tableInfos.entrySet()) {
             String hash = entry.getKey();
             String tableName = entry.getValue();
 
             if(!db.containsKey(hash)){
-                addTableInfoList.put(generateQRCode(), tableName);
+                addTableInfoMap.put(generateQRCode(), tableName);
             }
         }
 
-        return addTableInfoList;
+        return addTableInfoMap;
     }
 
-    private static Map<String, String> makeUpdateTableList(List<QREntity> tableInfoFromDB,
-                                                           Map<String, String> tableInfos) {
+    private static Map<String, String> makeUpdateTableMap(List<QREntity> tableInfoFromDB,
+                                                          Map<String, String> tableInfos) {
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
-        final Map<String, String> updateTableInfoList = new HashMap<>();
+        final Map<String, String> updateTableInfoMap = new HashMap<>();
 
         for(Map.Entry<String,String> entry : tableInfos.entrySet()) {
             String hash = entry.getKey();
             String tableName = entry.getValue();
 
             if(db.containsKey(hash)){
-                updateTableInfoList.put(hash, tableName);
+                updateTableInfoMap.put(hash, tableName);
             }
         }
 
-        return updateTableInfoList;
+        return updateTableInfoMap;
     }
 
-    private static Map<String, String> makeDeleteTableList(List<QREntity> tableInfoFromDB,
-                                                           Map<String, String> tableInfos){
+    private static Map<String, String> makeDeleteTableMap(List<QREntity> tableInfoFromDB,
+                                                          Map<String, String> tableInfos){
 
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
-        final Map<String, String> deleteTableInfoList = new HashMap<>();
+        final Map<String, String> deleteTableInfoMap = new HashMap<>();
 
         for(Map.Entry<String, String> entry : db.entrySet()){
             String hash = entry.getKey();
             String tableName = entry.getValue();
 
             if(!tableInfos.containsKey(hash)){
-                deleteTableInfoList.put(hash, tableName);
+                deleteTableInfoMap.put(hash, tableName);
             }
         }
 
-        return deleteTableInfoList;
+        return deleteTableInfoMap;
     }
 
     private static Map<String, String> qrEntityListToMap(List<QREntity> entities) {
