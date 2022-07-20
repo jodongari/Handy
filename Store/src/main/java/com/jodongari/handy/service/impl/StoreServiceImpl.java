@@ -2,12 +2,10 @@ package com.jodongari.handy.service.impl;
 
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
-import com.jodongari.handy.protocol.requestDto.DeleteQRCodeRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
-import com.jodongari.handy.protocol.responseDto.DeleteQRCodeResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
+import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
+import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 import com.jodongari.handy.repository.QRCodeRepository;
 import com.jodongari.handy.repository.StoreRepository;
 import com.jodongari.handy.service.StoreService;
@@ -16,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
