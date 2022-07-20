@@ -38,7 +38,6 @@ public class StoreServiceImpl implements StoreService {
         final Map<String, String> deleteTableList = makeDeleteTableList(tableInfoFromDB, tableInfos);
         final Map<String, String> updateTableList = makeUpdateTableList(tableInfoFromDB, tableInfos);
 
-        // 1. 추가
         for (Map.Entry<String,String> entry : addTableList.entrySet()) {
             String qrHash = entry.getKey();
             String tableName = entry.getValue();
@@ -50,13 +49,11 @@ public class StoreServiceImpl implements StoreService {
                             .build());
         }
 
-        // 2. 삭제
         for (Map.Entry<String,String> entry : deleteTableList.entrySet()) {
             String qrHash = entry.getKey();
             qrCodeRepository.deleteById(qrHash);
         }
 
-        // 3. 수정
         for(QREntity entity : tableInfoFromDB) {
             if (updateTableList.containsKey(entity.getHash())) {
                 entity.updateTableName(updateTableList.get(entity.getHash()));
