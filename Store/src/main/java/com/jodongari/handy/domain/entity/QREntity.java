@@ -29,4 +29,8 @@ public class QREntity {
         this.storeSeq = storeSeq;
         this.tableName = tableName;
     }
+
+    public void updateTableName(String tableName) {
+        this.tableName = tableName;
+    }
 }
