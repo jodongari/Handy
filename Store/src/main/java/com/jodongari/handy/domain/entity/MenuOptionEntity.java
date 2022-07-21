@@ -3,15 +3,28 @@ package com.jodongari.handy.domain.entity;
 import com.jodongari.handy.domain.entity.status.MenuOptionStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MENU_OPTION")
+@EqualsAndHashCode
 public class MenuOptionEntity {
 
     @Id
@@ -34,7 +47,7 @@ public class MenuOptionEntity {
     private MenuEntity menuEntity;
 
     @Builder
-    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status, MenuEntity menuEntity) {
+    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status) {
         this.seq = seq;
         this.name = name;
         this.price = price;
