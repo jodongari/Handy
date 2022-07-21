@@ -1,7 +1,11 @@
 package com.jodongari.handy.domain.entity;
 
 import com.jodongari.handy.domain.entity.status.ExtraOptionStatus;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
