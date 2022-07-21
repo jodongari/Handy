@@ -28,7 +28,7 @@ class ImageServiceTest {
     @DisplayName("S3 image upload test")
     void putObject() throws URISyntaxException, IOException {
         File origin = new File(getClass().getClassLoader().getResource("test.jpg").toURI());
-        String url = imageService.putObject(".test", origin);
+        String url = imageService.uploadObjectToS3(origin);
         S3Object o = s3.getObject(HANDY_IMAGE_BUCKET_NAME, url);
         S3ObjectInputStream s3is = o.getObjectContent();
         File expectedFile = new File("./resources/" + url);
