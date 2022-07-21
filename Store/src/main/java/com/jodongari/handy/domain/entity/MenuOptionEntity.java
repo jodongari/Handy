@@ -1,10 +1,7 @@
 package com.jodongari.handy.domain.entity;
 
 import com.jodongari.handy.domain.entity.status.MenuOptionStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MENU_OPTION")
+@EqualsAndHashCode
 public class MenuOptionEntity {
 
     @Id
@@ -34,7 +32,7 @@ public class MenuOptionEntity {
     private MenuEntity menuEntity;
 
     @Builder
-    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status, MenuEntity menuEntity) {
+    public MenuOptionEntity(Long seq, String name, Integer price, MenuOptionStatus status) {
         this.seq = seq;
         this.name = name;
         this.price = price;

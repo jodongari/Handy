@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class QREntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HASH", length = 64)
     private String hash;
 

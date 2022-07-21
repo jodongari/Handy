@@ -1,10 +1,7 @@
 package com.jodongari.handy.domain.entity;
 
 import com.jodongari.handy.domain.entity.status.MenuStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MENU")
+@EqualsAndHashCode
 public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +34,10 @@ public class MenuEntity {
     @Enumerated(EnumType.STRING)
     private MenuStatus status;
 
-    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private final List<MenuOptionEntity> menuOptionEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private final List<ExtraOptionGroupEntity> extraOptionGroupEntities = new ArrayList<>();
 
     @Builder

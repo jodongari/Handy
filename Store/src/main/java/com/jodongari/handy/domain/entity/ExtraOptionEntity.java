@@ -1,16 +1,14 @@
 package com.jodongari.handy.domain.entity;
 
 import com.jodongari.handy.domain.entity.status.ExtraOptionStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@EqualsAndHashCode
 @Table(name = "EXTRA_OPTION")
 public class ExtraOptionEntity {
 
@@ -34,7 +32,7 @@ public class ExtraOptionEntity {
     private ExtraOptionGroupEntity extraOptionGroupEntity;
 
     @Builder
-    public ExtraOptionEntity(long seq, String name, int extraFee, ExtraOptionStatus status) {
+    public ExtraOptionEntity(Long seq, String name, int extraFee, ExtraOptionStatus status) {
         this.seq = seq;
         this.name = name;
         this.extraFee = extraFee;
