@@ -3,7 +3,7 @@ package com.jodongari.handy.service.impl;
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
 import com.jodongari.handy.domain.entity.StoreEntity;
-import com.jodongari.handy.image.ImageService;
+import com.jodongari.handy.file.FileObjectStorageService;
 import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
- public class StoreServiceImpl implements StoreService {
+public class StoreServiceImpl implements StoreService {
 
-    private final ImageService imageService;
+    private final FileObjectStorageService fileObjectStorageService;
     private final StoreRepository storeRepository;
     private final QRCodeRepository qrCodeRepository;
 
@@ -95,10 +95,10 @@ import java.util.stream.Collectors;
             throw new Exception();
         }
 
-        final String storeImageKey = imageService.uploadObjectToS3(storeImageFile);
-        final String businessReportCardImageKey = imageService.uploadObjectToS3(businessReportCardImageFile);
-        final String businessLicenseImageKey = imageService.uploadObjectToS3(businessLicenseImageFile);
-        final String logoImageKey = imageService.uploadObjectToS3(logoImageFile);
+        final String storeImageKey = fileObjectStorageService.uploadObjectToS3(storeImageFile);
+        final String businessReportCardImageKey = fileObjectStorageService.uploadObjectToS3(businessReportCardImageFile);
+        final String businessLicenseImageKey = fileObjectStorageService.uploadObjectToS3(businessLicenseImageFile);
+        final String logoImageKey = fileObjectStorageService.uploadObjectToS3(logoImageFile);
 
         final StoreEntity storeEntityResult = storeRepository.save(request.dtoToEntity(storeImageKey,
                 businessReportCardImageKey, businessLicenseImageKey, logoImageKey));
