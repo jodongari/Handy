@@ -27,10 +27,11 @@ public class StoreController {
                                                               @RequestPart("businessReportCardImage") MultipartFile businessReportCardImage,
                                                               @RequestPart("businessLicenseImage") MultipartFile businessLicenseImage,
                                                               @RequestPart("logoImage") MultipartFile logoImage) throws Exception {
-        final RegisterStoreResponseDto response = storeService.registerStore(
-                request, storeImage, businessReportCardImage, businessLicenseImage, logoImage);
-
-        return ApiMessage.success(response);
+        return ApiMessage.success(storeService.registerStore(request,
+                                                             storeImage,
+                                                             businessReportCardImage,
+                                                             businessLicenseImage,
+                                                             logoImage));
     }
 
     @PostMapping(StoreApiUrl.MANAGE_TABLE_INFO)
