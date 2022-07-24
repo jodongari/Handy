@@ -4,6 +4,7 @@ import com.jodongari.handy.api.MenuApiUrl;
 import com.jodongari.handy.protocol.ApiMessage;
 import com.jodongari.handy.protocol.requestDto.GetMenuRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterMenuRequestDto;
+import com.jodongari.handy.protocol.responseDto.GetMenuResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterMenuResponseDto;
 import com.jodongari.handy.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping(value = MenuApiUrl.MENU_GET)
-    public ApiMessage<?> getMenu(final GetMenuRequestDto request) throws Exception {
+    public ApiMessage<GetMenuResponseDto> getMenu(final GetMenuRequestDto request) throws Exception {
         return ApiMessage.success(menuService.getMenu(request.getStoreSeq()));
     }
 
