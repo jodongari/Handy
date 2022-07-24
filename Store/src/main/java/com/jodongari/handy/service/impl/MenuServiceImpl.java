@@ -8,6 +8,7 @@ import com.jodongari.handy.protocol.model.menu.ExtraOption;
 import com.jodongari.handy.protocol.model.menu.Menu;
 import com.jodongari.handy.protocol.model.menu.MenuOption;
 import com.jodongari.handy.protocol.requestDto.RegisterMenuRequestDto;
+import com.jodongari.handy.protocol.responseDto.GetMenuResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterMenuResponseDto;
 import com.jodongari.handy.repository.MenuRepository;
 import com.jodongari.handy.service.MenuService;
@@ -56,5 +57,13 @@ public class MenuServiceImpl implements MenuService {
         MenuEntity resultEntity = menuRepository.save(menuEntity);
 
         return new RegisterMenuResponseDto(null);
+    }
+
+    public GetMenuResponseDto getMenu(Long storeSeq) throws Exception {
+        MenuEntity resultEntity = menuRepository.findBySeq(storeSeq).orElseThrow(Exception::new);
+        List<MenuOptionEntity> menuOptionEntities = resultEntity.getMenuOptionEntities();
+        List<ExtraOptionGroupEntity> extraOptionGroupEntities = resultEntity.getExtraOptionGroupEntities();
+        List<ExtraOptionEntity> extraOptionEntities = extraOptionGroupEntities.get(0).getExtraOptionEntities();
+        return null;
     }
 }
