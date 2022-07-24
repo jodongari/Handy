@@ -75,9 +75,10 @@ public class StoreEntity {
     private StoreStatus status;
 
     @Builder
-    public StoreEntity(Long seq, String name, String businessReportCardImage, String businessLicenseImage, String businessName, String businessPersonName, String businessNumber,
+    public StoreEntity(Long seq, Long ownerSeq, String name, String businessReportCardImage, String businessLicenseImage, String businessName, String businessPersonName, String businessNumber,
                        String businessAddress, String address, String telNumber, String introduction, String openTime, String dayOff, String originCountry, String logo, String backgroundImage, Integer tableCount, String category, StoreStatus status) {
         this.seq = seq;
+        this.ownerSeq = ownerSeq;
         this.name = name;
         this.businessReportCardImage = businessReportCardImage;
         this.businessLicenseImage = businessLicenseImage;

@@ -2,6 +2,8 @@ package com.jodongari.handy.service.impl;
 
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
+import com.jodongari.handy.domain.entity.StoreEntity;
+import com.jodongari.handy.image.ImageService;
 import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
@@ -10,20 +12,28 @@ import com.jodongari.handy.repository.QRCodeRepository;
 import com.jodongari.handy.repository.StoreRepository;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class StoreServiceImpl implements StoreService {
+ public class StoreServiceImpl implements StoreService {
 
+    private final ImageService imageService;
     private final StoreRepository storeRepository;
     private final QRCodeRepository qrCodeRepository;
 
@@ -62,10 +72,59 @@ public class StoreServiceImpl implements StoreService {
         return new ManageTableInfoResponseDto();
     }
 
-
     @Transactional
-    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
-        return new RegisterStoreResponseDto("");
+    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request,
+                                                  MultipartFile storeImage,
+                                                  MultipartFile businessReportCardImage,
+                                                  MultipartFile businessLicenseImage,
+                                                  MultipartFile logoImage) throws Exception {
+        // TODO: Call the Business Number verification API
+
+        final File storeImageFile = new File(Objects.requireNonNull(storeImage.getOriginalFilename()));
+        final File businessReportCardImageFile = new File(Objects.requireNonNull(businessReportCardImage.getOriginalFilename()));
+        final File businessLicenseImageFile = new File(Objects.requireNonNull(businessLicenseImage.getOriginalFilename()));
+        final File logoImageFile = new File(Objects.requireNonNull(logoImage.getOriginalFilename()));
+        try {
+            storeImage.transferTo(storeImageFile);
+            businessReportCardImage.transferTo(businessReportCardImageFile);
+            businessLicenseImage.transferTo(businessLicenseImageFile);
+            logoImage.transferTo(logoImageFile);
+        } catch (IOException e) {
+            log.error("Fail to save image. request = {}", request);
+            // TODO: Defind custom exception
+            throw new Exception();
+        }
+
+        final String storeImageKey = imageService.uploadObjectToS3(storeImageFile);
+        final String businessReportCardImageKey = imageService.uploadObjectToS3(businessReportCardImageFile);
+        final String businessLicenseImageKey = imageService.uploadObjectToS3(businessLicenseImageFile);
+        final String logoImageKey = imageService.uploadObjectToS3(logoImageFile);
+
+        final StoreEntity storeEntityResult = storeRepository.save(request.dtoToEntity(storeImageKey,
+                businessReportCardImageKey, businessLicenseImageKey, logoImageKey));
+        final Map<String, String> initTableInfos = new HashMap<>();
+
+        for (int tableInfo = 1; tableInfo <= request.getTableCount(); ++tableInfo) {
+            final String tableInfoStr = String.valueOf(tableInfo);
+            initTableInfos.put(tableInfoStr, tableInfoStr);
+        }
+
+        final Map<String, String> addTableMap = makeAddTableMap(new ArrayList<>(), initTableInfos);
+
+        for (Map.Entry<String,String> entry : addTableMap.entrySet()) {
+            String qrHash = entry.getKey();
+            String tableName = entry.getValue();
+
+            qrCodeRepository.save(QREntity.builder()
+                    .hash(qrHash)
+                    .storeSeq(storeEntityResult.getSeq())
+                    .tableName(tableName)
+                    .build());
+        }
+
+        // TODO: 심사 이벤트 발행
+
+        return new RegisterStoreResponseDto(storeEntityResult);
     }
 
     private static String generateQRCode() {
