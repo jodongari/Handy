@@ -56,6 +56,7 @@ class QRCodeRepositoryTest {
     public void deleteTest() {
         qrCodeRepository.deleteById(hashCode);
         QREntity qrEntity = qrCodeRepository.findById(hashCode).orElse(null);
+
         assertEquals(null, qrEntity);
     }
 
