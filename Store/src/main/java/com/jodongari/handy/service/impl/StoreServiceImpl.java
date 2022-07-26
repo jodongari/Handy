@@ -4,8 +4,14 @@ import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
 import com.jodongari.handy.domain.entity.StoreEntity;
 import com.jodongari.handy.file.FileObjectStorageService;
+import com.jodongari.handy.protocol.model.Store;
+import com.jodongari.handy.protocol.model.StoreInfo;
+import com.jodongari.handy.protocol.requestDto.GetStoreInfosRequest;
+import com.jodongari.handy.protocol.requestDto.GetStoreRequest;
 import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.responseDto.GetStoreInfosResponse;
+import com.jodongari.handy.protocol.responseDto.GetStoreResponse;
 import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
 import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
 import com.jodongari.handy.repository.QRCodeRepository;
@@ -20,12 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -125,6 +126,31 @@ public class StoreServiceImpl implements StoreService {
         // TODO: 심사 이벤트 발행
 
         return new RegisterStoreResponseDto(storeEntityResult);
+    }
+
+    @Override
+    public GetStoreResponse getStore(GetStoreRequest request) throws Exception {
+        final Long storeSeq = request.getSeq();
+        // TODO: throw custom exception
+        final StoreEntity entity = storeRepository.findById(storeSeq).orElseThrow(Exception::new);
+        final GetStoreResponse response =  new GetStoreResponse(new Store(entity));
+
+        return response;
+    }
+
+    @Override
+    public GetStoreInfosResponse getStoreInfos(GetStoreInfosRequest request) {
+        final Long ownerSeq = request.getOwnerSeq();
+        final List<StoreEntity> storeEntities = storeRepository.findAllByOwnerSeq(ownerSeq);
+        final List<StoreInfo> storeInfos = new ArrayList<>();
+
+        for (StoreEntity entity : storeEntities) {
+            storeInfos.add(new StoreInfo(entity));
+        }
+
+        final GetStoreInfosResponse response = new GetStoreInfosResponse(storeInfos);
+
+        return response;
     }
 
     private static String generateQRCode() {
