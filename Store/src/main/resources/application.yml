@@ -7,6 +7,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  sql:
+    init:
+      schema-locations: schema.sql
 
   datasource:
     driver-class-name: org.h2.Driver
