@@ -3,6 +3,7 @@ package com.jodongari.handy.repository;
 import com.google.common.hash.Hashing;
 import com.jodongari.handy.domain.entity.QREntity;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ class QRCodeRepositoryTest {
     private List<QREntity> testTableInfoFromDB;
 
     @BeforeEach
+    @Disabled
     void registerTest() {
         String[] testTableNames = new String[]{"조인성", "박보영", "한지민"};
 
@@ -43,6 +45,7 @@ class QRCodeRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("테이블명 수정 확인")
     public void updateTest() {
         qrEntity.updateTableName("카리나");
@@ -52,6 +55,7 @@ class QRCodeRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("테이블 정보 삭제")
     public void deleteTest() {
         qrCodeRepository.deleteById(hashCode);
