@@ -1,9 +1,11 @@
 package com.jodongari.handy.domain.entity;
 
+import com.jodongari.handy.domain.entity.base.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +17,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "QR")
-public class QREntity {
+public class QREntity extends BaseTimeEntity implements Persistable<String> {
 
     @Id
     @Column(name = "HASH", length = 64)
@@ -36,5 +38,14 @@ public class QREntity {
 
     public void updateTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getId() {
+        return this.hash;
+    }
+
+    @Override
+    public boolean isNew() {
+        return this.getCreatedAt() == null;
     }
 }

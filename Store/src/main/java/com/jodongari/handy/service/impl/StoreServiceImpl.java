@@ -160,7 +160,7 @@ public class StoreServiceImpl implements StoreService {
 
     private static String generateQRCode() {
         final String qrHash = Hashing.sha256()
-                .hashString(new Date().toString(), StandardCharsets.UTF_8)
+                .hashString(String.valueOf(System.nanoTime()), StandardCharsets.UTF_8)
                 .toString();
         return qrHash;
     }
