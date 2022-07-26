@@ -2,9 +2,9 @@ package com.jodongari.handy.protocol.model;
 
 import com.jodongari.handy.domain.entity.StoreEntity;
 import com.jodongari.handy.domain.entity.status.StoreStatus;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class StoreInfo {
     Long seq;
     String name;
