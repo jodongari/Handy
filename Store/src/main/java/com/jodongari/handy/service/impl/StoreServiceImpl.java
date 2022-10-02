@@ -1,21 +1,20 @@
 package com.jodongari.handy.service.impl;
 
 import com.google.common.hash.Hashing;
-import com.jodongari.handy.domain.entity.QREntity;
-import com.jodongari.handy.domain.entity.StoreEntity;
+import com.jodongari.handy.domain.QRCode;
+import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.file.FileObjectStorageService;
-import com.jodongari.handy.protocol.model.Store;
-import com.jodongari.handy.protocol.model.StoreInfo;
-import com.jodongari.handy.protocol.requestDto.GetStoreInfosRequest;
-import com.jodongari.handy.protocol.requestDto.GetStoreRequest;
-import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.responseDto.GetStoreInfosResponse;
-import com.jodongari.handy.protocol.responseDto.GetStoreResponse;
-import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
-import com.jodongari.handy.repository.QRCodeRepository;
-import com.jodongari.handy.repository.StoreRepository;
+import com.jodongari.handy.domain.store.StoreInfo;
+import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequest;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequest;
+import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.dto.response.GetStoreInfosResponse;
+import com.jodongari.handy.protocol.dto.response.GetStoreResponse;
+import com.jodongari.handy.protocol.dto.response.ManageTableInfoResponseDto;
+import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
+import com.jodongari.handy.infrastructure.repository.QRCodeRepository;
+import com.jodongari.handy.infrastructure.repository.StoreRepository;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -48,7 +46,7 @@ public class StoreServiceImpl implements StoreService {
         final Long storeSeq = request.getStoreSeq();
         final Map<String, String> tableInfos = request.getTableInfos();
 
-        final List<QREntity> tableInfoFromDB = qrCodeRepository.findAllByStoreSeq(storeSeq);
+        final List<QRCode> tableInfoFromDB = qrCodeRepository.findAllByStoreSeq(storeSeq);
         final Map<String, String> addTableMap = makeAddTableMap(tableInfoFromDB, tableInfos);
         final Map<String, String> deleteTableMap = makeDeleteTableMap(tableInfoFromDB, tableInfos);
         final Map<String, String> updateTableMap = makeUpdateTableMap(tableInfoFromDB, tableInfos);
@@ -57,7 +55,7 @@ public class StoreServiceImpl implements StoreService {
             String qrHash = entry.getKey();
             String tableName = entry.getValue();
 
-            qrCodeRepository.save(QREntity.builder()
+            qrCodeRepository.save(QRCode.builder()
                             .hash(qrHash)
                             .storeSeq(storeSeq)
                             .tableName(tableName)
@@ -69,7 +67,7 @@ public class StoreServiceImpl implements StoreService {
             qrCodeRepository.deleteById(qrHash);
         }
 
-        for(QREntity entity : tableInfoFromDB) {
+        for(QRCode entity : tableInfoFromDB) {
             if (updateTableMap.containsKey(entity.getHash())) {
                 entity.updateTableName(updateTableMap.get(entity.getHash()));
             }
@@ -106,7 +104,7 @@ public class StoreServiceImpl implements StoreService {
         final String businessLicenseImageKey = fileObjectStorageService.uploadObjectToS3(businessLicenseImageFile);
         final String logoImageKey = fileObjectStorageService.uploadObjectToS3(logoImageFile);
 
-        final StoreEntity storeEntityResult = storeRepository.save(request.dtoToEntity(storeImageKey,
+        final Store storeEntityResult = storeRepository.save(request.dtoToEntity(storeImageKey,
                 businessReportCardImageKey, businessLicenseImageKey, logoImageKey));
         final Map<String, String> initTableInfos = new HashMap<>();
 
@@ -121,7 +119,7 @@ public class StoreServiceImpl implements StoreService {
             String qrHash = entry.getKey();
             String tableName = entry.getValue();
 
-            qrCodeRepository.save(QREntity.builder()
+            qrCodeRepository.save(QRCode.builder()
                     .hash(qrHash)
                     .storeSeq(storeEntityResult.getSeq())
                     .tableName(tableName)
@@ -137,7 +135,7 @@ public class StoreServiceImpl implements StoreService {
     public GetStoreResponse getStore(GetStoreRequest request) throws Exception {
         final Long storeSeq = request.getSeq();
         // TODO: throw custom exception
-        final StoreEntity entity = storeRepository.findById(storeSeq).orElseThrow(Exception::new);
+        final Store entity = storeRepository.findById(storeSeq).orElseThrow(Exception::new);
         final GetStoreResponse response =  new GetStoreResponse(new Store(entity));
 
         return response;
@@ -146,10 +144,10 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public GetStoreInfosResponse getStoreInfos(GetStoreInfosRequest request) {
         final Long ownerSeq = request.getOwnerSeq();
-        final List<StoreEntity> storeEntities = storeRepository.findAllByOwnerSeq(ownerSeq);
+        final List<Store> storeEntities = storeRepository.findAllByOwnerSeq(ownerSeq);
         final List<StoreInfo> storeInfos = new ArrayList<>();
 
-        for (StoreEntity entity : storeEntities) {
+        for (Store entity : storeEntities) {
             storeInfos.add(new StoreInfo(entity));
         }
 
@@ -165,7 +163,7 @@ public class StoreServiceImpl implements StoreService {
         return qrHash;
     }
 
-    private static Map<String, String> makeAddTableMap(List<QREntity> tableInfoFromDB,
+    private static Map<String, String> makeAddTableMap(List<QRCode> tableInfoFromDB,
                                                        Map<String, String> tableInfos){
 
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
@@ -183,7 +181,7 @@ public class StoreServiceImpl implements StoreService {
         return addTableInfoMap;
     }
 
-    private static Map<String, String> makeUpdateTableMap(List<QREntity> tableInfoFromDB,
+    private static Map<String, String> makeUpdateTableMap(List<QRCode> tableInfoFromDB,
                                                           Map<String, String> tableInfos) {
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
         final Map<String, String> updateTableInfoMap = new HashMap<>();
@@ -200,7 +198,7 @@ public class StoreServiceImpl implements StoreService {
         return updateTableInfoMap;
     }
 
-    private static Map<String, String> makeDeleteTableMap(List<QREntity> tableInfoFromDB,
+    private static Map<String, String> makeDeleteTableMap(List<QRCode> tableInfoFromDB,
                                                           Map<String, String> tableInfos){
 
         final Map<String, String> db = qrEntityListToMap(tableInfoFromDB);
@@ -218,8 +216,8 @@ public class StoreServiceImpl implements StoreService {
         return deleteTableInfoMap;
     }
 
-    private static Map<String, String> qrEntityListToMap(List<QREntity> entities) {
+    private static Map<String, String> qrEntityListToMap(List<QRCode> entities) {
         return entities.stream()
-                .collect(Collectors.toMap(QREntity::getHash, QREntity::getTableName));
+                .collect(Collectors.toMap(QRCode::getHash, QRCode::getTableName));
     }
 }

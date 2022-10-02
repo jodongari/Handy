@@ -1,13 +1,13 @@
 package com.jodongari.handy.service;
 
-import com.jodongari.handy.protocol.requestDto.GetStoreInfosRequest;
-import com.jodongari.handy.protocol.requestDto.GetStoreRequest;
-import com.jodongari.handy.protocol.requestDto.ManageTableInfoRequestDto;
-import com.jodongari.handy.protocol.requestDto.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.responseDto.GetStoreInfosResponse;
-import com.jodongari.handy.protocol.responseDto.GetStoreResponse;
-import com.jodongari.handy.protocol.responseDto.ManageTableInfoResponseDto;
-import com.jodongari.handy.protocol.responseDto.RegisterStoreResponseDto;
+import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequest;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequest;
+import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.dto.response.GetStoreInfosResponse;
+import com.jodongari.handy.protocol.dto.response.GetStoreResponse;
+import com.jodongari.handy.protocol.dto.response.ManageTableInfoResponseDto;
+import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StoreService {

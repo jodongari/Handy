@@ -1,7 +1,8 @@
 package com.jodongari.handy.repository;
 
 import com.google.common.hash.Hashing;
-import com.jodongari.handy.domain.entity.QREntity;
+import com.jodongari.handy.domain.QRCode;
+import com.jodongari.handy.infrastructure.repository.QRCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class QRCodeRepositoryTest {
 
     @Autowired
-    private  QRCodeRepository qrCodeRepository;
+    private QRCodeRepository qrCodeRepository;
 
     private final Long storeSeq = 1L;
 
     private String hashCode;
-    private QREntity qrEntity;
-    private List<QREntity> testTableInfoFromDB;
+    private QRCode qrEntity;
+    private List<QRCode> testTableInfoFromDB;
 
     @BeforeEach
     @Disabled
@@ -32,7 +33,7 @@ class QRCodeRepositoryTest {
         String[] testTableNames = new String[]{"조인성", "박보영", "한지민"};
 
         for(String testTableName : testTableNames) {
-            qrCodeRepository.save(QREntity.builder()
+            qrCodeRepository.save(QRCode.builder()
                     .hash(generateQRCode())
                     .storeSeq(storeSeq)
                     .tableName(testTableName)
@@ -49,7 +50,7 @@ class QRCodeRepositoryTest {
     @DisplayName("테이블명 수정 확인")
     public void updateTest() {
         qrEntity.updateTableName("카리나");
-        QREntity expected = qrCodeRepository.findById(hashCode).orElse(null);
+        QRCode expected = qrCodeRepository.findById(hashCode).orElse(null);
 
         assertEquals("카리나", expected.getTableName());
     }
@@ -59,7 +60,7 @@ class QRCodeRepositoryTest {
     @DisplayName("테이블 정보 삭제")
     public void deleteTest() {
         qrCodeRepository.deleteById(hashCode);
-        QREntity qrEntity = qrCodeRepository.findById(hashCode).orElse(null);
+        QRCode qrEntity = qrCodeRepository.findById(hashCode).orElse(null);
 
         assertEquals(null, qrEntity);
     }
