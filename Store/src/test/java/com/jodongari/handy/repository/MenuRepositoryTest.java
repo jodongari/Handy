@@ -1,13 +1,14 @@
 package com.jodongari.handy.repository;
 
-import com.jodongari.handy.domain.entity.ExtraOptionEntity;
-import com.jodongari.handy.domain.entity.ExtraOptionGroupEntity;
-import com.jodongari.handy.domain.entity.MenuEntity;
-import com.jodongari.handy.domain.entity.MenuOptionEntity;
-import com.jodongari.handy.domain.entity.status.ExtraOptionGroupStatus;
-import com.jodongari.handy.domain.entity.status.ExtraOptionStatus;
-import com.jodongari.handy.domain.entity.status.MenuOptionStatus;
-import com.jodongari.handy.domain.entity.status.MenuStatus;
+import com.jodongari.handy.infrastructure.entity.ExtraOptionEntity;
+import com.jodongari.handy.infrastructure.entity.ExtraOptionGroupEntity;
+import com.jodongari.handy.infrastructure.entity.MenuEntity;
+import com.jodongari.handy.infrastructure.entity.MenuOptionEntity;
+import com.jodongari.handy.infrastructure.entity.status.ExtraOptionGroupStatus;
+import com.jodongari.handy.infrastructure.entity.status.ExtraOptionStatus;
+import com.jodongari.handy.infrastructure.entity.status.MenuOptionStatus;
+import com.jodongari.handy.infrastructure.entity.status.MenuStatus;
+import com.jodongari.handy.infrastructure.repository.MenuRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
