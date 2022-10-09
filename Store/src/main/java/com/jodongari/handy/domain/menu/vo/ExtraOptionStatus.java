@@ -1,4 +1,4 @@
-package com.jodongari.handy.infrastructure.entity.status;
+package com.jodongari.handy.domain.menu.vo;
 
 public enum ExtraOptionStatus {
     OPEN,
