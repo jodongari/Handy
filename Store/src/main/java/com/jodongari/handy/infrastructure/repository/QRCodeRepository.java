@@ -1,6 +1,6 @@
 package com.jodongari.handy.infrastructure.repository;
 
-import com.jodongari.handy.domain.QRCode;
+import com.jodongari.handy.domain.qrcode.QRCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

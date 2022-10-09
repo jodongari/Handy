@@ -1,6 +1,7 @@
 package com.jodongari.handy.domain.menu;
 
-import com.jodongari.handy.infrastructure.entity.status.ExtraOptionStatus;
+import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
+import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class ExtraOption {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "extraOptionGroupSeq")
-    private ExtraOptionGroup extraOptionGroupEntity;
+    private ExtraOptionGroup extraOptionGroup;
 
     @Builder
     public ExtraOption(Long seq, String name, int extraFee, ExtraOptionStatus status) {
@@ -39,8 +40,16 @@ public class ExtraOption {
         this.status = status;
     }
 
-    public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroupEntity) {
-        this.extraOptionGroupEntity = extraOptionGroupEntity;
+    public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroup) {
+        this.extraOptionGroup = extraOptionGroup;
     }
 
+    public ExtraOptionModel toModel() {
+        return ExtraOptionModel.builder()
+                .seq(this.seq)
+                .name(this.name)
+                .extraFee(this.extraFee)
+                .status(this.status)
+                .build();
+    }
 }

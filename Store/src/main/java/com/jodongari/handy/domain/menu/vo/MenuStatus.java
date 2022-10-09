@@ -1,6 +1,7 @@
-package com.jodongari.handy.infrastructure.entity.status;
+package com.jodongari.handy.domain.menu.vo;
 
 public enum MenuStatus {
+    READY,
     OPEN,
     SOLDOUT,
     CLOSE

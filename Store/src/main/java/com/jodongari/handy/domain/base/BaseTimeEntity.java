@@ -1,4 +1,4 @@
-package com.jodongari.handy.infrastructure.entity.base;
+package com.jodongari.handy.domain.base;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

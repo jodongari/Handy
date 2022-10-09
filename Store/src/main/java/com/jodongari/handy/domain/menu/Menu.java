@@ -1,11 +1,15 @@
 package com.jodongari.handy.domain.menu;
 
-import com.jodongari.handy.infrastructure.entity.status.MenuStatus;
+import com.jodongari.handy.domain.menu.vo.*;
+import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
+import com.jodongari.handy.protocol.dto.model.MenuModel;
+import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,35 +17,37 @@ import java.util.List;
 @Table(name = "MENU")
 @EqualsAndHashCode
 public class Menu {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
     private Long seq;
 
+
     @Column(name = "STORE_SEQ", nullable = false)
     private Long storeSeq;
 
-    @Column(name = "NAME", nullable = false, length = 50)
-    private String name;
+    @Embedded
+    private MenuName name;
 
-    @Column(name = "DESCRIPTION", nullable = false, length = 100)
-    private String description;
+    @Embedded
+    private MenuDescription description;
 
-    @Column(name = "IMAGE", nullable = false, length = 200)
-    private String image;
+    @Embedded
+    private MenuImage image;
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private MenuStatus status;
 
-    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private final List<MenuOption> menuOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "menuEntity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private final List<ExtraOptionGroup> extraOptionGroups = new ArrayList<>();
 
     @Builder
-    public Menu(Long seq, Long storeSeq, String name, String description, String image, MenuStatus status) {
+    public Menu(Long seq, Long storeSeq, MenuName name, MenuDescription description, MenuImage image, MenuStatus status) {
         this.seq = seq;
         this.storeSeq = storeSeq;
         this.name = name;
@@ -50,20 +56,51 @@ public class Menu {
         this.status = status;
     }
 
+    public static Menu create(MenuModel menuModel) {
+        List<MenuOption> menuOptions = menuModel.getMenuOptionModels()
+                .stream()
+                .map(MenuOptionModel::toEntity)
+                .collect(Collectors.toList());
+
+        List<ExtraOptionGroup> extraOptionGroups = menuModel.getExtraOptionGroupModels()
+                .stream()
+                .map(extraOptionGroupModel -> {
+                    ExtraOptionGroup extraOptionGroup = extraOptionGroupModel.toEntity();
+                    List<ExtraOption> extraOptions = extraOptionGroupModel.getExtraOptionModels()
+                            .stream()
+                            .map(ExtraOptionModel::toEntity)
+                            .collect(Collectors.toList());
+                    extraOptionGroup.addAllExtraOption(extraOptions);
+                    return extraOptionGroup;
+                })
+                .collect(Collectors.toList());
+
+        Menu menu = Menu.builder()
+                .name(MenuName.create(menuModel.getName()))
+                .description(MenuDescription.create(menuModel.getDescription()))
+                .image(MenuImage.create(menuModel.getImageUrl()))
+                .status(MenuStatus.READY)
+                .build();
+
+        menu.addAllMenuOption(menuOptions);
+        menu.addAllExtraOptionGroup(extraOptionGroups);
+        return menu;
+    }
+
     public void addMenuOption(MenuOption menuOption) {
         this.getMenuOptions().add(menuOption);
         menuOption.addMenuEntity(this);
     }
 
     public void addAllMenuOption(List<MenuOption> menuOptions) {
-        for(MenuOption menuOptionEntity : menuOptions) {
-            this.addMenuOption(menuOptionEntity);
+        for(MenuOption menuOption : menuOptions) {
+            this.addMenuOption(menuOption);
         }
     }
 
-    public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroupEntity) {
-        this.getExtraOptionGroups().add(extraOptionGroupEntity);
-        extraOptionGroupEntity.addMenu(this);
+    public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroup) {
+        this.getExtraOptionGroups().add(extraOptionGroup);
+        extraOptionGroup.addMenu(this);
     }
 
     public void addAllExtraOptionGroup(List<ExtraOptionGroup> extraOptionGroups) {
@@ -72,4 +109,16 @@ public class Menu {
         }
     }
 
+    public MenuModel toModel() {
+        return MenuModel.builder()
+                .seq(this.seq)
+                .storeSeq(this.storeSeq)
+                .name(this.name.getValue())
+                .description(this.description.getValue())
+                .imageUrl(this.image.getValue())
+                .status(this.status)
+                .menuOptionModels(this.menuOptions.stream().map(MenuOption::toModel).collect(Collectors.toList()))
+                .extraOptionGroupModels(this.extraOptionGroups.stream().map(ExtraOptionGroup::toModel).collect(Collectors.toList()))
+                .build();
+    }
 }

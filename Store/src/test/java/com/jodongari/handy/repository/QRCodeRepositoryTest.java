@@ -1,7 +1,7 @@
 package com.jodongari.handy.repository;
 
 import com.google.common.hash.Hashing;
-import com.jodongari.handy.domain.QRCode;
+import com.jodongari.handy.domain.qrcode.QRCode;
 import com.jodongari.handy.infrastructure.repository.QRCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

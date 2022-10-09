@@ -1,16 +1,19 @@
 package com.jodongari.handy.domain.store;
 
-import com.jodongari.handy.infrastructure.entity.status.StoreStatus;
-import lombok.*;
+import com.jodongari.handy.domain.store.vo.StoreStatus;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "STORE")
 public class Store {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")

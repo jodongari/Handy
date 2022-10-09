@@ -1,6 +1,6 @@
-package com.jodongari.handy.domain;
+package com.jodongari.handy.domain.qrcode;
 
-import com.jodongari.handy.infrastructure.entity.base.BaseTimeEntity;
+import com.jodongari.handy.domain.base.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
