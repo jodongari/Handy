@@ -1,10 +1,8 @@
 package com.jodongari.handy.protocol.dto.model;
 
 import com.jodongari.handy.domain.menu.vo.*;
-import com.jodongari.handy.domain.store.vo.StoreSequence;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 
 import java.util.List;
 
