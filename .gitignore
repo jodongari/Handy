@@ -10,6 +10,7 @@ build/
 /src/main/resources/static/js/**
 /src/main/resources/static/favicon.ico
 /src/main/resources/static/index.html
+Store/src/main/generated/**
 *.log
 
 ### STS ###

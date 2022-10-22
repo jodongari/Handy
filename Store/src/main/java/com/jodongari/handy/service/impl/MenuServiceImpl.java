@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,13 +26,14 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request, MultipartFile imageFile) throws Exception {
-        // TODO - 22.10.09, Response의 큰 차이로 인해 Image 업로드는 비동기를 이용하는 게 맞다.
-        final String imageUrl = Optional.of(fileObjectStorageService.uploadObjectToS3(imageFile.getResource().getFile()))
-                 .orElseThrow(() -> new Exception("Image upload failed"));
+//    public RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request, MultipartFile imageFile) throws Exception {
+    // TODO - 22.10.09, Response의 큰 차이로 인해 Image 업로드는 비동기를 이용하는 게 맞다.
+//    final String imageUrl = Optional.of(fileObjectStorageService.uploadObjectToS3(imageFile.getResource().getFile()))
+//            .orElseThrow(() -> new Exception("Image upload failed"));
+    public RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request) throws Exception {
 
         final MenuModel menuModel = request.toModel();
-        menuModel.setImageUrl(imageUrl);
+//        menuModel.setImageUrl(imageUrl);
 
         final Menu menu = Menu.create(menuModel);
         final Menu result = menuRepository.save(menu);
