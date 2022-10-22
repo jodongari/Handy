@@ -1,19 +1,55 @@
 package com.jodongari.handy.service.impl;
 
+import com.jodongari.handy.domain.store.Store;
+import com.jodongari.handy.infrastructure.repository.StoreRepository;
+import com.jodongari.handy.protocol.dto.model.StoreModel;
+import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
+import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
+import com.jodongari.handy.protocol.dto.response.ManageTableInfoResponseDto;
+import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
-//    private final FileObjectStorageService fileObjectStorageService;
-//    private final StoreRepository storeRepository;
-//    private final QRCodeRepository qrCodeRepository;
-//
+    private final StoreRepository storeRepository;
+
+    @Override
+    public ManageTableInfoResponseDto manageTableInfo(ManageTableInfoRequestDto request) {
+        return null;
+    }
+
+    @Override
+    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
+        final StoreModel storeModel = request.toModel();
+
+        final Store store = Store.create(storeModel);
+        final Store result = storeRepository.save(store);
+
+        return new RegisterStoreResponseDto(result);
+    }
+
+    @Override
+    public List<GetStoreResponseDto> getStores(GetStoresRequestDto request) {
+        final List<Store> result = storeRepository.findAllByOwnerSeq(request.getOwnerSeq());
+
+        final List<StoreModel> storeModels = result.stream().map(Store::toModel).collect(Collectors.toList());
+        final List<GetStoreResponseDto> response = storeModels.stream().map(GetStoreResponseDto::of).collect(Collectors.toList());
+
+        return response;
+    }
+
+
 //    @Transactional
 //    public ManageTableInfoResponseDto manageTableInfo(ManageTableInfoRequestDto request) {
 //        final Long storeSeq = request.getStoreSeq();

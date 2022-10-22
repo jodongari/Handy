@@ -1,6 +1,7 @@
 package com.jodongari.handy.domain.store;
 
 import com.jodongari.handy.domain.store.vo.StoreStatus;
+import com.jodongari.handy.protocol.dto.model.StoreModel;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +26,11 @@ public class Store {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "BUSINESS_REPORT_CARD_IMAGE", nullable = false, length = 100)
-    private String businessReportCardImage;
+    @Column(name = "BUSINESS_REPORT_CARD_IMAGE_URL", nullable = false, length = 100)
+    private String businessReportCardImageUrl;
 
-    @Column(name = "BUSINESS_LICENSE_IMAGE", nullable = false, length = 100)
-    private String businessLicenseImage;
+    @Column(name = "BUSINESS_LICENSE_IMAGE_URL", nullable = false, length = 100)
+    private String businessLicenseImageUrl;
 
     @Column(name = "BUSINESS_NAME", nullable = false, length = 100)
     private String businessName;
@@ -61,11 +62,11 @@ public class Store {
     @Column(name = "ORIGIN_COUNTRY", nullable = false, length = 400)
     private String originCountry;
 
-    @Column(name = "LOGO", nullable = false, length = 100)
-    private String logo;
+    @Column(name = "LOGO_IMAGE_URL", nullable = false, length = 100)
+    private String logoImageUrl;
 
-    @Column(name = "BACKGROUND_IMAGE", nullable = false, length = 100)
-    private String backgroundImage;
+    @Column(name = "BACKGROUND_IMAGE_URL", nullable = false, length = 100)
+    private String backgroundImageUrl;
 
     @Column(name = "TABLE_COUNT", nullable = false)
     private Integer tableCount;
@@ -78,13 +79,13 @@ public class Store {
     private StoreStatus status;
 
     @Builder
-    public Store(Long seq, Long ownerSeq, String name, String businessReportCardImage, String businessLicenseImage, String businessName, String businessPersonName, String businessNumber,
-                 String businessAddress, String address, String telNumber, String introduction, String openTime, String dayOff, String originCountry, String logo, String backgroundImage, Integer tableCount, String category, StoreStatus status) {
+    public Store(Long seq, Long ownerSeq, String name, String businessReportCardImageUrl, String businessLicenseImageUrl, String businessName, String businessPersonName, String businessNumber,
+                 String businessAddress, String address, String telNumber, String introduction, String openTime, String dayOff, String originCountry, String logoImageUrl, String backgroundImageUrl, Integer tableCount, String category, StoreStatus status) {
         this.seq = seq;
         this.ownerSeq = ownerSeq;
         this.name = name;
-        this.businessReportCardImage = businessReportCardImage;
-        this.businessLicenseImage = businessLicenseImage;
+        this.businessReportCardImageUrl = businessReportCardImageUrl;
+        this.businessLicenseImageUrl = businessLicenseImageUrl;
         this.businessName = businessName;
         this.businessPersonName = businessPersonName;
         this.businessNumber = businessNumber;
@@ -95,10 +96,60 @@ public class Store {
         this.openTime = openTime;
         this.dayOff = dayOff;
         this.originCountry = originCountry;
-        this.logo = logo;
-        this.backgroundImage = backgroundImage;
+        this.logoImageUrl = logoImageUrl;
+        this.backgroundImageUrl = backgroundImageUrl;
         this.tableCount = tableCount;
         this.category = category;
         this.status = status;
+    }
+
+    public static Store create(StoreModel storeModel) {
+        return Store.builder()
+                .seq(storeModel.getSeq())
+                .ownerSeq(storeModel.getOwnerSeq())
+                .name(storeModel.getName())
+                .businessReportCardImageUrl(storeModel.getBusinessReportCardImageUrl())
+                .businessLicenseImageUrl(storeModel.getBusinessLicenseImageUrl())
+                .businessName(storeModel.getBusinessName())
+                .businessPersonName(storeModel.getBusinessPersonName())
+                .businessNumber(storeModel.getBusinessNumber())
+                .businessAddress(storeModel.getBusinessAddress())
+                .address(storeModel.getAddress())
+                .telNumber(storeModel.getTelNumber())
+                .introduction(storeModel.getIntroduction())
+                .openTime(storeModel.getOpenTime())
+                .dayOff(storeModel.getDayOff())
+                .originCountry(storeModel.getOriginCountry())
+                .logoImageUrl(storeModel.getLogoImageUrl())
+                .backgroundImageUrl(storeModel.getBackgroundImageUrl())
+                .tableCount(storeModel.getTableCount())
+                .category(storeModel.getCategory())
+                .status(storeModel.getStatus())
+                .build();
+    }
+
+    public static StoreModel toModel(Store store) {
+        return StoreModel.builder()
+                .seq(store.getSeq())
+                .ownerSeq(store.getOwnerSeq())
+                .name(store.getName())
+                .businessReportCardImageUrl(store.getBusinessReportCardImageUrl())
+                .businessLicenseImageUrl(store.getBusinessLicenseImageUrl())
+                .businessName(store.getBusinessName())
+                .businessPersonName(store.getBusinessPersonName())
+                .businessNumber(store.getBusinessNumber())
+                .businessAddress(store.getBusinessAddress())
+                .address(store.getAddress())
+                .telNumber(store.getTelNumber())
+                .introduction(store.getIntroduction())
+                .openTime(store.getOpenTime())
+                .dayOff(store.getDayOff())
+                .originCountry(store.getOriginCountry())
+                .logoImageUrl(store.getLogoImageUrl())
+                .backgroundImageUrl(store.getBackgroundImageUrl())
+                .tableCount(store.getTableCount())
+                .category(store.getCategory())
+                .status(store.getStatus())
+                .build();
     }
 }
