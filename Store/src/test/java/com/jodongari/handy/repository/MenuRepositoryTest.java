@@ -1,19 +1,8 @@
 package com.jodongari.handy.repository;
 
-import com.jodongari.handy.domain.menu.vo.ExtraOptionGroupStatus;
-import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
-import com.jodongari.handy.domain.menu.vo.MenuOptionStatus;
-import com.jodongari.handy.domain.menu.vo.MenuStatus;
-import com.jodongari.handy.infrastructure.repository.MenuRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ExtendWith(MockitoExtension.class)
@@ -46,17 +35,21 @@ class MenuRepositoryTest {
 //    @DisplayName("메뉴 test")
 //    class registerMenuTest {
 //
-//        private MenuEntity menuEntity;
-//        private MenuOptionEntity menuOptionEntity;
-//        private ExtraOptionGroupEntity extraOptionGroupEntity;
-//        private ExtraOptionEntity extraOptionEntity;
+//        private Menu menu;
+//        private MenuOption menuOption;
+//        private ExtraOptionGroup extraOptionGroup;
+//        private ExtraOption extraOption;
 //
 //        @Test
 //        @DisplayName("메뉴가 잘 들어갔는지 확인")
 //        public void getMenu() {
-//
+//            ExtraOptionGroupModel extraOptionGroupModel = new ExtraOptionGroupModel();
+//            MenuOptionModel menuOptionModel = new MenuOptionModel();
+//            MenuModel menuModel = new MenuModel(null, STORE_SEQ, MENU_NAME, MENU_DESCRIPTION, "test", MenuStatus.OPEN, )
 //            //given
-//            menuEntity = MenuEntity.builder()
+//            menu = Menu.create();
+//
+//                    Menu.builder()
 //                    .storeSeq(STORE_SEQ)
 //                    .name(MENU_NAME)
 //                    .description(MENU_DESCRIPTION)
