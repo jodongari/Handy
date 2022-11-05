@@ -15,6 +15,8 @@ import javax.persistence.*;
 @Table(name = "STORE")
 public class Store {
 
+    private static final int DEFAULT_TABLE_COUNT = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
@@ -122,7 +124,7 @@ public class Store {
                 .originCountry(storeModel.getOriginCountry())
                 .logoImageUrl(storeModel.getLogoImageUrl())
                 .backgroundImageUrl(storeModel.getBackgroundImageUrl())
-                .tableCount(storeModel.getTableCount())
+                .tableCount(DEFAULT_TABLE_COUNT)
                 .category(storeModel.getCategory())
                 .status(storeModel.getStatus())
                 .build();

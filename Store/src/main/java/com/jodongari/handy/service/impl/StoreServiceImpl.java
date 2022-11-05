@@ -37,7 +37,6 @@ public class StoreServiceImpl implements StoreService {
     @Transactional(rollbackFor = Exception.class)
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
         final StoreModel storeModel = request.toModel();
-        storeModel.setTableCount(0);
 
         final Store store = Store.create(storeModel);
         final Store result = storeRepository.save(store);
