@@ -1,5 +1,6 @@
 package com.jodongari.handy.service;
 
+import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
@@ -14,6 +15,8 @@ public interface StoreService {
     ManageTableInfoResponseDto manageTableInfo(ManageTableInfoRequestDto request);
 
     RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request);
+
+    GetStoreResponseDto getStore(GetStoreRequestDto request);
 
     List<GetStoreResponseDto> getStores(GetStoresRequestDto request);
 }

@@ -3,6 +3,7 @@ package com.jodongari.handy.service.impl;
 import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.infrastructure.repository.StoreRepository;
 import com.jodongari.handy.protocol.dto.model.StoreModel;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
@@ -13,6 +14,8 @@ import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
 public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
@@ -30,6 +34,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
         final StoreModel storeModel = request.toModel();
 
@@ -37,6 +42,15 @@ public class StoreServiceImpl implements StoreService {
         final Store result = storeRepository.save(store);
 
         return new RegisterStoreResponseDto(result);
+    }
+
+    @Override
+    public GetStoreResponseDto getStore(GetStoreRequestDto request) {
+        final Store result = storeRepository.findById(request.getStoreSeq()).orElseThrow();
+
+        final StoreModel storeModel = Store.toModel(result);
+
+        return GetStoreResponseDto.of(storeModel);
     }
 
     @Override
