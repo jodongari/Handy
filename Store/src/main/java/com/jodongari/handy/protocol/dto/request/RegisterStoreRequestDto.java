@@ -21,7 +21,6 @@ public class RegisterStoreRequestDto {
     String originCountry;
     String logoImageUrl;
     String backgroundImageUrl;
-    int tableCount;
     String category;
     StoreStatus storeStatus;
 
@@ -41,7 +40,6 @@ public class RegisterStoreRequestDto {
                 .originCountry(this.originCountry)
                 .logoImageUrl(this.logoImageUrl)
                 .backgroundImageUrl(this.backgroundImageUrl)
-                .tableCount(this.tableCount)
                 .category(this.category)
                 .status(this.storeStatus)
                 .build();
