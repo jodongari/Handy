@@ -41,7 +41,7 @@ public class StoreServiceImpl implements StoreService {
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
         final StoreModel storeModel = modelMapper.map(request, StoreModel.class);
 
-        final Store store = modelMapper.map(storeModel, Store.class);
+        final Store store = Store.create(storeModel);
         final Store result = storeRepository.save(store);
 
         return new RegisterStoreResponseDto(result);

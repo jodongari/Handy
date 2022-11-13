@@ -104,4 +104,29 @@ public class Store {
         this.category = category;
         this.status = status;
     }
+
+    public static Store create(StoreModel storeModel) {
+        return Store.builder()
+                .seq(storeModel.getSeq())
+                .ownerSeq(storeModel.getOwnerSeq())
+                .name(storeModel.getName())
+                .businessReportCardImageUrl(storeModel.getBusinessReportCardImageUrl())
+                .businessLicenseImageUrl(storeModel.getBusinessLicenseImageUrl())
+                .businessName(storeModel.getBusinessName())
+                .businessPersonName(storeModel.getBusinessPersonName())
+                .businessNumber(storeModel.getBusinessNumber())
+                .businessAddress(storeModel.getBusinessAddress())
+                .address(storeModel.getAddress())
+                .telNumber(storeModel.getTelNumber())
+                .introduction(storeModel.getIntroduction())
+                .openTime(storeModel.getOpenTime())
+                .dayOff(storeModel.getDayOff())
+                .originCountry(storeModel.getOriginCountry())
+                .logoImageUrl(storeModel.getLogoImageUrl())
+                .backgroundImageUrl(storeModel.getBackgroundImageUrl())
+                .tableCount(DEFAULT_TABLE_COUNT)
+                .category(storeModel.getCategory())
+                .status(storeModel.getStatus())
+                .build();
+    }
 }
