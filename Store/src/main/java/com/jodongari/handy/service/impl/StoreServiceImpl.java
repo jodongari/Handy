@@ -8,7 +8,6 @@ import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.dto.response.DeleteStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.ManageTableInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
@@ -66,9 +65,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public DeleteStoreResponseDto deleteStore(DeleteStoreRequestDto request) {
+    public void deleteStore(DeleteStoreRequestDto request) {
         storeRepository.deleteById(request.getStoreSeq());
-        return new DeleteStoreResponseDto();
     }
 
 //    @Transactional

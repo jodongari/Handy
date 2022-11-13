@@ -3,7 +3,6 @@ package com.jodongari.handy.controller;
 import com.jodongari.handy.protocol.api.ErrorResponse;
 import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
-import com.jodongari.handy.protocol.dto.response.DeleteStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.url.StoreApiUrl;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
@@ -77,9 +76,8 @@ public class StoreController {
     }
 
     @DeleteMapping(StoreApiUrl.STORE_DELETE)
-    public DeleteStoreResponseDto deleteStore(DeleteStoreRequestDto request) {
+    public void deleteStore(DeleteStoreRequestDto request) {
         storeService.deleteStore(request);
-        return new DeleteStoreResponseDto();
     }
 
 }
