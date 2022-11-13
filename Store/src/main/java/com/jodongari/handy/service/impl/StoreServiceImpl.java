@@ -49,7 +49,7 @@ public class StoreServiceImpl implements StoreService {
     public GetStoreResponseDto getStore(GetStoreRequestDto request) {
         final Store result = storeRepository.findById(request.getStoreSeq()).orElseThrow();
 
-        final StoreModel storeModel = Store.toModel(result);
+        final StoreModel storeModel = result.toModel();
 
         return GetStoreResponseDto.of(storeModel);
     }
