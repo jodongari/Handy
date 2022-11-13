@@ -129,29 +129,4 @@ public class Store {
                 .status(storeModel.getStatus())
                 .build();
     }
-
-    public StoreModel toModel() {
-        return StoreModel.builder()
-                .seq(this.seq)
-                .ownerSeq(this.ownerSeq)
-                .name(this.name)
-                .businessReportCardImageUrl(this.businessReportCardImageUrl)
-                .businessLicenseImageUrl(this.businessLicenseImageUrl)
-                .businessName(this.businessName)
-                .businessPersonName(this.businessPersonName)
-                .businessNumber(this.businessNumber)
-                .businessAddress(this.businessAddress)
-                .address(this.address)
-                .telNumber(this.telNumber)
-                .introduction(this.introduction)
-                .openTime(this.openTime)
-                .dayOff(this.dayOff)
-                .originCountry(this.originCountry)
-                .logoImageUrl(this.logoImageUrl)
-                .backgroundImageUrl(this.backgroundImageUrl)
-                .tableCount(this.tableCount)
-                .category(this.category)
-                .status(this.status)
-                .build();
-    }
 }
