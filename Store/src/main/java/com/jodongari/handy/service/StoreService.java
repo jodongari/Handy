@@ -1,5 +1,6 @@
 package com.jodongari.handy.service;
 
+import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
@@ -19,4 +20,6 @@ public interface StoreService {
     GetStoreResponseDto getStore(GetStoreRequestDto request);
 
     List<GetStoreResponseDto> getStores(GetStoresRequestDto request);
+
+    void deleteStore(DeleteStoreRequestDto request);
 }
