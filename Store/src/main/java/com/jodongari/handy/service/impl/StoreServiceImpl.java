@@ -14,6 +14,7 @@ import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
 public class StoreServiceImpl implements StoreService {
 
+    private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
 
     @Override
@@ -37,9 +39,9 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
-        final StoreModel storeModel = request.toModel();
+        final StoreModel storeModel = modelMapper.map(request, StoreModel.class);
 
-        final Store store = Store.create(storeModel);
+        final Store store = modelMapper.map(storeModel, Store.class);
         final Store result = storeRepository.save(store);
 
         return new RegisterStoreResponseDto(result);
@@ -49,7 +51,7 @@ public class StoreServiceImpl implements StoreService {
     public GetStoreResponseDto getStore(GetStoreRequestDto request) {
         final Store result = storeRepository.findById(request.getStoreSeq()).orElseThrow();
 
-        final StoreModel storeModel = result.toModel();
+        final StoreModel storeModel = modelMapper.map(result, StoreModel.class);
 
         return GetStoreResponseDto.of(storeModel);
     }
@@ -58,8 +60,13 @@ public class StoreServiceImpl implements StoreService {
     public List<GetStoreResponseDto> getStores(GetStoresRequestDto request) {
         final List<Store> result = storeRepository.findAllByOwnerSeq(request.getOwnerSeq());
 
-        final List<StoreModel> storeModels = result.stream().map(Store::toModel).collect(Collectors.toList());
-        final List<GetStoreResponseDto> response = storeModels.stream().map(GetStoreResponseDto::of).collect(Collectors.toList());
+        final List<StoreModel> storeModels = result.stream()
+                .map(store -> modelMapper.map(store, StoreModel.class))
+                .collect(Collectors.toList());
+
+        final List<GetStoreResponseDto> response = storeModels.stream()
+                .map(storeModel -> modelMapper.map(storeModel, GetStoreResponseDto.class))
+                .collect(Collectors.toList());
 
         return response;
     }
