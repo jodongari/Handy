@@ -1,6 +1,6 @@
 package com.jodongari.handy.infrastructure.repository;
 
-import com.jodongari.handy.domain.qrcode.QRCode;
+import com.jodongari.handy.domain.tableInfo.TableInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface QRCodeRepository extends JpaRepository<QRCode, String> {
+public interface TableInfoRepository extends JpaRepository<TableInfo, Long> {
 
     @Query(value = "SELECT hash" +
                         ", store_seq" +
                         ", table_name " +
                         "FROM QR " +
                         "WHERE store_seq = :storeSeq", nativeQuery = true)
-    List<QRCode> findAllByStoreSeq(@Param("storeSeq") Long storeSeq);
+    List<TableInfo> findAllByStoreSeq(@Param("storeSeq") Long storeSeq);
 
     @Query(value = "SELECT EXISTS( SELECT qr.hash " +
                                     "FROM QR qr " +
