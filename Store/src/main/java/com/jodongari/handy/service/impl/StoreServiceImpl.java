@@ -3,8 +3,13 @@ package com.jodongari.handy.service.impl;
 import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.infrastructure.repository.StoreRepository;
 import com.jodongari.handy.protocol.dto.model.StoreModel;
-import com.jodongari.handy.protocol.dto.request.*;
+import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
+import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
+import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
@@ -26,9 +31,6 @@ public class StoreServiceImpl implements StoreService {
 
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
-
-    @Override
-    public void manageTableInfo(ManageTableInfoRequestDto request) {}
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -75,6 +77,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateStore(UpdateStoreRequestDto request) {
         final Store store = storeRepository.findById(request.getStoreSeq()).orElseThrow();
 

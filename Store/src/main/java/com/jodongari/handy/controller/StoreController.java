@@ -1,10 +1,15 @@
 package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.api.ErrorResponse;
-import com.jodongari.handy.protocol.dto.request.*;
+import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.url.StoreApiUrl;
+import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,19 +86,13 @@ public class StoreController {
         storeService.updateStore(request);
     }
 
-    @Operation(summary = "테이블 관리")
+    @Operation(summary = "매장 삭제")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PostMapping(StoreApiUrl.MANAGE_TABLE_INFO)
-    public void manageTableInfo(ManageTableInfoRequestDto request) {
-        storeService.manageTableInfo(request);
-    }
-
     @DeleteMapping(StoreApiUrl.STORE_DELETE)
     public void deleteStore(DeleteStoreRequestDto request) {
         storeService.deleteStore(request);
     }
-
 }
