@@ -8,13 +8,12 @@ import com.jodongari.handy.protocol.dto.request.UpdateTableInfoStatusRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetTableInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterTableInfoResponseDto;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface TableInfoService {
 
     List<GetTableInfoResponseDto> getTableInfo(GetTableInfoRequestDto request);
-    RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) throws NoSuchAlgorithmException ;
+    RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) ;
     void updateTableName(UpdateTableInfoNameRequestDto request) throws Exception;
     void updateTableStatus(UpdateTableInfoStatusRequestDto request) throws Exception;
     void deleteTableInfo(DeleteTableInfoRequestDto request);
