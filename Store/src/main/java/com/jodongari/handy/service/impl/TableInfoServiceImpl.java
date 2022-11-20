@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public class TableInfoServiceImpl implements TableInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) throws NoSuchAlgorithmException {
+    public RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) {
         final TableInfoModel tableInfoModel = request.toModel();
         String encryptedString = hashGeneratorService.encrypt();
         tableInfoModel.setTableHash(encryptedString);
