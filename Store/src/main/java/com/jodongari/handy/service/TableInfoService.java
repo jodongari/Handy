@@ -13,7 +13,7 @@ import java.util.List;
 public interface TableInfoService {
 
     List<GetTableInfoResponseDto> getTableInfo(GetTableInfoRequestDto request);
-    RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) ;
+    RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request);
     void updateTableName(UpdateTableInfoNameRequestDto request) throws Exception;
     void updateTableStatus(UpdateTableInfoStatusRequestDto request) throws Exception;
     void deleteTableInfo(DeleteTableInfoRequestDto request);
