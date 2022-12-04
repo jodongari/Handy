@@ -1,10 +1,10 @@
 package com.jodongari.handy.protocol.dto.request;
 
-import lombok.Value;
+import lombok.Data;
 
 import java.util.Map;
 
-@Value
+@Data
 public class ManageTableInfoRequestDto {
     Long storeSeq;
     Map<String, String> tableInfos;

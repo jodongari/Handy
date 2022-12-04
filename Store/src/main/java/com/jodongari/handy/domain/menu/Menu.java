@@ -108,17 +108,4 @@ public class Menu {
             this.addExtraOptionGroup(extraOptionGroupEntity);
         }
     }
-
-    public MenuModel toModel() {
-        return MenuModel.builder()
-                .seq(this.seq)
-                .storeSeq(this.storeSeq)
-                .name(this.name.getValue())
-                .description(this.description.getValue())
-                .imageUrl(this.image.getValue())
-                .status(this.status)
-                .menuOptionModels(this.menuOptions.stream().map(MenuOption::toModel).collect(Collectors.toList()))
-                .extraOptionGroupModels(this.extraOptionGroups.stream().map(ExtraOptionGroup::toModel).collect(Collectors.toList()))
-                .build();
-    }
 }

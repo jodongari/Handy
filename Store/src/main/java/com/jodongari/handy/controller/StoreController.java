@@ -8,7 +8,6 @@ import com.jodongari.handy.protocol.url.StoreApiUrl;
 import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
-import com.jodongari.handy.protocol.dto.response.ManageTableInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,7 +66,7 @@ public class StoreController {
 
     @Operation(summary = "테이블 관리")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ManageTableInfoResponseDto.class))),
+            @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(StoreApiUrl.MANAGE_TABLE_INFO)

@@ -2,7 +2,6 @@ package com.jodongari.handy.domain.tableInfo;
 
 import com.jodongari.handy.domain.base.BaseTimeEntity;
 import com.jodongari.handy.protocol.dto.model.TableInfoModel;
-import com.jodongari.handy.protocol.dto.response.GetTableInfoResponseDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -67,16 +65,6 @@ public class TableInfo extends BaseTimeEntity {
                 .storeSeq(this.getStoreSeq())
                 .tableName(this.getTableName())
                 .tableHash(this.getTableHash())
-                .status(this.getStatus())
-                .build();
-    }
-
-    public GetTableInfoResponseDto toDto() {
-        return GetTableInfoResponseDto.builder()
-                .seq(this.getSeq())
-                .storeSeq(this.storeSeq)
-                .tableName(this.tableName)
-                .tableHash(this.tableHash)
                 .status(this.getStatus())
                 .build();
     }

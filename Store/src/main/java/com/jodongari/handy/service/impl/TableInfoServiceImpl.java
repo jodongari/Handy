@@ -13,6 +13,7 @@ import com.jodongari.handy.protocol.dto.response.RegisterTableInfoResponseDto;
 import com.jodongari.handy.service.HashGeneratorService;
 import com.jodongari.handy.service.TableInfoService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,23 +27,24 @@ import java.util.stream.Collectors;
 public class TableInfoServiceImpl implements TableInfoService {
     private final TableInfoRepository tableInfoRepository;
     private final HashGeneratorService hashGeneratorService;
+    private final ModelMapper modelMapper;
 
     public List<GetTableInfoResponseDto> getTableInfo(GetTableInfoRequestDto request) {
         final List<TableInfo> results = tableInfoRepository.findAllByStoreSeq(request.getStoreSeq());
-        return results.stream().map(x -> x.toDto()).collect(Collectors.toList());
+        return results.stream().map(x -> modelMapper.map(x, GetTableInfoResponseDto.class)).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) {
-        final TableInfoModel tableInfoModel = request.toModel();
+        final TableInfoModel tableInfoModel = modelMapper.map(request, TableInfoModel.class);
         String encryptedString = hashGeneratorService.encrypt();
         tableInfoModel.setTableHash(encryptedString);
 
         final TableInfo result = tableInfoRepository.save(TableInfo.create(tableInfoModel));
         final TableInfoModel resultModel = result.toModel();
 
-        return RegisterTableInfoResponseDto.of(resultModel);
+        return modelMapper.map(resultModel, RegisterTableInfoResponseDto.class);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class TableInfoServiceImpl implements TableInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteTableInfo(DeleteTableInfoRequestDto request) {
-        final TableInfoModel tableInfoModel = request.toModel();
+        final TableInfoModel tableInfoModel = modelMapper.map(request, TableInfoModel.class);
         tableInfoRepository.deleteById(tableInfoModel.getSeq());
     }
 }

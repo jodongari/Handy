@@ -1,7 +1,6 @@
 package com.jodongari.handy.domain.menu;
 
 import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
-import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,8 +20,8 @@ public class ExtraOption {
     @Column(name = "NAME", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "EXTRA_FEE", nullable = false)
-    private Integer extraFee;
+    @Column(name = "EXTRA_PRICE", nullable = false)
+    private Integer extraPrice;
 
     @Column(name = "STATUS", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
@@ -33,23 +32,14 @@ public class ExtraOption {
     private ExtraOptionGroup extraOptionGroup;
 
     @Builder
-    public ExtraOption(Long seq, String name, int extraFee, ExtraOptionStatus status) {
+    public ExtraOption(Long seq, String name, int extraPrice, ExtraOptionStatus status) {
         this.seq = seq;
         this.name = name;
-        this.extraFee = extraFee;
+        this.extraPrice = extraPrice;
         this.status = status;
     }
 
     public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroup) {
         this.extraOptionGroup = extraOptionGroup;
-    }
-
-    public ExtraOptionModel toModel() {
-        return ExtraOptionModel.builder()
-                .seq(this.seq)
-                .name(this.name)
-                .extraFee(this.extraFee)
-                .status(this.status)
-                .build();
     }
 }

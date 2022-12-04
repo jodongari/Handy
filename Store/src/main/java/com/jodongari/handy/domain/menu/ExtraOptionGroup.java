@@ -1,14 +1,11 @@
 package com.jodongari.handy.domain.menu;
 
 import com.jodongari.handy.domain.menu.vo.ExtraOptionGroupStatus;
-import com.jodongari.handy.protocol.dto.model.ExtraOptionGroupModel;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -70,17 +67,5 @@ public class ExtraOptionGroup {
 
     public void addMenu(Menu menuEntity) {
         this.menu = menuEntity;
-    }
-
-    public ExtraOptionGroupModel toModel() {
-        return ExtraOptionGroupModel.builder()
-                .seq(this.seq)
-                .name(this.name)
-                .type(this.type)
-                .minSelectLimit(this.minSelectLimit)
-                .maxSelectLimit(this.maxSelectLimit)
-                .status(this.status)
-                .extraOptionModels(this.extraOptions.stream().map(ExtraOption::toModel).collect(Collectors.toList()))
-                .build();
     }
 }

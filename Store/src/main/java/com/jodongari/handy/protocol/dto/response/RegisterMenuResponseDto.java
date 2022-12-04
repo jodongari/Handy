@@ -1,13 +1,9 @@
 package com.jodongari.handy.protocol.dto.response;
 
-import com.jodongari.handy.domain.menu.Menu;
-import lombok.Builder;
+import lombok.Data;
 
+@Data
 public class RegisterMenuResponseDto {
-    Menu menu;
+    Long menuSeq;
 
-    @Builder
-    public RegisterMenuResponseDto(Menu menu) {
-        this.menu = menu;
-    }
 }
