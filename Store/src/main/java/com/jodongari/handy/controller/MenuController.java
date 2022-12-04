@@ -5,7 +5,6 @@ import com.jodongari.handy.protocol.dto.request.GetMenuRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterMenuRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterMenuResponseDto;
-import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.protocol.url.MenuApiUrl;
 import com.jodongari.handy.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +34,7 @@ public class MenuController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(value = MenuApiUrl.MENU_GET)
-    public GetMenuResponseDto getMenu(GetMenuRequestDto request) throws Exception {
+    public GetMenuResponseDto getMenu(@RequestBody GetMenuRequestDto request) throws Exception {
         return menuService.getMenu(request.getStoreSeq());
     }
 
@@ -51,7 +51,7 @@ public class MenuController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = MenuApiUrl.MENU_REGISTER)
-    public RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request) throws Exception {
+    public RegisterMenuResponseDto registerMenu(@RequestBody RegisterMenuRequestDto request) throws Exception {
         return menuService.registerMenu(request);
     }
 }

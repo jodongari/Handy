@@ -30,7 +30,7 @@ public class TableInfoController {
     private final TableInfoService tableInfoService;
 
     @GetMapping(TableInfoApiUrl.TABLE_INFO_GET)
-    public List<GetTableInfoResponseDto> getTable(GetTableInfoRequestDto request) {
+    public List<GetTableInfoResponseDto> getTable(@RequestBody GetTableInfoRequestDto request) {
         return tableInfoService.getTableInfo(request);
     }
 
@@ -40,22 +40,22 @@ public class TableInfoController {
     }
 
     @PatchMapping(TableInfoApiUrl.TABLE_INFO_UPDATE_NAME)
-    public void updateTableName(UpdateTableInfoNameRequestDto request) throws Exception {
+    public void updateTableName(@RequestBody UpdateTableInfoNameRequestDto request) throws Exception {
         tableInfoService.updateTableName(request);
     }
 
     @PatchMapping(TableInfoApiUrl.TABLE_INFO_UPDATE_STATUS)
-    public void updateTableStatus(UpdateTableInfoStatusRequestDto request) throws Exception{
+    public void updateTableStatus(@RequestBody UpdateTableInfoStatusRequestDto request) throws Exception {
         tableInfoService.updateTableStatus(request);
     }
 
     @DeleteMapping(TableInfoApiUrl.TABLE_INFO_DELETE)
-    public void deleteTable(DeleteTableInfoRequestDto request) {
+    public void deleteTable(@RequestBody DeleteTableInfoRequestDto request) {
         tableInfoService.deleteTableInfo(request);
     }
 
     @PostMapping(TableInfoApiUrl.TABLE_INFO_MANAGE)
-    public void manageTableInfo(ManageTableInfoRequestDto request) {
+    public void manageTableInfo(@RequestBody ManageTableInfoRequestDto request) {
         tableInfoService.manageTableInfo(request);
     }
 }
