@@ -4,13 +4,13 @@ import com.jodongari.handy.protocol.api.ErrorResponse;
 import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
-import com.jodongari.handy.protocol.url.StoreApiUrl;
-import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
+import com.jodongari.handy.protocol.url.StoreApiUrl;
 import com.jodongari.handy.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +43,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(StoreApiUrl.STORE_REGISTER)
-    public RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request) {
+    public RegisterStoreResponseDto registerStore(@RequestBody RegisterStoreRequestDto request) {
         return storeService.registerStore(request);
     }
 
@@ -52,7 +53,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORE_GET)
-    public GetStoreResponseDto getStore(GetStoreRequestDto request) {
+    public GetStoreResponseDto getStore(@RequestBody GetStoreRequestDto request) {
         return storeService.getStore(request);
     }
 
@@ -62,7 +63,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORES_GET)
-    public List<GetStoreResponseDto> getStores(GetStoresRequestDto request) {
+    public List<GetStoreResponseDto> getStores(@RequestBody GetStoresRequestDto request) {
         return storeService.getStores(request);
     }
 
@@ -72,7 +73,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORE_INFOS_GET)
-    public List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request) {
+    public List<GetStoreInfoResponseDto> getStoreInfos(@RequestBody GetStoreInfosRequestDto request) {
         return storeService.getStoreInfos(request);
     }
 
@@ -82,7 +83,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORE_UPDATE)
-    public void updateStore(UpdateStoreRequestDto request) {
+    public void updateStore(@RequestBody UpdateStoreRequestDto request) {
         storeService.updateStore(request);
     }
 
@@ -92,7 +93,7 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping(StoreApiUrl.STORE_DELETE)
-    public void deleteStore(DeleteStoreRequestDto request) {
+    public void deleteStore(@RequestBody DeleteStoreRequestDto request) {
         storeService.deleteStore(request);
     }
 }
