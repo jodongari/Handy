@@ -3,8 +3,10 @@ package com.jodongari.handy.protocol.dto.model;
 import com.jodongari.handy.domain.tableInfo.TableInfo;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class TableInfoModel {
 
     private Long seq;

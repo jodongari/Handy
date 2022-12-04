@@ -3,9 +3,11 @@ package com.jodongari.handy.protocol.dto.model;
 import com.jodongari.handy.domain.menu.ExtraOption;
 import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
 public class ExtraOptionModel {
 
     Long seq;

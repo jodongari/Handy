@@ -7,6 +7,7 @@ public class RegisterStoreRequestDto {
     Long ownerSeq;
     String name;
     String businessName;
+    String businessReportCardImageUrl;
     String businessLicenseImageUrl;
     String businessPersonName;
     String businessNumber;

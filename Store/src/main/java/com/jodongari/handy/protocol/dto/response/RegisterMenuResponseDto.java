@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RegisterMenuResponseDto {
-    Long menuSeq;
+    Long seq;
 
 }

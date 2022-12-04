@@ -7,7 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -126,7 +133,7 @@ public class Store {
                 .backgroundImageUrl(storeModel.getBackgroundImageUrl())
                 .tableCount(DEFAULT_TABLE_COUNT)
                 .category(storeModel.getCategory())
-                .status(storeModel.getStatus())
+                .status(StoreStatus.READY)
                 .build();
     }
 

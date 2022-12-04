@@ -1,12 +1,10 @@
 package com.jodongari.handy.protocol.dto.response;
 
-import com.jodongari.handy.domain.store.Store;
-import com.jodongari.handy.domain.store.vo.StoreStatus;
 import lombok.Data;
 
 @Data
 public class RegisterStoreResponseDto {
-    Long storeSeq;
+    Long seq;
     Long ownerSeq;
     String name;
     String businessReportCardImageUrl;
