@@ -66,8 +66,19 @@ public class StoreController {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GetStoreInfoResponseDto.class)))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
+    @GetMapping(StoreApiUrl.STORE_INFOS_GET)
     public List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request) {
         return storeService.getStoreInfos(request);
+    }
+
+    @Operation(summary = "매장 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping(StoreApiUrl.STORE_UPDATE)
+    public void updateStore(UpdateStoreRequestDto request) {
+        storeService.updateStore(request);
     }
 
     @Operation(summary = "테이블 관리")
