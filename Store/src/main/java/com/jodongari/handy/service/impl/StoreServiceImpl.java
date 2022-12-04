@@ -3,11 +3,8 @@ package com.jodongari.handy.service.impl;
 import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.infrastructure.repository.StoreRepository;
 import com.jodongari.handy.protocol.dto.model.StoreModel;
-import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
-import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.*;
+import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
@@ -66,6 +63,15 @@ public class StoreServiceImpl implements StoreService {
                 .collect(Collectors.toList());
 
         return response;
+    }
+
+    @Override
+    public List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request) {
+        final List<Store> stores = storeRepository.findAllByOwnerSeq(request.getOwnerSeq());
+
+        return stores.stream()
+                .map(store -> modelMapper.map(store, GetStoreInfoResponseDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
