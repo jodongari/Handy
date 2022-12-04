@@ -1,12 +1,30 @@
 package com.jodongari.handy.domain.menu;
 
-import com.jodongari.handy.domain.menu.vo.*;
-import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
+import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
+import com.jodongari.handy.domain.menu.vo.MenuDescription;
+import com.jodongari.handy.domain.menu.vo.MenuImage;
+import com.jodongari.handy.domain.menu.vo.MenuName;
+import com.jodongari.handy.domain.menu.vo.MenuOptionStatus;
+import com.jodongari.handy.domain.menu.vo.MenuStatus;
 import com.jodongari.handy.protocol.dto.model.MenuModel;
-import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +40,6 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
     private Long seq;
-
 
     @Column(name = "STORE_SEQ", nullable = false)
     private Long storeSeq;
@@ -59,7 +76,10 @@ public class Menu {
     public static Menu create(MenuModel menuModel) {
         List<MenuOption> menuOptions = menuModel.getMenuOptionModels()
                 .stream()
-                .map(MenuOptionModel::toEntity)
+                .map(menuOptionModel -> {
+                    menuOptionModel.setStatus(MenuOptionStatus.OPEN);
+                    return menuOptionModel.toEntity();
+                })
                 .collect(Collectors.toList());
 
         List<ExtraOptionGroup> extraOptionGroups = menuModel.getExtraOptionGroupModels()
@@ -68,7 +88,10 @@ public class Menu {
                     ExtraOptionGroup extraOptionGroup = extraOptionGroupModel.toEntity();
                     List<ExtraOption> extraOptions = extraOptionGroupModel.getExtraOptionModels()
                             .stream()
-                            .map(ExtraOptionModel::toEntity)
+                            .map(extraOptionModel -> {
+                                extraOptionModel.setStatus(ExtraOptionStatus.OPEN);
+                                return extraOptionModel.toEntity();
+                            })
                             .collect(Collectors.toList());
                     extraOptionGroup.addAllExtraOption(extraOptions);
                     return extraOptionGroup;
@@ -76,9 +99,11 @@ public class Menu {
                 .collect(Collectors.toList());
 
         Menu menu = Menu.builder()
+                .storeSeq(menuModel.getStoreSeq())
                 .name(MenuName.create(menuModel.getName()))
                 .description(MenuDescription.create(menuModel.getDescription()))
-                .image(MenuImage.create(menuModel.getImageUrl()))
+//                .image(MenuImage.create(menuModel.getImageUrl()))
+                .image(MenuImage.create("null"))
                 .status(MenuStatus.READY)
                 .build();
 
@@ -93,7 +118,7 @@ public class Menu {
     }
 
     public void addAllMenuOption(List<MenuOption> menuOptions) {
-        for(MenuOption menuOption : menuOptions) {
+        for (MenuOption menuOption : menuOptions) {
             this.addMenuOption(menuOption);
         }
     }
@@ -104,7 +129,7 @@ public class Menu {
     }
 
     public void addAllExtraOptionGroup(List<ExtraOptionGroup> extraOptionGroups) {
-        for(ExtraOptionGroup extraOptionGroupEntity : extraOptionGroups) {
+        for (ExtraOptionGroup extraOptionGroupEntity : extraOptionGroups) {
             this.addExtraOptionGroup(extraOptionGroupEntity);
         }
     }

@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class MenuOptionRequestDto {
-    Long menuOptionSeq;
     String name;
     Integer price;
 }
