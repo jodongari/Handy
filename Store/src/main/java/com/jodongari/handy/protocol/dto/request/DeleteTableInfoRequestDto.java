@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class DeleteTableInfoRequestDto {
-    Long tableSeq;
+    Long seq;
 }

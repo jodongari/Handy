@@ -76,11 +76,17 @@ public class TableInfo extends BaseTimeEntity {
     }
     private static final TableInfoStatus TABLE_INFO_CREATED = TableInfoStatus.ACTIVE;
 
-    public void updateTableName(String tableName) {
+    public void updateTableInfoName(String tableName) {
         this.tableName = tableName;
     }
 
-    public void updateTableStatus(TableInfoStatus status) {
+    public void updateTableInfoStatus(TableInfoStatus status) {
+        this.status = status;
+    }
+
+    public void updateTableInfo(String tableName,
+                                TableInfoStatus status){
+        this.tableName = tableName;
         this.status = status;
     }
 }
