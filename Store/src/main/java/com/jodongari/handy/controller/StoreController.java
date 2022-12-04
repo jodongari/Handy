@@ -1,13 +1,10 @@
 package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.api.ErrorResponse;
-import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.*;
+import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.url.StoreApiUrl;
-import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
-import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,6 +59,15 @@ public class StoreController {
     @GetMapping(StoreApiUrl.STORES_GET)
     public List<GetStoreResponseDto> getStores(GetStoresRequestDto request) {
         return storeService.getStores(request);
+    }
+
+    @Operation(summary = "매장 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GetStoreInfoResponseDto.class)))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request) {
+        return storeService.getStoreInfos(request);
     }
 
     @Operation(summary = "테이블 관리")
