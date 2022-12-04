@@ -2,6 +2,7 @@ package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.dto.request.DeleteTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetTableInfoRequestDto;
+import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateTableInfoNameRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateTableInfoStatusRequestDto;
@@ -53,4 +54,8 @@ public class TableInfoController {
         tableInfoService.deleteTableInfo(request);
     }
 
+    @PostMapping(TableInfoApiUrl.TABLE_INFO_MANAGE)
+    public void manageTableInfo(ManageTableInfoRequestDto request) {
+        tableInfoService.manageTableInfo(request);
+    }
 }

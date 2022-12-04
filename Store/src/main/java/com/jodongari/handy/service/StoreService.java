@@ -1,15 +1,18 @@
 package com.jodongari.handy.service;
 
-import com.jodongari.handy.protocol.dto.request.*;
+import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
+import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
+import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 
 import java.util.List;
 
 public interface StoreService {
-
-    void manageTableInfo(ManageTableInfoRequestDto request);
 
     RegisterStoreResponseDto registerStore(RegisterStoreRequestDto request);
 

@@ -5,6 +5,7 @@ import com.jodongari.handy.infrastructure.repository.TableInfoRepository;
 import com.jodongari.handy.protocol.dto.model.TableInfoModel;
 import com.jodongari.handy.protocol.dto.request.DeleteTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetTableInfoRequestDto;
+import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateTableInfoNameRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateTableInfoStatusRequestDto;
@@ -51,14 +52,14 @@ public class TableInfoServiceImpl implements TableInfoService {
     @Transactional(rollbackFor = Exception.class)
     public void updateTableName(UpdateTableInfoNameRequestDto request) throws Exception {
         final TableInfo result = tableInfoRepository.findById(request.getTableSeq()).orElseThrow(Exception::new);
-        result.updateTableName(request.getTableName());
+        result.updateTableInfoName(request.getTableName());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateTableStatus(UpdateTableInfoStatusRequestDto request) throws Exception {
         final TableInfo result = tableInfoRepository.findById(request.getTableSeq()).orElseThrow(Exception::new);
-        result.updateTableStatus(request.getStatus());
+        result.updateTableInfoStatus(request.getStatus());
     }
 
     @Override
@@ -66,5 +67,48 @@ public class TableInfoServiceImpl implements TableInfoService {
     public void deleteTableInfo(DeleteTableInfoRequestDto request) {
         final TableInfoModel tableInfoModel = modelMapper.map(request, TableInfoModel.class);
         tableInfoRepository.deleteById(tableInfoModel.getSeq());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void manageTableInfo(ManageTableInfoRequestDto request) {
+        final List<TableInfoModel> registerTableInfoModels = request.getRegisterTableInfosDto()
+                .stream()
+                .map(registerTableInfo -> modelMapper.map(registerTableInfo, TableInfoModel.class))
+                .collect(Collectors.toList());
+
+        final List<TableInfoModel> updateTableInfoModels = request.getUpdateTableInfosDto()
+                .stream()
+                .map(updateTableInfo -> modelMapper.map(updateTableInfo, TableInfoModel.class))
+                .collect(Collectors.toList());
+
+        final List<TableInfoModel> deleteTableInfoModels = request.getDeleteTableInfosDto()
+                .stream()
+                .map(deleteTableInfo -> modelMapper.map(deleteTableInfo, TableInfoModel.class))
+                .collect(Collectors.toList());
+
+        deleteTableInfoModels
+                .stream()
+                .peek(deleteTableInfoModel -> {
+                    final TableInfo tableInfo = tableInfoRepository.findById(deleteTableInfoModel.getSeq()).orElseThrow();
+                    tableInfo.updateTableInfoStatus(TableInfo.TableInfoStatus.DELETE);
+                });
+
+        updateTableInfoModels
+                .stream()
+                .peek(updateTableInfoModel -> {
+                    final TableInfo tableInfo = tableInfoRepository.findById(updateTableInfoModel.getSeq()).orElseThrow();
+                    tableInfo.updateTableInfo(updateTableInfoModel.getTableName(), updateTableInfoModel.getStatus());
+                });
+
+        registerTableInfoModels
+                .stream()
+                .peek(registerTableInfoModel -> registerTableInfo(registerTableInfoModel));
+    }
+
+    private void registerTableInfo(TableInfoModel registerTableInfoModel) {
+        String encryptedString = hashGeneratorService.encrypt();
+        registerTableInfoModel.setTableHash(encryptedString);
+        tableInfoRepository.save(TableInfo.create(registerTableInfoModel));
     }
 }
