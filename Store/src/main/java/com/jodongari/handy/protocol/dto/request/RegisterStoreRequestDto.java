@@ -1,10 +1,8 @@
 package com.jodongari.handy.protocol.dto.request;
 
-import com.jodongari.handy.domain.store.vo.StoreStatus;
-import com.jodongari.handy.protocol.dto.model.StoreModel;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class RegisterStoreRequestDto {
     Long ownerSeq;
     String name;
@@ -22,26 +20,4 @@ public class RegisterStoreRequestDto {
     String logoImageUrl;
     String backgroundImageUrl;
     String category;
-    StoreStatus storeStatus;
-
-    public StoreModel toModel() {
-        return StoreModel.builder()
-                .ownerSeq(this.ownerSeq)
-                .name(this.name)
-                .businessLicenseImageUrl(this.businessLicenseImageUrl)
-                .businessName(this.businessName)
-                .businessPersonName(this.businessPersonName)
-                .businessNumber(this.businessNumber)
-                .address(this.address)
-                .telNumber(this.telNumber)
-                .introduction(this.introduction)
-                .openTime(this.openTime)
-                .dayOff(this.dayOff)
-                .originCountry(this.originCountry)
-                .logoImageUrl(this.logoImageUrl)
-                .backgroundImageUrl(this.backgroundImageUrl)
-                .category(this.category)
-                .status(this.storeStatus)
-                .build();
-    }
 }

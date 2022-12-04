@@ -23,6 +23,7 @@ public class MenuOptionModel {
 
      public MenuOption toEntity() {
           return MenuOption.builder()
+                  .seq(this.seq)
                   .name(this.name)
                   .price(this.price)
                   .status(this.status)
