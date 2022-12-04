@@ -75,6 +75,21 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public void updateStore(UpdateStoreRequestDto request) {
+        final Store store = storeRepository.findById(request.getStoreSeq()).orElseThrow();
+
+        store.updateStore(
+                request.getName(),
+                request.getAddress(),
+                request.getTelNumber(),
+                request.getIntroduction(),
+                request.getOpenTime(),
+                request.getDayOff(),
+                request.getOriginCountry(),
+                request.getCategory());
+    }
+
+    @Override
     public void deleteStore(DeleteStoreRequestDto request) {
         storeRepository.deleteById(request.getStoreSeq());
     }

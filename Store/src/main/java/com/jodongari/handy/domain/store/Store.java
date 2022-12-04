@@ -129,4 +129,22 @@ public class Store {
                 .status(storeModel.getStatus())
                 .build();
     }
+
+    public void updateStore(String name,
+                            String address,
+                            String telNumber,
+                            String introduction,
+                            String openTime,
+                            String dayOff,
+                            String originCountry,
+                            String category) {
+        this.name = name;
+        this.address = address;
+        this.telNumber = telNumber;
+        this.introduction = introduction;
+        this.openTime = openTime;
+        this.dayOff = dayOff;
+        this.originCountry = originCountry;
+        this.category = category;
+    }
 }

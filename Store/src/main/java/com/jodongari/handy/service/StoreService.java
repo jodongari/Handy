@@ -19,5 +19,7 @@ public interface StoreService {
 
     List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request);
 
+    void updateStore(UpdateStoreRequestDto request);
+
     void deleteStore(DeleteStoreRequestDto request);
 }
