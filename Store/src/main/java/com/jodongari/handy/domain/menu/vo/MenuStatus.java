@@ -4,5 +4,6 @@ public enum MenuStatus {
     READY,
     OPEN,
     SOLDOUT,
-    CLOSE
+    CLOSE,
+    DELETE
 }

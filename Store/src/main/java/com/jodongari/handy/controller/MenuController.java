@@ -51,7 +51,7 @@ public class MenuController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = MenuApiUrl.MENU_REGISTER)
-    public RegisterMenuResponseDto registerMenu(@RequestBody RegisterMenuRequestDto request) throws Exception {
-        return menuService.registerMenu(request);
+    public void registerMenu(@RequestBody RegisterMenuRequestDto request) throws Exception {
+        menuService.registerMenu(request);
     }
 }

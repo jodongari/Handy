@@ -1,8 +1,6 @@
 package com.jodongari.handy.domain.menu.vo;
 
 
-import lombok.Getter;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 

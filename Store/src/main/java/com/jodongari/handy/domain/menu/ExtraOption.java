@@ -1,9 +1,21 @@
 package com.jodongari.handy.domain.menu;
 
 import com.jodongari.handy.domain.menu.vo.ExtraOptionStatus;
-import lombok.*;
+import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,19 +39,31 @@ public class ExtraOption {
     @Enumerated(EnumType.STRING)
     private ExtraOptionStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "extraOptionGroupSeq")
-    private ExtraOptionGroup extraOptionGroup;
+    @Column(name = "EXTRA_OPTION_GROUP_SEQ", nullable = false)
+    private Long extraOptionGroupSeq;
+
+    private static ExtraOptionStatus EXTRA_OPTION_CREATED = ExtraOptionStatus.OPEN;
 
     @Builder
-    public ExtraOption(Long seq, String name, int extraPrice, ExtraOptionStatus status) {
+    public ExtraOption(Long seq, String name, Integer extraPrice, ExtraOptionStatus status, Long extraOptionGroupSeq) {
         this.seq = seq;
         this.name = name;
         this.extraPrice = extraPrice;
         this.status = status;
+        this.extraOptionGroupSeq = extraOptionGroupSeq;
     }
 
-    public void addExtraOptionGroup(ExtraOptionGroup extraOptionGroup) {
-        this.extraOptionGroup = extraOptionGroup;
+    public static ExtraOption create(ExtraOptionModel extraOptionModel) {
+
+        ExtraOption extraOption = ExtraOption.builder()
+                .seq(extraOptionModel.getSeq())
+                .name(extraOptionModel.getName())
+                .extraPrice(extraOptionModel.getExtraPrice())
+                .status(EXTRA_OPTION_CREATED)
+                .extraOptionGroupSeq(extraOptionModel.getExtraOptionGroupSeq())
+                .build();
+
+        return extraOption;
     }
+
 }

@@ -1,11 +1,21 @@
 package com.jodongari.handy.domain.menu;
 
 import com.jodongari.handy.domain.menu.vo.ExtraOptionGroupStatus;
-import lombok.*;
+import com.jodongari.handy.protocol.dto.model.ExtraOptionGroupModel;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,37 +45,46 @@ public class ExtraOptionGroup {
     @Enumerated(EnumType.STRING)
     private ExtraOptionGroupStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menuSeq")
-    private Menu menu;
+    @Column(name = "MENU_SEQ", nullable = false)
+    private Long menuSeq;
 
-    @OneToMany(mappedBy = "extraOptionGroup", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ExtraOption> extraOptions = new ArrayList<>();
+    private static final ExtraOptionGroupStatus EXTRA_OPTION_GROUP_CREATED = ExtraOptionGroupStatus.OPEN;
 
     @Builder
     public ExtraOptionGroup(Long seq, String name, String type, Integer minSelectLimit,
-                            Integer maxSelectLimit, ExtraOptionGroupStatus status, List<ExtraOption> extraOptions) {
+                            Integer maxSelectLimit, ExtraOptionGroupStatus status, Long menuSeq) {
         this.seq = seq;
         this.name = name;
         this.type = type;
         this.minSelectLimit = minSelectLimit;
         this.maxSelectLimit = maxSelectLimit;
         this.status = status;
-        this.extraOptions= extraOptions;
+        this.menuSeq = menuSeq;
     }
 
-    public void addExtraOption(ExtraOption extraOption) {
-        this.getExtraOptions().add(extraOption);
-        extraOption.addExtraOptionGroup(this);
+    public static ExtraOptionGroup create(ExtraOptionGroupModel extraOptionGroupModel) {
+
+        ExtraOptionGroup extraOptionGroup = ExtraOptionGroup.builder()
+                .name(extraOptionGroupModel.getName())
+                .type(extraOptionGroupModel.getType())
+                .minSelectLimit(extraOptionGroupModel.getMinSelectLimit())
+                .maxSelectLimit(extraOptionGroupModel.getMaxSelectLimit())
+                .status(EXTRA_OPTION_GROUP_CREATED)
+                .menuSeq(extraOptionGroupModel.getMenuSeq())
+                .build();
+
+        return extraOptionGroup;
     }
 
-    public void addAllExtraOption(List<ExtraOption> extraOptions) {
-        for(ExtraOption extraOption : extraOptions) {
-            this.addExtraOption(extraOption);
-        }
-    }
-
-    public void addMenu(Menu menuEntity) {
-        this.menu = menuEntity;
+    public ExtraOptionGroupModel toModel() {
+        return ExtraOptionGroupModel.builder()
+                .seq(this.seq)
+                .name(this.name)
+                .type(this.type)
+                .minSelectLimit(this.minSelectLimit)
+                .maxSelectLimit(this.maxSelectLimit)
+                .status(this.status)
+                .menuSeq(this.menuSeq)
+                .build();
     }
 }
