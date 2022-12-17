@@ -38,9 +38,9 @@ public class TableInfoServiceImpl implements TableInfoService {
                 .map(tableInfo -> modelMapper.map(tableInfo, TableInfoModel.class))
                 .collect(Collectors.toList());
 
-        tableInfoModels
-                .stream()
-                .peek(tableInfoModel -> registerTableInfo(tableInfoModel));
+        for(TableInfoModel tableInfoModel : tableInfoModels){
+            registerTableInfo(tableInfoModel);
+        }
     }
 
     @Override
@@ -61,23 +61,19 @@ public class TableInfoServiceImpl implements TableInfoService {
                 .map(deleteTableInfo -> modelMapper.map(deleteTableInfo, TableInfoModel.class))
                 .collect(Collectors.toList());
 
-        deleteTableInfoModels
-                .stream()
-                .peek(deleteTableInfoModel -> {
-                    final TableInfo tableInfo = tableInfoRepository.findById(deleteTableInfoModel.getSeq()).orElseThrow();
-                    tableInfo.updateTableInfoStatus(TableInfo.TableInfoStatus.DELETE);
-                });
+        for(TableInfoModel deleteTableInfoModel : deleteTableInfoModels) {
+            final TableInfo tableInfo = tableInfoRepository.findById(deleteTableInfoModel.getSeq()).orElseThrow();
+            tableInfo.updateTableInfoStatus(TableInfo.TableInfoStatus.DELETE);
+        }
 
-        updateTableInfoModels
-                .stream()
-                .peek(updateTableInfoModel -> {
-                    final TableInfo tableInfo = tableInfoRepository.findById(updateTableInfoModel.getSeq()).orElseThrow();
-                    tableInfo.updateTableInfo(updateTableInfoModel.getTableName(), updateTableInfoModel.getStatus());
-                });
+        for(TableInfoModel updateTableInfoModel : updateTableInfoModels) {
+            final TableInfo tableInfo = tableInfoRepository.findById(updateTableInfoModel.getSeq()).orElseThrow();
+            tableInfo.updateTableInfo(updateTableInfoModel.getTableName(), updateTableInfoModel.getStatus());
+        }
 
-        registerTableInfoModels
-                .stream()
-                .peek(registerTableInfoModel -> registerTableInfo(registerTableInfoModel));
+        for(TableInfoModel registerTableInfoModel : registerTableInfoModels) {
+            registerTableInfo(registerTableInfoModel);
+        }
     }
 
     private void registerTableInfo(TableInfoModel registerTableInfoModel) {
