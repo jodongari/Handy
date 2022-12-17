@@ -22,6 +22,8 @@ import javax.persistence.Table;
 @Table(name = "TABLE_INFO")
 public class TableInfo extends BaseTimeEntity {
 
+    private static final TableInfoStatus TABLE_INFO_CREATED = TableInfoStatus.ACTIVE;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seq")
@@ -59,25 +61,10 @@ public class TableInfo extends BaseTimeEntity {
                 .build();
     }
 
-    public TableInfoModel toModel() {
-        return TableInfoModel.builder()
-                .seq(this.getSeq())
-                .storeSeq(this.getStoreSeq())
-                .tableName(this.getTableName())
-                .tableHash(this.getTableHash())
-                .status(this.getStatus())
-                .build();
-    }
-
     public static enum TableInfoStatus {
         ACTIVE,
         INACTIVE,
         DELETE
-    }
-    private static final TableInfoStatus TABLE_INFO_CREATED = TableInfoStatus.ACTIVE;
-
-    public void updateTableInfoName(String tableName) {
-        this.tableName = tableName;
     }
 
     public void updateTableInfoStatus(TableInfoStatus status) {

@@ -3,14 +3,10 @@ package com.jodongari.handy.service.impl;
 import com.jodongari.handy.domain.tableInfo.TableInfo;
 import com.jodongari.handy.infrastructure.repository.TableInfoRepository;
 import com.jodongari.handy.protocol.dto.model.TableInfoModel;
-import com.jodongari.handy.protocol.dto.request.DeleteTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.GetTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterTableInfoRequestDto;
-import com.jodongari.handy.protocol.dto.request.UpdateTableInfoNameRequestDto;
-import com.jodongari.handy.protocol.dto.request.UpdateTableInfoStatusRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetTableInfoResponseDto;
-import com.jodongari.handy.protocol.dto.response.RegisterTableInfoResponseDto;
 import com.jodongari.handy.service.HashGeneratorService;
 import com.jodongari.handy.service.TableInfoService;
 import lombok.RequiredArgsConstructor;
@@ -30,43 +26,21 @@ public class TableInfoServiceImpl implements TableInfoService {
     private final HashGeneratorService hashGeneratorService;
     private final ModelMapper modelMapper;
 
-    public List<GetTableInfoResponseDto> getTableInfo(GetTableInfoRequestDto request) {
+    public List<GetTableInfoResponseDto> getTableInfos(GetTableInfoRequestDto request) {
         final List<TableInfo> results = tableInfoRepository.findAllByStoreSeq(request.getStoreSeq());
         return results.stream().map(x -> modelMapper.map(x, GetTableInfoResponseDto.class)).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RegisterTableInfoResponseDto registerTableInfo(RegisterTableInfoRequestDto request) {
-        final TableInfoModel tableInfoModel = modelMapper.map(request, TableInfoModel.class);
-        String encryptedString = hashGeneratorService.encrypt();
-        tableInfoModel.setTableHash(encryptedString);
+    public void registerTableInfo(List<RegisterTableInfoRequestDto> request) {
+        final List<TableInfoModel> tableInfoModels = request.stream()
+                .map(tableInfo -> modelMapper.map(tableInfo, TableInfoModel.class))
+                .collect(Collectors.toList());
 
-        final TableInfo result = tableInfoRepository.save(TableInfo.create(tableInfoModel));
-        final TableInfoModel resultModel = result.toModel();
-
-        return modelMapper.map(resultModel, RegisterTableInfoResponseDto.class);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateTableName(UpdateTableInfoNameRequestDto request) throws Exception {
-        final TableInfo result = tableInfoRepository.findById(request.getTableSeq()).orElseThrow(Exception::new);
-        result.updateTableInfoName(request.getTableName());
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateTableStatus(UpdateTableInfoStatusRequestDto request) throws Exception {
-        final TableInfo result = tableInfoRepository.findById(request.getTableSeq()).orElseThrow(Exception::new);
-        result.updateTableInfoStatus(request.getStatus());
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteTableInfo(DeleteTableInfoRequestDto request) {
-        final TableInfoModel tableInfoModel = modelMapper.map(request, TableInfoModel.class);
-        tableInfoRepository.deleteById(tableInfoModel.getSeq());
+        tableInfoModels
+                .stream()
+                .peek(tableInfoModel -> registerTableInfo(tableInfoModel));
     }
 
     @Override
