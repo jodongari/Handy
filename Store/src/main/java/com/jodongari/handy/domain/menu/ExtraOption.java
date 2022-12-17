@@ -42,7 +42,7 @@ public class ExtraOption {
     @Column(name = "EXTRA_OPTION_GROUP_SEQ", nullable = false)
     private Long extraOptionGroupSeq;
 
-    private static ExtraOptionStatus EXTRAOPTION_OPEN = ExtraOptionStatus.OPEN;
+    private static ExtraOptionStatus EXTRA_OPTION_CREATED = ExtraOptionStatus.OPEN;
 
     @Builder
     public ExtraOption(Long seq, String name, Integer extraPrice, ExtraOptionStatus status, Long extraOptionGroupSeq) {
@@ -59,7 +59,7 @@ public class ExtraOption {
                 .seq(extraOptionModel.getSeq())
                 .name(extraOptionModel.getName())
                 .extraPrice(extraOptionModel.getExtraPrice())
-                .status(EXTRAOPTION_OPEN)
+                .status(EXTRA_OPTION_CREATED)
                 .extraOptionGroupSeq(extraOptionModel.getExtraOptionGroupSeq())
                 .build();
 

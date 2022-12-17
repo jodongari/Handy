@@ -48,7 +48,7 @@ public class ExtraOptionGroup {
     @Column(name = "MENU_SEQ", nullable = false)
     private Long menuSeq;
 
-    private static final ExtraOptionGroupStatus EXTRA_OPTION_GROUP_OPEN = ExtraOptionGroupStatus.OPEN;
+    private static final ExtraOptionGroupStatus EXTRA_OPTION_GROUP_CREATED = ExtraOptionGroupStatus.OPEN;
 
     @Builder
     public ExtraOptionGroup(Long seq, String name, String type, Integer minSelectLimit,
@@ -69,7 +69,7 @@ public class ExtraOptionGroup {
                 .type(extraOptionGroupModel.getType())
                 .minSelectLimit(extraOptionGroupModel.getMinSelectLimit())
                 .maxSelectLimit(extraOptionGroupModel.getMaxSelectLimit())
-                .status(EXTRA_OPTION_GROUP_OPEN)
+                .status(EXTRA_OPTION_GROUP_CREATED)
                 .menuSeq(extraOptionGroupModel.getMenuSeq())
                 .build();
 

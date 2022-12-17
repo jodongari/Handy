@@ -49,7 +49,7 @@ public class Menu {
     @Enumerated(EnumType.STRING)
     private MenuStatus status;
 
-    private static final MenuStatus MENU_READY = MenuStatus.READY;
+    private static final MenuStatus MENU_CREATED = MenuStatus.READY;
 
     @Builder
     public Menu(Long seq, Long storeSeq, MenuName name, MenuDescription description, MenuImage image, MenuStatus status) {
@@ -69,7 +69,7 @@ public class Menu {
                 .description(MenuDescription.create(menuModel.getDescription()))
 //                .image(MenuImage.create(menuModel.getImageUrl()))
                 .image(MenuImage.create("null"))
-                .status(MENU_READY)
+                .status(MENU_CREATED)
                 .build();
 
         return menu;
