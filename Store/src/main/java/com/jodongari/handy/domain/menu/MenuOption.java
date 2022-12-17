@@ -2,9 +2,20 @@ package com.jodongari.handy.domain.menu;
 
 import com.jodongari.handy.domain.menu.vo.MenuOptionStatus;
 import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,21 +39,30 @@ public class MenuOption {
     @Enumerated(EnumType.STRING)
     private MenuOptionStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menuSeq")
-    private Menu menu;
+    @Column(name = "MENU_SEQ", nullable = false)
+    private Long menuSeq;
+
+    private static MenuOptionStatus MENU_OPTION_CREATED = MenuOptionStatus.OPEN;
 
     @Builder
-    public MenuOption(Long seq, String name, Integer price, MenuOptionStatus status) {
+    public MenuOption(Long seq, String name, Integer price, MenuOptionStatus status, Long menuSeq) {
         this.seq = seq;
         this.name = name;
         this.price = price;
         this.status = status;
-        this.menu = menu;
+        this.menuSeq = menuSeq;
     }
 
-    public void addMenuEntity(Menu menuEntity) {
-        this.menu = menuEntity;
+    public static MenuOption create(MenuOptionModel menuOptionModel) {
+
+        MenuOption menuOption = MenuOption.builder()
+                .name(menuOptionModel.getName())
+                .price(menuOptionModel.getPrice())
+                .status(MENU_OPTION_CREATED)
+                .menuSeq(menuOptionModel.getMenuSeq())
+                .build();
+
+        return menuOption;
     }
 
     public MenuOptionModel toModel() {
@@ -51,6 +71,7 @@ public class MenuOption {
                 .name(this.name)
                 .price(this.price)
                 .status(this.status)
+                .menuSeq(this.menuSeq)
                 .build();
     }
 }

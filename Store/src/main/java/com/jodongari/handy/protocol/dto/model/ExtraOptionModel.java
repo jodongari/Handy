@@ -14,13 +14,21 @@ public class ExtraOptionModel {
     String name;
     Integer extraPrice;
     ExtraOptionStatus status;
+    Long extraOptionGroupSeq;
 
     @Builder
-    public ExtraOptionModel(Long seq, String name, Integer extraPrice, ExtraOptionStatus status) {
+    public ExtraOptionModel(Long seq, String name, Integer extraPrice, ExtraOptionStatus status, Long extraOptionGroupSeq) {
         this.seq = seq;
         this.name = name;
         this.extraPrice = extraPrice;
         this.status = status;
+        this.extraOptionGroupSeq = extraOptionGroupSeq;
+    }
+
+    public void addExtraOptionGroupSeq(final long extraOptionGroupSeq) {
+        if (this.extraOptionGroupSeq == -1) {
+            this.extraOptionGroupSeq = extraOptionGroupSeq;
+        }
     }
 
     public ExtraOption toEntity() {
@@ -28,6 +36,7 @@ public class ExtraOptionModel {
                 .name(this.name)
                 .extraPrice(this.extraPrice)
                 .status(this.status)
+                .extraOptionGroupSeq(this.extraOptionGroupSeq)
                 .build();
     }
 }
