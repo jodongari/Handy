@@ -4,7 +4,8 @@ import com.jodongari.handy.domain.tableInfo.TableInfo;
 import lombok.Data;
 
 @Data
-public class UpdateTableInfoStatusRequestDto {
-    Long tableSeq;
+public class UpdateTableInfoRequestDto {
+    Long seq;
+    String tableName;
     TableInfo.TableInfoStatus status;
 }

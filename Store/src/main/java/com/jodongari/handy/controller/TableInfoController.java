@@ -1,25 +1,24 @@
 package com.jodongari.handy.controller;
 
-import com.jodongari.handy.protocol.dto.request.DeleteTableInfoRequestDto;
+import com.jodongari.handy.protocol.api.ErrorResponse;
 import com.jodongari.handy.protocol.dto.request.GetTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageTableInfoRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterTableInfoRequestDto;
-import com.jodongari.handy.protocol.dto.request.UpdateTableInfoNameRequestDto;
-import com.jodongari.handy.protocol.dto.request.UpdateTableInfoStatusRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetTableInfoResponseDto;
-import com.jodongari.handy.protocol.dto.response.RegisterTableInfoResponseDto;
 import com.jodongari.handy.protocol.url.TableInfoApiUrl;
 import com.jodongari.handy.service.TableInfoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -29,31 +28,31 @@ public class TableInfoController {
 
     private final TableInfoService tableInfoService;
 
+    @Operation(summary = "테이블 정보 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetTableInfoRequestDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @GetMapping(TableInfoApiUrl.TABLE_INFO_GET)
     public List<GetTableInfoResponseDto> getTable(@RequestBody GetTableInfoRequestDto request) {
-        return tableInfoService.getTableInfo(request);
+        return tableInfoService.getTableInfos(request);
     }
 
+    @Operation(summary = "테이블 정보 최초 생성")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterTableInfoRequestDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping(TableInfoApiUrl.TABLE_INFO_REGISTER)
-    public RegisterTableInfoResponseDto registerTable(@RequestBody RegisterTableInfoRequestDto request) throws NoSuchAlgorithmException {
-        return tableInfoService.registerTableInfo(request);
+    public void registerTable(@RequestBody List<RegisterTableInfoRequestDto> request) {
+        tableInfoService.registerTableInfo(request);
     }
 
-    @PatchMapping(TableInfoApiUrl.TABLE_INFO_UPDATE_NAME)
-    public void updateTableName(@RequestBody UpdateTableInfoNameRequestDto request) throws Exception {
-        tableInfoService.updateTableName(request);
-    }
-
-    @PatchMapping(TableInfoApiUrl.TABLE_INFO_UPDATE_STATUS)
-    public void updateTableStatus(@RequestBody UpdateTableInfoStatusRequestDto request) throws Exception {
-        tableInfoService.updateTableStatus(request);
-    }
-
-    @DeleteMapping(TableInfoApiUrl.TABLE_INFO_DELETE)
-    public void deleteTable(@RequestBody DeleteTableInfoRequestDto request) {
-        tableInfoService.deleteTableInfo(request);
-    }
-
+    @Operation(summary = "테이블 정보 추가, 수정, 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ManageTableInfoRequestDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping(TableInfoApiUrl.TABLE_INFO_MANAGE)
     public void manageTableInfo(@RequestBody ManageTableInfoRequestDto request) {
         tableInfoService.manageTableInfo(request);
