@@ -26,9 +26,9 @@ public class ExtraOptionModel {
     }
 
     public void addExtraOptionGroupSeq(final long extraOptionGroupSeq) {
-        if (this.extraOptionGroupSeq == -1) {
+//        if (this.extraOptionGroupSeq == -1) {
             this.extraOptionGroupSeq = extraOptionGroupSeq;
-        }
+//        }
     }
 
     public ExtraOption toEntity() {

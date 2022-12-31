@@ -62,7 +62,7 @@ public class ExtraOptionGroup {
         this.menuSeq = menuSeq;
     }
 
-    public static ExtraOptionGroup create(ExtraOptionGroupModel extraOptionGroupModel) {
+    public static ExtraOptionGroup create(Long menuSeq, ExtraOptionGroupModel extraOptionGroupModel) {
 
         ExtraOptionGroup extraOptionGroup = ExtraOptionGroup.builder()
                 .name(extraOptionGroupModel.getName())
@@ -70,6 +70,20 @@ public class ExtraOptionGroup {
                 .minSelectLimit(extraOptionGroupModel.getMinSelectLimit())
                 .maxSelectLimit(extraOptionGroupModel.getMaxSelectLimit())
                 .status(EXTRA_OPTION_GROUP_CREATED)
+                .menuSeq(menuSeq)
+                .build();
+
+        return extraOptionGroup;
+    }
+
+    public static ExtraOptionGroup merge(ExtraOptionGroupModel extraOptionGroupModel) {
+
+        ExtraOptionGroup extraOptionGroup = ExtraOptionGroup.builder()
+                .name(extraOptionGroupModel.getName())
+                .type(extraOptionGroupModel.getType())
+                .minSelectLimit(extraOptionGroupModel.getMinSelectLimit())
+                .maxSelectLimit(extraOptionGroupModel.getMaxSelectLimit())
+                .status(extraOptionGroupModel.getStatus())
                 .menuSeq(extraOptionGroupModel.getMenuSeq())
                 .build();
 
