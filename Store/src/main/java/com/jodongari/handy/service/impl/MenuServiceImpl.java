@@ -13,7 +13,6 @@ import com.jodongari.handy.protocol.dto.model.ExtraOptionModel;
 import com.jodongari.handy.protocol.dto.model.MenuModel;
 import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
 import com.jodongari.handy.protocol.dto.request.ManageMenuRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterMenuRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.service.MenuDomainService;
 import com.jodongari.handy.service.MenuService;
@@ -40,51 +39,52 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional(rollbackFor = Exception.class)
     // TODO - 22.10.09, Response의 큰 차이로 인해 Image 업로드는 비동기를 이용하는 게 맞다.
-    public void registerMenu(RegisterMenuRequestDto request) {
-
-        final MenuModel menuModel = modelMapper.map(request, MenuModel.class);
-        Menu menu;
-        if (menuDomainService.isNew(menuModel.getSeq())) {
-            menu = Menu.create(menuModel);
-        } else {
-            menu = Menu.merge(menuModel);
-        }
-        final Menu menuResult = menuRepository.save(menu);
-
-        final Long menuSeq = menuResult.getSeq();
-
-        final List<MenuOptionModel> menuOptionModels = menuModel.getMenuOptionModels();
-        menuOptionModels.forEach(menuOptionModel -> {
-            MenuOption menuOption;
-            if (menuDomainService.isNew(menuOptionModel.getSeq())) {
-                menuOption = MenuOption.create(menuResult.getSeq(), menuOptionModel);
+    public void manageMenu(List<ManageMenuRequestDto> requests) {
+        requests.forEach(request -> {
+            final MenuModel menuModel = modelMapper.map(request, MenuModel.class);
+            Menu menu;
+            if (menuDomainService.isNew(menuModel.getSeq())) {
+                menu = Menu.create(menuModel);
             } else {
-                menuOption = MenuOption.merge(menuOptionModel);
+                menu = Menu.merge(menuModel);
             }
-            menuOptionRepository.save(menuOption);
-        });
+            final Menu menuResult = menuRepository.save(menu);
 
-        final List<ExtraOptionGroupModel> extraOptionGroupModels = menuModel.getExtraOptionGroupModels();
-        extraOptionGroupModels.forEach(extraOptionGroupModel -> {
-            ExtraOptionGroup extraOptionGroup;
-            if (menuDomainService.isNew(extraOptionGroupModel.getSeq())) {
-                extraOptionGroup = ExtraOptionGroup.create(menuSeq, extraOptionGroupModel);
-            } else {
-                extraOptionGroup = ExtraOptionGroup.merge(extraOptionGroupModel);
-            }
-            final ExtraOptionGroup result = extraOptionGroupRepository.save(extraOptionGroup);
+            final Long menuSeq = menuResult.getSeq();
 
-            final Long extraOptionGroupSeq = result.getSeq();
-
-            final List<ExtraOptionModel> extraOptionModels = extraOptionGroupModel.getExtraOptionModels();
-            extraOptionModels.forEach(extraOptionModel -> {
-                ExtraOption extraOption;
-                if (menuDomainService.isNew(extraOptionModel.getSeq())) {
-                    extraOption = ExtraOption.create(extraOptionGroupSeq, extraOptionModel);
+            final List<MenuOptionModel> menuOptionModels = menuModel.getMenuOptionModels();
+            menuOptionModels.forEach(menuOptionModel -> {
+                MenuOption menuOption;
+                if (menuDomainService.isNew(menuOptionModel.getSeq())) {
+                    menuOption = MenuOption.create(menuResult.getSeq(), menuOptionModel);
                 } else {
-                    extraOption = ExtraOption.merge(extraOptionModel);
+                    menuOption = MenuOption.merge(menuOptionModel);
                 }
-                extraOptionRepository.save(extraOption);
+                menuOptionRepository.save(menuOption);
+            });
+
+            final List<ExtraOptionGroupModel> extraOptionGroupModels = menuModel.getExtraOptionGroupModels();
+            extraOptionGroupModels.forEach(extraOptionGroupModel -> {
+                ExtraOptionGroup extraOptionGroup;
+                if (menuDomainService.isNew(extraOptionGroupModel.getSeq())) {
+                    extraOptionGroup = ExtraOptionGroup.create(menuSeq, extraOptionGroupModel);
+                } else {
+                    extraOptionGroup = ExtraOptionGroup.merge(extraOptionGroupModel);
+                }
+                final ExtraOptionGroup result = extraOptionGroupRepository.save(extraOptionGroup);
+
+                final Long extraOptionGroupSeq = result.getSeq();
+
+                final List<ExtraOptionModel> extraOptionModels = extraOptionGroupModel.getExtraOptionModels();
+                extraOptionModels.forEach(extraOptionModel -> {
+                    ExtraOption extraOption;
+                    if (menuDomainService.isNew(extraOptionModel.getSeq())) {
+                        extraOption = ExtraOption.create(extraOptionGroupSeq, extraOptionModel);
+                    } else {
+                        extraOption = ExtraOption.merge(extraOptionModel);
+                    }
+                    extraOptionRepository.save(extraOption);
+                });
             });
         });
     }
@@ -99,10 +99,4 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void manageMenu(ManageMenuRequestDto request) {
-        final List<RegisterMenuRequestDto> registerMenuModels = request.getRegisterMenuRequestDtos();
-        registerMenuModels.forEach(registerMenuRequestDto -> this.registerMenu(registerMenuRequestDto) );
-    }
 }
