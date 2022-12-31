@@ -2,7 +2,7 @@ package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.api.ErrorResponse;
 import com.jodongari.handy.protocol.dto.request.GetMenuRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterMenuRequestDto;
+import com.jodongari.handy.protocol.dto.request.ManageMenuRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterMenuResponseDto;
 import com.jodongari.handy.protocol.url.MenuApiUrl;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Tag(name = "메뉴", description = "메뉴 API")
 @RestController
 @RequestMapping("/api")
@@ -34,7 +36,7 @@ public class MenuController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(value = MenuApiUrl.MENU_GET)
-    public GetMenuResponseDto getMenu(@RequestBody GetMenuRequestDto request) throws Exception {
+    public List<GetMenuResponseDto> getMenu(@RequestBody GetMenuRequestDto request) throws Exception {
         return menuService.getMenu(request.getStoreSeq());
     }
 
@@ -45,13 +47,13 @@ public class MenuController {
 //        return ApiMessage.success(menuService.registerMenu(request, imageFile));
 //    }
 
-    @Operation(summary = "메뉴 등록")
+    @Operation(summary = "메뉴 추가, 수정, 삭제")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterMenuResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PostMapping(value = MenuApiUrl.MENU_REGISTER)
-    public void registerMenu(@RequestBody RegisterMenuRequestDto request) throws Exception {
-        menuService.registerMenu(request);
+    @PostMapping(value = MenuApiUrl.MENU_MANAGE)
+    public void manageMenu(@RequestBody List<ManageMenuRequestDto> requests) throws Exception {
+        menuService.manageMenu(requests);
     }
 }

@@ -62,7 +62,6 @@ public class Menu {
     }
 
     public static Menu create(MenuModel menuModel) {
-
         Menu menu = Menu.builder()
                 .storeSeq(menuModel.getStoreSeq())
                 .name(MenuName.create(menuModel.getName()))
@@ -75,4 +74,17 @@ public class Menu {
         return menu;
     }
 
+    public static Menu merge(MenuModel menuModel) {
+        Menu menu = Menu.builder()
+                .seq(menuModel.getSeq())
+                .storeSeq(menuModel.getStoreSeq())
+                .name(MenuName.create(menuModel.getName()))
+                .description(MenuDescription.create(menuModel.getDescription()))
+//                .image(MenuImage.create(menuModel.getImageUrl()))
+                .image(MenuImage.create("null"))
+                .status(menuModel.getStatus())
+                .build();
+
+        return menu;
+    }
 }

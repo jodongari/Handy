@@ -53,13 +53,25 @@ public class ExtraOption {
         this.extraOptionGroupSeq = extraOptionGroupSeq;
     }
 
-    public static ExtraOption create(ExtraOptionModel extraOptionModel) {
+    public static ExtraOption create(Long extraOptionGroupSeq, ExtraOptionModel extraOptionModel) {
+
+        ExtraOption extraOption = ExtraOption.builder()
+                .name(extraOptionModel.getName())
+                .extraPrice(extraOptionModel.getExtraPrice())
+                .status(EXTRA_OPTION_CREATED)
+                .extraOptionGroupSeq(extraOptionGroupSeq)
+                .build();
+
+        return extraOption;
+    }
+
+    public static ExtraOption merge(ExtraOptionModel extraOptionModel) {
 
         ExtraOption extraOption = ExtraOption.builder()
                 .seq(extraOptionModel.getSeq())
                 .name(extraOptionModel.getName())
                 .extraPrice(extraOptionModel.getExtraPrice())
-                .status(EXTRA_OPTION_CREATED)
+                .status(extraOptionModel.getStatus())
                 .extraOptionGroupSeq(extraOptionModel.getExtraOptionGroupSeq())
                 .build();
 

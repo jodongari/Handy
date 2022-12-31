@@ -53,12 +53,24 @@ public class MenuOption {
         this.menuSeq = menuSeq;
     }
 
-    public static MenuOption create(MenuOptionModel menuOptionModel) {
+    public static MenuOption create(Long menuSeq, MenuOptionModel menuOptionModel) {
 
         MenuOption menuOption = MenuOption.builder()
                 .name(menuOptionModel.getName())
                 .price(menuOptionModel.getPrice())
                 .status(MENU_OPTION_CREATED)
+                .menuSeq(menuSeq)
+                .build();
+
+        return menuOption;
+    }
+
+    public static MenuOption merge(MenuOptionModel menuOptionModel) {
+        MenuOption menuOption = MenuOption.builder()
+                .seq(menuOptionModel.getSeq())
+                .name(menuOptionModel.getName())
+                .price(menuOptionModel.getPrice())
+                .status(menuOptionModel.getStatus())
                 .menuSeq(menuOptionModel.getMenuSeq())
                 .build();
 

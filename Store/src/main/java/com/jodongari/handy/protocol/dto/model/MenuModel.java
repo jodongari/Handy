@@ -11,14 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 public class MenuModel {
 
-    Long seq;
-    Long storeSeq;
-    String name;
-    String description;
-    String imageUrl;
-    MenuStatus status; // TO-DO: 확인 필요
-    List<MenuOptionModel> menuOptionModels;
-    List<ExtraOptionGroupModel> extraOptionGroupModels;
+    private Long seq;
+    private Long storeSeq;
+    private String name;
+    private String description;
+    private String imageUrl;
+    private MenuStatus status; // TO-DO: 확인 필요
+    private List<MenuOptionModel> menuOptionModels;
+    private List<ExtraOptionGroupModel> extraOptionGroupModels;
 
     @Builder
     public MenuModel(Long seq, Long storeSeq, String name, String description, String imageUrl, MenuStatus status, List<MenuOptionModel> menuOptionModels, List<ExtraOptionGroupModel> extraOptionGroupModels) {

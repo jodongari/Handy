@@ -22,9 +22,9 @@ public class ExtraOptionGroupModel {
     private List<ExtraOptionModel> extraOptionModels;
 
     public void addMenuSeq(final long menuSeq) {
-        if (this.menuSeq == -1) {
+//        if (this.menuSeq == -1) {
             this.menuSeq = menuSeq;
-        }
+//        }
     }
 
     @Builder
