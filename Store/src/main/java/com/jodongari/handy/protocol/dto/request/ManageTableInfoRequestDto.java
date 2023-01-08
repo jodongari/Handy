@@ -1,12 +1,15 @@
 package com.jodongari.handy.protocol.dto.request;
 
+import com.jodongari.handy.domain.tableInfo.TableInfo;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ManageTableInfoRequestDto {
-    List<RegisterTableInfoRequestDto> registerTableInfosDto;
-    List<UpdateTableInfoRequestDto> updateTableInfosDto;
-    List<DeleteTableInfoRequestDto> deleteTableInfosDto;
+
+    private Long seq;
+    private Long storeSeq;
+    private String tableName;
+    private String tableHash;
+    private TableInfo.TableInfoStatus status;
+
 }
