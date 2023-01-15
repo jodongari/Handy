@@ -66,8 +66,7 @@ public class Menu {
                 .storeSeq(menuModel.getStoreSeq())
                 .name(MenuName.create(menuModel.getName()))
                 .description(MenuDescription.create(menuModel.getDescription()))
-//                .image(MenuImage.create(menuModel.getImageUrl()))
-                .image(MenuImage.create("null"))
+                .image(MenuImage.create(menuModel.getImageUrl()))
                 .status(MENU_CREATED)
                 .build();
 
@@ -80,7 +79,7 @@ public class Menu {
                 .storeSeq(menuModel.getStoreSeq())
                 .name(MenuName.create(menuModel.getName()))
                 .description(MenuDescription.create(menuModel.getDescription()))
-//                .image(MenuImage.create(menuModel.getImageUrl()))
+                .image(MenuImage.create(menuModel.getImageUrl()))
                 .image(MenuImage.create("null"))
                 .status(menuModel.getStatus())
                 .build();
