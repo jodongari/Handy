@@ -2,9 +2,6 @@ package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.api.ErrorResponse;
 import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
 import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
@@ -22,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +51,8 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORE_GET)
-    public GetStoreResponseDto getStore(@RequestBody GetStoreRequestDto request) {
-        return storeService.getStore(request);
+    public GetStoreResponseDto getStore(@PathVariable Long storeSeq) {
+        return storeService.getStore(storeSeq);
     }
 
     @Operation(summary = "매장 조회")
@@ -63,8 +61,8 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORES_GET)
-    public List<GetStoreResponseDto> getStores(@RequestBody GetStoresRequestDto request) {
-        return storeService.getStores(request);
+    public List<GetStoreResponseDto> getStores(@PathVariable Long ownerSeq) {
+        return storeService.getStores(ownerSeq);
     }
 
     @Operation(summary = "매장 리스트 조회")
@@ -73,8 +71,8 @@ public class StoreController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(StoreApiUrl.STORE_INFOS_GET)
-    public List<GetStoreInfoResponseDto> getStoreInfos(@RequestBody GetStoreInfosRequestDto request) {
-        return storeService.getStoreInfos(request);
+    public List<GetStoreInfoResponseDto> getStoreInfos(@PathVariable Long ownerSeq) {
+        return storeService.getStoreInfos(ownerSeq);
     }
 
     @Operation(summary = "매장 정보 수정")
@@ -82,7 +80,7 @@ public class StoreController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping(StoreApiUrl.STORE_UPDATE)
+    @PostMapping(StoreApiUrl.STORE_UPDATE)
     public void updateStore(@RequestBody UpdateStoreRequestDto request) {
         storeService.updateStore(request);
     }

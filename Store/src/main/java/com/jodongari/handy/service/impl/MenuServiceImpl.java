@@ -89,7 +89,7 @@ public class MenuServiceImpl implements MenuService {
         });
     }
 
-    public List<GetMenuResponseDto> getMenu(Long storeSeq) throws Exception {
+    public List<GetMenuResponseDto> getMenu(Long storeSeq) {
         final List<Menu> results = menuRepository.findBySeq(storeSeq);
         if (results.size() == 0) return null;
         else {
