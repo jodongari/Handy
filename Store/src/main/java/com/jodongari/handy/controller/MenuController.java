@@ -1,7 +1,6 @@
 package com.jodongari.handy.controller;
 
 import com.jodongari.handy.protocol.api.ErrorResponse;
-import com.jodongari.handy.protocol.dto.request.GetMenuRequestDto;
 import com.jodongari.handy.protocol.dto.request.ManageMenuRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterMenuResponseDto;
@@ -15,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +36,8 @@ public class MenuController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(value = MenuApiUrl.MENU_GET)
-    public List<GetMenuResponseDto> getMenu(@RequestBody GetMenuRequestDto request) throws Exception {
-        return menuService.getMenu(request.getStoreSeq());
+    public List<GetMenuResponseDto> getMenu(@PathVariable Long storeSeq) throws Exception {
+        return menuService.getMenu(storeSeq);
     }
 
     //TODO - 22.10.22 이미지 저장 프로세스 정해지면 추가수정 예정

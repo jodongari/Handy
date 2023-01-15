@@ -3,13 +3,10 @@ package com.jodongari.handy.service.impl;
 import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.infrastructure.repository.StoreRepository;
 import com.jodongari.handy.protocol.dto.model.StoreModel;
-import com.jodongari.handy.protocol.dto.request.GetStoreInfosRequestDto;
+import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
+import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.request.UpdateStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreInfoResponseDto;
-import com.jodongari.handy.protocol.dto.request.DeleteStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoreRequestDto;
-import com.jodongari.handy.protocol.dto.request.GetStoresRequestDto;
-import com.jodongari.handy.protocol.dto.request.RegisterStoreRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetStoreResponseDto;
 import com.jodongari.handy.protocol.dto.response.RegisterStoreResponseDto;
 import com.jodongari.handy.service.StoreService;
@@ -44,8 +41,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public GetStoreResponseDto getStore(GetStoreRequestDto request) {
-        final Store result = storeRepository.findById(request.getStoreSeq()).orElseThrow();
+    public GetStoreResponseDto getStore(Long storeSeq) {
+        final Store result = storeRepository.findById(storeSeq).orElseThrow();
 
         final StoreModel storeModel = modelMapper.map(result, StoreModel.class);
 
@@ -53,8 +50,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<GetStoreResponseDto> getStores(GetStoresRequestDto request) {
-        final List<Store> result = storeRepository.findAllByOwnerSeq(request.getOwnerSeq());
+    public List<GetStoreResponseDto> getStores(Long ownerSeq) {
+        final List<Store> result = storeRepository.findAllByOwnerSeq(ownerSeq);
 
         final List<StoreModel> storeModels = result.stream()
                 .map(store -> modelMapper.map(store, StoreModel.class))
@@ -68,8 +65,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<GetStoreInfoResponseDto> getStoreInfos(GetStoreInfosRequestDto request) {
-        final List<Store> stores = storeRepository.findAllByOwnerSeq(request.getOwnerSeq());
+    public List<GetStoreInfoResponseDto> getStoreInfos(Long ownerSeq) {
+        final List<Store> stores = storeRepository.findAllByOwnerSeq(ownerSeq);
 
         return stores.stream()
                 .map(store -> modelMapper.map(store, GetStoreInfoResponseDto.class))
