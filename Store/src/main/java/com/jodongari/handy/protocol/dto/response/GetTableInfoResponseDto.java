@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class GetTableInfoResponseDto {
-    Long tableSeq;
+    Long seq;
     Long storeSeq;
     String tableName;
     String tableHash;

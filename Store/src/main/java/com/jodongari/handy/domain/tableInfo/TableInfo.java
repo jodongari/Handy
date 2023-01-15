@@ -61,19 +61,19 @@ public class TableInfo extends BaseTimeEntity {
                 .build();
     }
 
+    public static TableInfo merge(TableInfoModel tableInfoModel) {
+        return TableInfo.builder()
+                .seq(tableInfoModel.getSeq())
+                .storeSeq(tableInfoModel.getStoreSeq())
+                .tableName(tableInfoModel.getTableName())
+                .tableHash(tableInfoModel.getTableHash())
+                .status(tableInfoModel.getStatus())
+                .build();
+    }
+
     public static enum TableInfoStatus {
         ACTIVE,
         INACTIVE,
         DELETE
-    }
-
-    public void updateTableInfoStatus(TableInfoStatus status) {
-        this.status = status;
-    }
-
-    public void updateTableInfo(String tableName,
-                                TableInfoStatus status){
-        this.tableName = tableName;
-        this.status = status;
     }
 }
