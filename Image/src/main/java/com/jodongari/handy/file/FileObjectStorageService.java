@@ -20,6 +20,7 @@ public class FileObjectStorageService {
 
     private static final String HANDY_IMAGE_BUCKET_NAME = "handy-image";
     private static final String DEFAULT_KEY = "default_key";
+    private static final String BASE_URL_PATH = "https://handy-image.s3.ap-northeast-2.amazonaws.com";
     private static final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
 
     public String uploadObjectToS3(MultipartFile imageFile) throws IOException {
@@ -43,7 +44,7 @@ public class FileObjectStorageService {
             log.error(e.getMessage());
         }
 
-        return key;
+        return BASE_URL_PATH + "/" + key;
     }
 
     private boolean isExistFile(MultipartFile imageFile) {
