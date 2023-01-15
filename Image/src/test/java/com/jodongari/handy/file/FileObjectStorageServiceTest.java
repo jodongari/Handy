@@ -23,6 +23,7 @@ class FileObjectStorageServiceTest {
     FileObjectStorageService fileObjectStorageService;
     private static final String HANDY_IMAGE_BUCKET_NAME = "handy-image";
     private static final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+    private static final String BASE_URL_PATH = "https://handy-image.s3.ap-northeast-2.amazonaws.com";
 
     @Test
     @DisplayName("S3 image upload test")
@@ -33,7 +34,7 @@ class FileObjectStorageServiceTest {
         String filePath = "src/main/resources/test.jpeg";
         MockMultipartFile imageFile = makeMultiPartFile(fileName, contentType, filePath);
 
-        String imageKey = fileObjectStorageService.uploadObjectToS3(imageFile);
+        String imageKey = fileObjectStorageService.uploadObjectToS3(imageFile).split(BASE_URL_PATH + "/")[1];
 
         S3Object o = s3.getObject(HANDY_IMAGE_BUCKET_NAME, imageKey);
         Assertions.assertEquals(imageKey, o.getKey());
