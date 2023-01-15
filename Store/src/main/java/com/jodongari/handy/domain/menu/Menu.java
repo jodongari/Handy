@@ -80,7 +80,6 @@ public class Menu {
                 .name(MenuName.create(menuModel.getName()))
                 .description(MenuDescription.create(menuModel.getDescription()))
                 .image(MenuImage.create(menuModel.getImageUrl()))
-                .image(MenuImage.create("null"))
                 .status(menuModel.getStatus())
                 .build();
 
