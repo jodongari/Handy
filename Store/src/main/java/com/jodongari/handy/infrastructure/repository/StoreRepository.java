@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    @Query(value =  "SELECT * FROM user WHERE onwer_seq = :ownerSeq", nativeQuery = true)
+    @Query(value = "SELECT * FROM store WHERE onwer_seq = :ownerSeq", nativeQuery = true)
     List<Store> findAllByOwnerSeq(Long ownerSeq);
 }
