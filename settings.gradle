@@ -1,3 +1,4 @@
 rootProject.name = 'Handy'
 include 'Store'
 include 'Image'
+include 'Order'
