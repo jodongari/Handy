@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class GetStoreResponseDto {
-    Long storeSeq;
+    Long seq;
     Long ownerSeq;
     String name;
     String businessName;
