@@ -1,7 +1,7 @@
 version: "3.1"
 services:
   redis_container:
-    image: redis:latest
+    image: redis:6.2.6
     container_name: handy_redis
     ports:
       - 6379:6379
@@ -13,3 +13,13 @@ services:
       - "mode=standalone"
     restart: always
     command: redis-server /usr/local/conf/redis.conf
+  mongodb_container:
+    image: mongo:5.0.15
+    container_name: handy_mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - ./mongo/db:/data/db
+    command: mongod
+    ports:
+      - 27017:27017
