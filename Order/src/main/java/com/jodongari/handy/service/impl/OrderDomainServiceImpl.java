@@ -16,7 +16,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order registerOrder(Order order) {
+    public Order registerOrder(Order order){
         return orderRepository.save(order);
     }
 }

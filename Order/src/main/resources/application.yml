@@ -12,3 +12,6 @@ spring:
       username: handy
       password: handy
       database: handy
+  profiles:
+    include:
+      - kakao
