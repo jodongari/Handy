@@ -1,4 +1,4 @@
-package com.jodongari.handy.service.impl;
+package com.jodongari.handy.service;
 
 import com.jodongari.handy.domain.store.Store;
 import com.jodongari.handy.infrastructure.repository.StoreRepository;

@@ -2,12 +2,15 @@ package com.jodongari.handy.service.impl;
 
 import com.jodongari.handy.domain.Order;
 import com.jodongari.handy.infrastructure.repository.KakaoPaymentRedisRepository;
-import com.jodongari.handy.protocol.dto.kakao.ReadyKakaoPaymentResponse;
 import com.jodongari.handy.protocol.dto.ReadyPaymentRequest;
+import com.jodongari.handy.protocol.dto.kakao.ReadyKakaoPaymentResponse;
+import com.jodongari.handy.protocol.exception.ErrorCode;
+import com.jodongari.handy.protocol.exception.PaymentException;
+import com.jodongari.handy.protocol.exception.SessionNotFoundException;
 import com.jodongari.handy.protocol.session.KakaoPaymentSession;
 import com.jodongari.handy.service.KakaoApiService;
-import com.jodongari.handy.service.OrderDomainService;
 import com.jodongari.handy.service.KakaoPaymentService;
+import com.jodongari.handy.service.OrderDomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -40,20 +43,44 @@ public class KakaoPaymentServiceImpl implements KakaoPaymentService {
                 .partnerUserId(result.getUserSeq().toString())
                 .build();
 
-        kakaoPaymentRedisRepository.save(session);
+        try {
+            kakaoPaymentRedisRepository.save(session);
+        } catch (Exception e) {
+            throw new PaymentException(ErrorCode.INTERNAL_SERVER_ERROR, "redis insert error");
+        }
 
         return response;
     }
 
-    public void approveKakaoPayment(String partnerOrderId, String pgToken) {
+    public void approveKakaoPayment(String partnerOrderId, String pgToken) throws PaymentException {
 
         KakaoPaymentSession kakaoPaymentSession = null;
         try {
-            kakaoPaymentSession = kakaoPaymentRedisRepository.findById(partnerOrderId).orElseThrow(Exception::new);
-        } catch(Exception e) {
-
+            kakaoPaymentSession = kakaoPaymentRedisRepository.findById(partnerOrderId)
+                    .orElseThrow(() -> new SessionNotFoundException("order session is not found"));
+        } catch (SessionNotFoundException e) {
+            throw new PaymentException(ErrorCode.NOT_FOUND, "partner order ID is empty");
+        } catch (Exception e) {
+            throw new PaymentException(ErrorCode.INTERNAL_SERVER_ERROR, "redis select error");
         }
-
         kakaoApiService.callKakaoPaymentApprove(kakaoPaymentSession.getTid(), partnerOrderId, kakaoPaymentSession.getPartnerUserId(), pgToken);
+    }
+
+    @Override
+    public void failKakaoPayment(String partnerOrderId) {
+        revokeKaKaoSession(partnerOrderId);
+    }
+
+    @Override
+    public void cancelKakaoPayment(String partnerOrderId) {
+        revokeKaKaoSession(partnerOrderId);
+    }
+
+    private void revokeKaKaoSession(String partnerOrderId) throws PaymentException{
+        try {
+            kakaoPaymentRedisRepository.deleteById(partnerOrderId);
+        } catch (Exception e) {
+            throw new PaymentException(ErrorCode.INTERNAL_SERVER_ERROR, "redis delete error");
+        }
     }
 }

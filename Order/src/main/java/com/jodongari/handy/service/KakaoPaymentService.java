@@ -7,5 +7,9 @@ public interface KakaoPaymentService {
 
     ReadyKakaoPaymentResponse readyKakaoPayment(ReadyPaymentRequest request);
 
-    void approveKakaoPayment(String partnerOrderId, String pgToken);
+    void approveKakaoPayment(String partnerOrderId, String pgToken) throws Exception;
+
+    void failKakaoPayment(String partnerOrderId);
+
+    void cancelKakaoPayment(String partnerOrderId);
 }

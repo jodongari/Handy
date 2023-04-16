@@ -1,7 +1,6 @@
-package com.jodongari.handy.service.impl;
+package com.jodongari.handy.service;
 
 import com.google.common.hash.Hashing;
-import com.jodongari.handy.service.HashGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

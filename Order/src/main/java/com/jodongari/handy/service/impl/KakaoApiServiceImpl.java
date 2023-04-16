@@ -28,7 +28,7 @@ import java.util.Map;
 @Slf4j
 public class KakaoApiServiceImpl implements KakaoApiService {
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate kakaoRestTemplate;
     private final KakaoProperties kakaoProperties;
     private final KakaoPaymentProperties kakaoPaymentProperties;
     private final ObjectMapper mapper = new ObjectMapper();
@@ -36,7 +36,6 @@ public class KakaoApiServiceImpl implements KakaoApiService {
     @Override
     public ReadyKakaoPaymentResponse callKakaoPaymentReady(String partnerOrderId, String partnerUserId, String itemName, Integer quantity, Integer totalAmount, Integer taxFreeAmount, Integer vatAmount) {
 
-        //TODO kakao request로 mapping
         ReadyKakaoPaymentRequest readyKakaoPaymentRequest = ReadyKakaoPaymentRequest.builder()
                 .cid(kakaoPaymentProperties.getCid())
                 .partnerOrderId(partnerOrderId)
@@ -60,8 +59,8 @@ public class KakaoApiServiceImpl implements KakaoApiService {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, headers);
 
-        ResponseEntity<ReadyKakaoPaymentResponse> responseEntity  = restTemplate.postForEntity(
-                "https://kapi.kakao.com/v1/payment/ready",
+        ResponseEntity<ReadyKakaoPaymentResponse> responseEntity  = kakaoRestTemplate.postForEntity(
+                kakaoProperties.getBaseUrl() + "v1/payment/ready",
                 requestEntity,
                 ReadyKakaoPaymentResponse.class);
 
@@ -70,7 +69,6 @@ public class KakaoApiServiceImpl implements KakaoApiService {
 
     @Override
     public ApproveKakaoPaymentResponse callKakaoPaymentApprove(String tid, String partnerOrderId, String partnerUserId, String pgToken) {
-        //TODO kakao request로 mapping
         ApproveKakaoPaymentRequest approveKakaoPaymentRequest = ApproveKakaoPaymentRequest.builder()
                 .cid(kakaoPaymentProperties.getCid())
                 .tid(tid)
@@ -88,8 +86,8 @@ public class KakaoApiServiceImpl implements KakaoApiService {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, headers);
 
-        ResponseEntity<ApproveKakaoPaymentResponse> responseEntity  = restTemplate.postForEntity(
-                "https://kapi.kakao.com/v1/payment/approve",
+        ResponseEntity<ApproveKakaoPaymentResponse> responseEntity  = kakaoRestTemplate.postForEntity(
+                kakaoProperties.getBaseUrl() + "v1/payment/approve",
                 requestEntity,
                 ApproveKakaoPaymentResponse.class);
 
