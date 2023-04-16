@@ -52,7 +52,7 @@ public class KakaoPaymentServiceImpl implements KakaoPaymentService {
         return response;
     }
 
-    public void approveKakaoPayment(String partnerOrderId, String pgToken) throws PaymentException {
+    public void approveKakaoPayment(String partnerOrderId, String pgToken) {
 
         KakaoPaymentSession kakaoPaymentSession = null;
         try {

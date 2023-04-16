@@ -27,7 +27,7 @@ public class KakaoPaymentController {
 
     @GetMapping("/pay/kakao/approve")
     public void approveKakaoPayment(@RequestParam("partner_order_id") String partnerOrderId,
-                                    @RequestParam("pg_token") String pgToken) throws Exception {
+                                    @RequestParam("pg_token") String pgToken) {
         kakaoPaymentService.approveKakaoPayment(partnerOrderId, pgToken);
     }
 

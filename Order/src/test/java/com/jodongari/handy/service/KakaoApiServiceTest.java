@@ -6,11 +6,11 @@ import com.jodongari.handy.protocol.dto.kakao.ReadyKakaoPaymentResponse;
 import com.jodongari.handy.protocol.exception.ErrorCode;
 import com.jodongari.handy.protocol.exception.PaymentException;
 import com.jodongari.handy.service.impl.KakaoApiServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,30 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class KakaoApiServiceTest {
 
-    private String appKey = "appKey";
-    private String baseUrl = "baseUrl";
-    private String cid = "cid";
-    private String approveUrl = "approveUrl";
-    private String cancelUrl = "cancelUrl";
-    private String failUrl = "failUrl";
-
-    @Mock
-    private KakaoProperties kakaoProperties;
-
-    @Mock
-    private KakaoPaymentProperties kakaoPaymentProperties;
-
-    @Mock
-    private RestTemplate kakaoRestTemplate;
-
-    @InjectMocks
-    private KakaoApiServiceImpl kakaoApiServiceImpl;
-
+    private static String appKey = "appKey";
+    private static String baseUrl = "baseUrl";
+    private static String cid = "cid";
+    private static String approveUrl = "approveUrl";
+    private static String cancelUrl = "cancelUrl";
+    private static String failUrl = "failUrl";
     private String partnerOrderId = "partnerOrderId";
     private String partnerUserId = "partnerUserId";
     private String itemName = "itemName";
@@ -53,7 +42,16 @@ public class KakaoApiServiceTest {
     private Integer taxFreeAmount = 0;
     private Integer vatAmount = 0;
 
-    @BeforeEach
+    private KakaoProperties kakaoProperties = mock(KakaoProperties.class);
+
+    private KakaoPaymentProperties kakaoPaymentProperties = mock(KakaoPaymentProperties.class);
+
+    private RestTemplate kakaoRestTemplate = mock(RestTemplate.class);
+
+    @InjectMocks
+    private KakaoApiServiceImpl kakaoApiServiceImpl;
+
+    @BeforeAll
     public void setUp() {
         when(kakaoProperties.getAppKey()).thenReturn(appKey);
         when(kakaoProperties.getBaseUrl()).thenReturn(baseUrl);
