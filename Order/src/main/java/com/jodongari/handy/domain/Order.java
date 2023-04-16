@@ -1,6 +1,7 @@
 package com.jodongari.handy.domain;
 
 import com.jodongari.handy.protocol.model.MenuModel;
+import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,4 +18,13 @@ public class Order {
     Long storeSeq;
     String tableName;
     List<MenuModel> menus;
+
+    @Builder
+    public Order(ObjectId orderSeq, Long userSeq, Long storeSeq, String tableName, List<MenuModel> menus) {
+        this.orderSeq = orderSeq;
+        this.userSeq = userSeq;
+        this.storeSeq = storeSeq;
+        this.tableName = tableName;
+        this.menus = menus;
+    }
 }

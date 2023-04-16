@@ -8,4 +8,8 @@ public interface KakaoPaymentService {
     ReadyKakaoPaymentResponse readyKakaoPayment(ReadyPaymentRequest request);
 
     void approveKakaoPayment(String partnerOrderId, String pgToken);
+
+    void failKakaoPayment(String partnerOrderId);
+
+    void cancelKakaoPayment(String partnerOrderId);
 }

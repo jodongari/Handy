@@ -1,0 +1,8 @@
+kakao:
+  app_key:
+  base_url: https://kapi.kakao.com/
+  payment:
+    cid: TC0ONETIME
+    approve_url: http://localhost:8081/api/pay/kakao/approve
+    cancel_url: http://localhost:8081/api/pay/kakao/cancel
+    fail_url: http://localhost:8081/api/pay/kakao/fail

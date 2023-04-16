@@ -32,12 +32,12 @@ public class KakaoPaymentController {
     }
 
     @GetMapping("/pay/kakao/fail")
-    public void failKakaoPayment() {
-        log.info("fail");
+    public void failKakaoPayment(@RequestParam("partner_order_id") String partnerOrderId) {
+        kakaoPaymentService.failKakaoPayment(partnerOrderId);
     }
 
     @GetMapping("/pay/kakao/cancel")
-    public void cancelKakaoPayment() {
-        log.info("cancel");
+    public void cancelKakaoPayment(@RequestParam("partner_order_id") String partnerOrderId) {
+        kakaoPaymentService.cancelKakaoPayment(partnerOrderId);
     }
 }
