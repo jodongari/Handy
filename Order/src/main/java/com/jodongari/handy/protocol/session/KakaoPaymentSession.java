@@ -2,13 +2,11 @@ package com.jodongari.handy.protocol.session;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import lombok.NoArgsConstructor;
 
 @Data
-@RedisHash("kakaoPayments")
+@NoArgsConstructor
 public class KakaoPaymentSession {
-    @Id
     String partnerOrderId;
     String tid;
     String partnerUserId;
