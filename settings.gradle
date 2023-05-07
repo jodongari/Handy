@@ -1,4 +1,6 @@
 rootProject.name = 'Handy'
-include 'Store'
-include 'Image'
-include 'Order'
+
+include 'store-server'
+include 'order-server'
+include 'api-protocol'
+include 'image'
