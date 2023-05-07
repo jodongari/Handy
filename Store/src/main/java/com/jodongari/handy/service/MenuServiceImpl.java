@@ -14,8 +14,6 @@ import com.jodongari.handy.protocol.dto.model.MenuModel;
 import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
 import com.jodongari.handy.protocol.dto.request.ManageMenuRequestDto;
 import com.jodongari.handy.protocol.dto.response.GetMenuResponseDto;
-import com.jodongari.handy.service.MenuDomainService;
-import com.jodongari.handy.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -88,15 +86,34 @@ public class MenuServiceImpl implements MenuService {
             });
         });
     }
+    public List<GetMenuResponseDto> getMenusByStore(Long storeSeq) {
+        final List<Menu> menus = menuRepository.findAllByStoreSeq(storeSeq);
 
-    public List<GetMenuResponseDto> getMenu(Long storeSeq) {
-        final List<Menu> results = menuRepository.findBySeq(storeSeq);
-        if (results.size() == 0) return null;
-        else {
-            return results.stream()
-                    .map(result -> modelMapper.map(result, GetMenuResponseDto.class))
+        return menus.stream().map(menu -> {
+            final GetMenuResponseDto response = modelMapper.map(menu, GetMenuResponseDto.class);
+
+            final List<MenuOption> menuOptions = menuOptionRepository.findAllByMenuSeq(menu.getSeq());
+            final List<MenuOptionModel> menuOptionModels = menuOptions.stream()
+                    .map(menuOption -> modelMapper.map(menuOption, MenuOptionModel.class))
                     .collect(Collectors.toList());
-        }
+
+            final List<ExtraOptionGroup> extraOptionGroups = extraOptionGroupRepository.findAllByMenuSeq(menu.getSeq());
+            final List<ExtraOptionGroupModel> extraOptionGroupModels = extraOptionGroups.stream().map(extraOptionGroup -> {
+                ExtraOptionGroupModel extraOptionGroupModel = modelMapper.map(extraOptionGroup, ExtraOptionGroupModel.class);
+
+                final List<ExtraOption> extraOptions = extraOptionRepository.findAllByExtraOptionGroupSeq(extraOptionGroup.getSeq());
+                final List<ExtraOptionModel> extraOptionModels = extraOptions.stream()
+                        .map(extraOption -> modelMapper.map(extraOption, ExtraOptionModel.class))
+                        .collect(Collectors.toList());
+                extraOptionGroupModel.setExtraOptionModels(extraOptionModels);
+                return extraOptionGroupModel;
+            }).collect(Collectors.toList());
+
+            response.setMenuOptionModels(menuOptionModels);
+            response.setExtraOptionGroupModels(extraOptionGroupModels);
+
+            return response;
+        }).collect(Collectors.toList());
     }
 
 }

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MenuService {
 //    RegisterMenuResponseDto registerMenu(RegisterMenuRequestDto request, MultipartFile imageFile) throws Exception;
-    List<GetMenuResponseDto> getMenu(Long storeSeq) throws Exception;
+    List<GetMenuResponseDto> getMenusByStore(Long storeSeq) throws Exception;
     void manageMenu(List<ManageMenuRequestDto> request);
 }
