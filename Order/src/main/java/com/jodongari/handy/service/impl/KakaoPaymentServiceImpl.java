@@ -71,7 +71,6 @@ public class KakaoPaymentServiceImpl implements KakaoPaymentService {
             final Order order = sessionDomainService.getData(partnerOrderId, Order.class);
             final KakaoPaymentSession kakaoPaymentSession = sessionDomainService.getSession(partnerOrderId, KakaoPaymentSession.class);
 
-
             // validation
 
             kakaoApiService.callKakaoPaymentApprove(kakaoPaymentSession.getTid(), partnerOrderId, kakaoPaymentSession.getPartnerUserId(), pgToken);

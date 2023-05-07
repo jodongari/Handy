@@ -1,13 +1,10 @@
 package com.jodongari.handy.domain.menu.vo;
 
 
-import lombok.ToString;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@ToString
 public class MenuDescription {
 
     @Column(name = "DESCRIPTION", nullable = false, length = 100)
