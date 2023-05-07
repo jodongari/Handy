@@ -12,7 +12,7 @@ docker/mongo/
 /src/main/resources/static/js/**
 /src/main/resources/static/favicon.ico
 /src/main/resources/static/index.html
-Store/src/main/generated/**
+store-server/src/main/generated/**
 *.log
 
 ### STS ###
