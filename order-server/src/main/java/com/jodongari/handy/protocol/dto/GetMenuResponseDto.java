@@ -1,8 +1,7 @@
 package com.jodongari.handy.protocol.dto;
 
-import com.jodongari.handy.domain.menu.vo.MenuStatus;
-import com.jodongari.handy.protocol.dto.model.ExtraOptionGroupModel;
-import com.jodongari.handy.protocol.dto.model.MenuOptionModel;
+import com.jodongari.handy.protocol.model.ExtraOptionGroupModel;
+import com.jodongari.handy.protocol.model.MenuOptionModel;
 import lombok.Data;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public class GetMenuResponseDto {
     String name;
     String description;
     String imageUrl;
-    MenuStatus status;
+    String status;
     List<MenuOptionModel> menuOptionModels;
     List<ExtraOptionGroupModel> extraOptionGroupModels;
 }

@@ -30,6 +30,8 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
 
+    implementation project(":api-protocol")
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
