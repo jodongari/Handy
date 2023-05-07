@@ -15,6 +15,6 @@ public class GetMenuResponseDto {
     String description;
     String imageUrl;
     MenuStatus status;
-    List<MenuOptionModel> menuOptions;
+    List<MenuOptionModel> menuOptionModels;
     List<ExtraOptionGroupModel> extraOptionGroupModels;
 }

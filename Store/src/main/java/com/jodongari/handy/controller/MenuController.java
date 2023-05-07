@@ -30,14 +30,14 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Operation(summary = "메뉴 조회")
+    @Operation(summary = "상점 메뉴 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetMenuResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping(value = MenuApiUrl.MENU_GET)
-    public List<GetMenuResponseDto> getMenu(@PathVariable Long storeSeq) throws Exception {
-        return menuService.getMenu(storeSeq);
+    @GetMapping(value = MenuApiUrl.GET_MENUS_BY_STORE)
+    public List<GetMenuResponseDto> getMenusByStore(@PathVariable Long storeSeq) throws Exception {
+        return menuService.getMenusByStore(storeSeq);
     }
 
     //TODO - 22.10.22 이미지 저장 프로세스 정해지면 추가수정 예정

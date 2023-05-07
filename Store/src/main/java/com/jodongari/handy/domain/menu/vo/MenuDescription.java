@@ -24,4 +24,9 @@ public class MenuDescription {
     public String getValue() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

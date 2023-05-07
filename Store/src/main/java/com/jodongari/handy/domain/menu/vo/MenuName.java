@@ -22,4 +22,9 @@ public class MenuName {
     public String getValue() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
