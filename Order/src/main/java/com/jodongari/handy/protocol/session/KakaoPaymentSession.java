@@ -2,10 +2,8 @@ package com.jodongari.handy.protocol.session;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class KakaoPaymentSession {
     String partnerOrderId;
     String tid;

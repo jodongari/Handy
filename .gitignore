@@ -3,7 +3,6 @@ HELP.md
 build/
 docker/redis/
 docker/mongo/
-docker/mongo-init/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
