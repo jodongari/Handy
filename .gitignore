@@ -1,7 +1,7 @@
 HELP.md
 .gradle
 build/
-redis/
+docker/redis/
 docker/mongo/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

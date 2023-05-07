@@ -1,7 +1,6 @@
 package com.jodongari.handy.configuration;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ public class ModelMapperConfiguration {
         final ModelMapper modelMapper = new ModelMapper();
 
         modelMapper.getConfiguration()
-                .setMethodAccessLevel(AccessLevel.PROTECTED)
+                .setMethodAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PROTECTED)
                 .setMatchingStrategy(MatchingStrategies.STRICT);
 
         return modelMapper;

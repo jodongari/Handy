@@ -33,18 +33,22 @@ public class KakaoApiServiceImpl implements KakaoApiService {
     private final KakaoPaymentProperties kakaoPaymentProperties;
     private final ObjectMapper mapper = new ObjectMapper();
 
+    private static final Integer DEFAULT_QUANTITY = 1;
+    private static final Integer DEFAULT_TAX_FREE_AMOUNT = 0;
+    private static final Integer DEFAULT_VAT_AMOUNT = 0;
+
     @Override
-    public ReadyKakaoPaymentResponse callKakaoPaymentReady(String partnerOrderId, String partnerUserId, String itemName, Integer quantity, Integer totalAmount, Integer taxFreeAmount, Integer vatAmount) {
+    public ReadyKakaoPaymentResponse callKakaoPaymentReady(String partnerOrderId, String partnerUserId, String itemName, Integer totalAmount) {
 
         ReadyKakaoPaymentRequest readyKakaoPaymentRequest = ReadyKakaoPaymentRequest.builder()
                 .cid(kakaoPaymentProperties.getCid())
                 .partnerOrderId(partnerOrderId)
                 .partnerUserId(partnerUserId)
                 .itemName(itemName)
-                .quantity(quantity)
+                .quantity(DEFAULT_QUANTITY)
                 .totalAmount(totalAmount)
-                .taxFreeAmount(taxFreeAmount)
-                .vatAmount(vatAmount)
+                .taxFreeAmount(DEFAULT_TAX_FREE_AMOUNT)
+                .vatAmount(DEFAULT_VAT_AMOUNT)
                 .approvalUrl(kakaoPaymentProperties.getApproveUrl() + "?partner_order_id=" + partnerOrderId)
                 .cancelUrl(kakaoPaymentProperties.getCancelUrl() + "?partner_order_id=" + partnerOrderId)
                 .failUrl(kakaoPaymentProperties.getFailUrl() + "?partner_order_id=" + partnerOrderId)

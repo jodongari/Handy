@@ -83,7 +83,7 @@ public class KakaoApiServiceTest {
             .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         final ReadyKakaoPaymentResponse result = kakaoApiServiceImpl.callKakaoPaymentReady(partnerOrderId, partnerUserId,
-                itemName, quantity, totalAmount, taxFreeAmount, vatAmount);
+                itemName, totalAmount);
 
         assertEquals(response, result);
     }
@@ -96,7 +96,7 @@ public class KakaoApiServiceTest {
 
         assertThrows(PaymentException.class,() ->{
             kakaoApiServiceImpl.callKakaoPaymentReady(partnerOrderId, partnerUserId,
-                    itemName, quantity, totalAmount, taxFreeAmount, vatAmount);
+                    itemName, totalAmount);
         });
     }
 }
