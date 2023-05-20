@@ -1,5 +1,6 @@
 package com.jodongari.handy.controller;
 
+import com.jodongari.handy.api.protocol.dto.request.GetMenusByMenuSeqRequestDto;
 import com.jodongari.handy.api.protocol.dto.request.ManageMenuRequestDto;
 import com.jodongari.handy.api.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.api.protocol.dto.response.RegisterMenuResponseDto;
@@ -38,6 +39,16 @@ public class MenuController {
     @GetMapping(value = MenuApiUrl.GET_MENUS_BY_STORE)
     public List<GetMenuResponseDto> getMenusByStore(@PathVariable Long storeSeq) throws Exception {
         return menuService.getMenusByStore(storeSeq);
+    }
+
+    @Operation(summary = "메뉴 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetMenuResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping(value = MenuApiUrl.GET_MENUS_BY_MENU_SEQ)
+    public List<GetMenuResponseDto> getMenusByMenuSeq(@RequestBody GetMenusByMenuSeqRequestDto request) {
+        return menuService.getMenusByMenuSeq(request);
     }
 
     //TODO - 22.10.22 이미지 저장 프로세스 정해지면 추가수정 예정

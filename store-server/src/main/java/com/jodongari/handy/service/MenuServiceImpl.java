@@ -1,9 +1,11 @@
 package com.jodongari.handy.service;
 
+import com.jodongari.handy.api.protocol.dto.exception.MenuNotFoundException;
 import com.jodongari.handy.api.protocol.dto.model.ExtraOptionGroupModel;
 import com.jodongari.handy.api.protocol.dto.model.ExtraOptionModel;
 import com.jodongari.handy.api.protocol.dto.model.MenuModel;
 import com.jodongari.handy.api.protocol.dto.model.MenuOptionModel;
+import com.jodongari.handy.api.protocol.dto.request.GetMenusByMenuSeqRequestDto;
 import com.jodongari.handy.api.protocol.dto.request.ManageMenuRequestDto;
 import com.jodongari.handy.api.protocol.dto.response.GetMenuResponseDto;
 import com.jodongari.handy.domain.menu.ExtraOption;
@@ -15,6 +17,7 @@ import com.jodongari.handy.infrastructure.repository.ExtraOptionRepository;
 import com.jodongari.handy.infrastructure.repository.MenuOptionRepository;
 import com.jodongari.handy.infrastructure.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
@@ -92,29 +96,48 @@ public class MenuServiceImpl implements MenuService {
 
         return menus.stream().map(menu -> {
             final GetMenuResponseDto response = modelMapper.map(menu, GetMenuResponseDto.class);
-
-            final List<MenuOption> menuOptions = menuOptionRepository.findAllByMenuSeq(menu.getSeq());
-            final List<MenuOptionModel> menuOptionModels = menuOptions.stream()
-                    .map(menuOption -> modelMapper.map(menuOption, MenuOptionModel.class))
-                    .collect(Collectors.toList());
-
-            final List<ExtraOptionGroup> extraOptionGroups = extraOptionGroupRepository.findAllByMenuSeq(menu.getSeq());
-            final List<ExtraOptionGroupModel> extraOptionGroupModels = extraOptionGroups.stream().map(extraOptionGroup -> {
-                ExtraOptionGroupModel extraOptionGroupModel = modelMapper.map(extraOptionGroup, ExtraOptionGroupModel.class);
-
-                final List<ExtraOption> extraOptions = extraOptionRepository.findAllByExtraOptionGroupSeq(extraOptionGroup.getSeq());
-                final List<ExtraOptionModel> extraOptionModels = extraOptions.stream()
-                        .map(extraOption -> modelMapper.map(extraOption, ExtraOptionModel.class))
-                        .collect(Collectors.toList());
-                extraOptionGroupModel.setExtraOptionModels(extraOptionModels);
-                return extraOptionGroupModel;
-            }).collect(Collectors.toList());
-
-            response.setMenuOptionModels(menuOptionModels);
-            response.setExtraOptionGroupModels(extraOptionGroupModels);
-
+            response.setMenuOptionModels(getMenuOptionModels(menu.getSeq()));
+            response.setExtraOptionGroupModels(getExtraOptionGroupModels(menu.getSeq()));
             return response;
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public List<GetMenuResponseDto> getMenusByMenuSeq(GetMenusByMenuSeqRequestDto request) {
+        final List<Long> menuSeqList = request.getMenuSeq();
+
+        return menuSeqList.stream().map(menuSeq -> {
+            final Menu menu = menuRepository.findById(menuSeq).orElse(null);
+
+            if (menu == null) {
+                log.warn("menu is not exist. menuSeq = {}", menuSeq);
+                throw new MenuNotFoundException("Menu is not exist");
+            }
+            final GetMenuResponseDto response = modelMapper.map(menu, GetMenuResponseDto.class);
+            response.setMenuOptionModels(getMenuOptionModels(menu.getSeq()));
+            response.setExtraOptionGroupModels(getExtraOptionGroupModels(menu.getSeq()));
+            return response;
+        }).collect(Collectors.toList());
+    }
+
+    private List<MenuOptionModel> getMenuOptionModels(Long menuSeq) {
+        final List<MenuOption> menuOptions = menuOptionRepository.findAllByMenuSeq(menuSeq);
+        return menuOptions.stream()
+                .map(menuOption -> modelMapper.map(menuOption, MenuOptionModel.class))
+                .collect(Collectors.toList());
+    }
+
+    private List<ExtraOptionGroupModel> getExtraOptionGroupModels(Long menuSeq) {
+        final List<ExtraOptionGroup> extraOptionGroups = extraOptionGroupRepository.findAllByMenuSeq(menuSeq);
+        return extraOptionGroups.stream().map(extraOptionGroup -> {
+            ExtraOptionGroupModel extraOptionGroupModel = modelMapper.map(extraOptionGroup, ExtraOptionGroupModel.class);
+
+            final List<ExtraOption> extraOptions = extraOptionRepository.findAllByExtraOptionGroupSeq(extraOptionGroup.getSeq());
+            final List<ExtraOptionModel> extraOptionModels = extraOptions.stream()
+                    .map(extraOption -> modelMapper.map(extraOption, ExtraOptionModel.class))
+                    .collect(Collectors.toList());
+            extraOptionGroupModel.setExtraOptionModels(extraOptionModels);
+            return extraOptionGroupModel;
+        }).collect(Collectors.toList());
+    }
 }
